@@ -11,7 +11,7 @@ config.missions = {
     [1] = {
         name = "Capture Farp London",
         completedFlag = "FARP_LONDON_COMPLETE",
-        operationTitle = "Operation London",
+        operationTitle = "Operation Iron Anchor",
         introText = "",
         outroText = ""
     },
@@ -19,7 +19,7 @@ config.missions = {
     [2] = {
         name = "Silkworm",
         completedFlag = "SILKWORM_COMPLETE",
-        operationTitle = "Operation Silkworm",
+        operationTitle = "Operation Sea Spray",
         introText = "",
         outroText = ""
     },
@@ -27,7 +27,7 @@ config.missions = {
     [3] = {
         name = "Town Liberation",
         completedFlag = "TOWN_COMPLETE",
-        operationTitle = "Operation Town Liberation",
+        operationTitle = "Operation Quiet Citadel",
         introText = "",
         outroText = ""
     },
@@ -35,7 +35,7 @@ config.missions = {
     [4] = {
         name = "Dam Defense",
         completedFlag = "DAM_COMPLETE",
-        operationTitle = "Operation Dam Defense",
+        operationTitle = "Operation Hydro Lock",
         introText = "",
         outroText = ""
     },
@@ -43,7 +43,7 @@ config.missions = {
     [5] = {
         name = "Trainyard",
         completedFlag = "TRAINYARD_COMPLETE",
-        operationTitle = "Operation Trainyard",
+        operationTitle = "Operation Steel Junction",
         introText = "",
         outroText = ""
     },
@@ -51,7 +51,7 @@ config.missions = {
     [6] = {
         name = "Capture Farp Paris",
         completedFlag = "FARP_PARIS_COMPLETE",
-        operationTitle = "Operation Paris",
+        operationTitle = "Operation Paris Guard",
         introText = "",
         outroText = ""
     },
@@ -59,7 +59,7 @@ config.missions = {
     [7] = {
         name = "IED Factory",
         completedFlag = "IED_COMPLETE",
-        operationTitle = "Operation IED Factory",
+        operationTitle = "Operation Wire Cutter",
         introText = "",
         outroText = ""
     },
@@ -67,7 +67,7 @@ config.missions = {
     [8] = {
         name = "Training Camp",
         completedFlag = "TRAINING_COMPLETE",
-        operationTitle = "Operation Training Camp",
+        operationTitle = "Operation Citadel Sweep",
         introText = "",
         outroText = ""
     },
@@ -75,15 +75,15 @@ config.missions = {
     [9] = {
         name = "CSAR",
         completedFlag = "CRASHED_COMPLETE",
-        operationTitle = "Operation CSAR",
+        operationTitle = "Operation Steel Canopy",
         introText = "",
         outroText = ""
     },
 
     [10] = {
-        name = "River Raid",
-        completedFlag = "RIVER_COMPLETE",
-        operationTitle = "Operation River Raid",
+        name = "Return to Ship",
+        completedFlag = "RTS_COMPLETE",
+        operationTitle = "",
         introText = "",
         outroText = ""
     }

@@ -44,6 +44,9 @@ local function getFinalScore()
 
     -- 6. Broadcast message to Blue Coalition (2)
     trigger.action.outTextForCoalition(2, displayMessage, 60)
+
+    -- 7. Clean up event handler to prevent memory leaks or unintended behavior in future missions
+    world.removeEventHandler(MagnusDCSScripting.eventHandler)
 end
 
 MagnusDCSScripting.getFinalScore = getFinalScore

@@ -18,13 +18,15 @@ Insurgents emboldened by foreign trainers have been causing havok around the Tor
 
 -- Order does not matter in second trigger, they populate the GLOBAL generated in main.lua
 -- ONCE > TIME MORE (3) > DO SCRIPT FILE
+-- damage_tracker
 -- dcs_scripts/damage_tracker/damage_tracker_handler.lua
 -- dcs_scripts/damage_tracker/damage_tracker.lua
 -- dcs_scripts/damage_tracker/initialize_damage_tracker.lua
+-- dcs_scripts/mission/final_score.lua
 
 -- MUST BE LAST
 -- ONCE > TIME MORE (4) > DO SCRIPT FILE
--- dcs_scripts/event_handler.lua
+-- dcs_scripts/mission/kodiak_mist/event_handler.lua
 ```
 
 ### Dev Mode
@@ -43,8 +45,17 @@ dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\damage_tracker_handl
 
 dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\initialize_damage_tracker.lua")
 
+dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\final_score.lua")
+
 -- ONCE > TIME MORE (4) > DO SCRIPT
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\event_handler.lua")
+dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\event_handler.lua")
+
+-- ONCE > TIME MORE (20) > DO SCRIPT
+MagnusDCSScripting.initializeDamageTracker("TOWN_COLLATERAL_ZONE", 10, "TOWN_UPRISING")
+
+MagnusDCSScripting.initializeDamageTracker("DAM_COLLATERAL_ZONE", 1, "DAM_UPRISING")
+
+MagnusDCSScripting.initializeDamageTracker("TRAIN_YARD_COLLATERAL_ZONE", 5, "TRAIN_YARD_UPRISING")
 ```
 
 ## Communication
@@ -88,7 +99,7 @@ dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\event_handler.lua")
 
 | AM# | WP  | Mission         | Complete Trigger     | Requirements                                             | Comments                 |
 | --- | --- | --------------- | -------------------- | -------------------------------------------------------- | ------------------------ |
-| 1   | 1   | Farp London     | FARP_LONDON_COMPLETE | FARP London Red Forces <br> Farp London Infantry in Zone | Operation Paris Guard    |
+| 1   | 1   | Farp London     | FARP_LONDON_COMPLETE | FARP London Red Forces <br> Farp London Infantry in Zone | Operation Iron Anchor    |
 | 2   | 2   | Silkworm        | SILKWORM_COMPLETE    | Silkworm Site 1 <br> Silkworm Site 2                     | Operation Sea Spray      |
 | 3   | 3   | Town Liberation | TOWN_COMPLETE        | Town Hostiles A1-7 <br> Town Hostiles B1-3               | Operation Quiet Citadel  |
 |     | 4   | Kemi Tornio     |                      |                                                          |                          |
