@@ -1,0 +1,11 @@
+--- damage_tracker.model.lua
+--- Tracker used to monitor building damage within specified zones and trigger events when damage thresholds are exceeded. Designed for high-performance execution with early exits and optimized distance calculations to minimize CPU overhead during active combat scenarios.
+--- @class damageTracker
+--- @field collateralDamage table<string, boolean>
+--- @field damageThreshold number
+--- @field eventTriggerFlag string
+--- @field totalDamage number
+--- @field zoneName string
+--- @field new fun(self: damageTracker, zoneName: string, damageThreshold: number, eventTriggerFlag: string): damageTracker|nil
+--- @field onBuildingHit fun(self: damageTracker, id: string): nil
+--- @field onThresholdExceeded fun(self: damageTracker): nil

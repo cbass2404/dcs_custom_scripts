@@ -1,19 +1,9 @@
----@type table<string, damageTracker>
-local activeDamageTrackers = {}
-CustomClasses.activeDamageTrackers = activeDamageTrackers
-
---- damageHandler Class
---- This class is responsible for handling DCS World events related to damage tracking and delegating them to the appropriate damageTracker instances based on the location of the hit.
---- @class damageHandler
+---@type damageHandler
 local damageHandler = {}
 
---- damageHandler:onEvent
---- Called when an event occurs that may affect damage tracking.
----@param event any
----@return nil
 function damageHandler:onEvent(event)
     -- Fail silently for unhandled frames to protect CPU performance
-    if not event or not event.id or not event.target then
+    if not event.target or not event.target:isExist() then
         return
     end
 
@@ -22,21 +12,17 @@ function damageHandler:onEvent(event)
         return
     end
 
-    local unit = event.target
-    if not unit or not unit:isExist() then
-        return
-    end
-
-    local isBuilding = Object.getCategory(unit) == Object.Category.SCENERY
+    local isBuilding = Object.getCategory(event.target) == Object.Category.SCENERY
     if not isBuilding then
         return
     end
 
-    for _, tracker in pairs(CustomClasses.activeDamageTrackers) do
-        local inZone, uniqueId = damageHandler:targetInZone(unit, tracker.zoneName)
+    for _, tracker in pairs(MagnusDCSScripting.activeDamageTrackers) do
+        local inZone, uniqueId = damageHandler:targetInZone(event.target, tracker.zoneName)
 
         if not uniqueId then
-            env.info("[Magnus Damage Tracker]: ERROR - Missing unique ID for unit in zone " .. tracker.zoneName)
+            env.info("[MagnusDCSScripting Damage Tracker Handler]: ERROR - Missing unique ID for unit in zone " ..
+                         tracker.zoneName)
             return
         end
 
@@ -47,20 +33,15 @@ function damageHandler:onEvent(event)
     end
 end
 
---- damageHandler:targetInZone
---- Checks if the scenery object is within the specified zone.
----@param object Object The hit structural asset
----@param zoneName string Target trigger zone boundary name
----@return boolean, string|nil Returns evaluation status and absolute coordinate string identity
 function damageHandler:targetInZone(object, zoneName)
     if not object or not zoneName then
-        env.info("[Magnus Damage Tracker]: ERROR - Missing unit or zone data for inZone()")
+        env.info("[MagnusDCSScripting Damage Tracker Handler]: ERROR - Missing unit or zone data for inZone()")
         return false, nil
     end
 
     local triggerZone = trigger.misc.getZone(zoneName)
     if not triggerZone then
-        env.info("[Magnus Damage Tracker]: ERROR - Missing trigger zone: " .. tostring(zoneName))
+        env.info("[MagnusDCSScripting Damage Tracker Handler]: ERROR - Missing trigger zone: " .. tostring(zoneName))
         return false, nil
     end
 
@@ -82,6 +63,5 @@ function damageHandler:targetInZone(object, zoneName)
 
 end
 
-CustomClasses.damageHandler = damageHandler
+MagnusDCSScripting.damageHandler = damageHandler
 
-world.addEventHandler(damageHandler)

@@ -1,0 +1,9 @@
+--- Library
+--- This library is used to store custom classes for the game. It is a table that can be accessed from anywhere in the game.
+--- @class MagnusDCSScripting
+--- @field activeDamageTrackers table<string, damageTracker>|nil A table that holds active damageTracker instances, indexed by their unique zone names. This allows for efficient retrieval and management of damage trackers based on the zones they are associated with.
+--- @field damageTracker damageTracker|nil The damageTracker class, which is responsible for tracking damage within specified zones and managing related state and events.
+--- @field damageHandler damageHandler|nil The damageHandler class, which listens for relevant DCS World events and delegates them to the appropriate damageTracker instances based on the location of the hit.
+--- @field config config|nil The config class, which holds configuration settings for the mission, including the partial success percentage and an array of mission definitions.
+--- @field getFinalScore getFinalScore|nil The getFinalScore function, which calculates and displays the player's final score based on mission completion and the defined partial success threshold.
+--- @field initializeDamageTracker initializeDamageTracker|nil The initializeDamageTracker function, which creates and registers new damageTracker instances for specified zones, damage thresholds, and event trigger flags.

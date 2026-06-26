@@ -1,0 +1,7 @@
+-- Mission Definitions
+---@class mission
+---@field name string
+---@field completedFlag string
+---@field operationTitle string
+---@field introText string
+---@field outroText string

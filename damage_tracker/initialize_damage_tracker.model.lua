@@ -1,0 +1,3 @@
+--- Instantiates Global Variables for Tracking
+--- A function used to create and register new damageTracker instances for specified zones, damage thresholds, and event trigger flags. This function is essential for setting up the damage tracking system within the mission, allowing for efficient management of damage-related events and state based on the defined parameters.
+--- @alias initializeDamageTracker fun(zoneName: string, damageThreshold: number, eventTriggerFlag: string): nil

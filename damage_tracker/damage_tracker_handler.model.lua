@@ -1,0 +1,3 @@
+--- @class damageHandler
+--- @field onEvent fun(self: damageHandler, event: event): nil Called when an event occurs that may affect damage tracking. It evaluates the event type, checks if the target is a building, and if so, determines which damageTracker instance should handle the event based on the target's location.
+--- @field targetInZone fun(self: damageHandler, object: Object, zoneName: string): boolean, string|nil Checks if the scenery object is within the specified zone. Returns evaluation status and absolute coordinate string identity. 

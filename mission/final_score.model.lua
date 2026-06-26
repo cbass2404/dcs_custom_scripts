@@ -1,0 +1,4 @@
+--- getFinalScore
+--- Evaluates a list of user flags to calculate a final mission score and displays the result to the player.
+--- Requires the setup of ../mission/name/config.lua to define the list of flags to evaluate and the activeMissionFlag.
+---@alias getFinalScore fun():nil

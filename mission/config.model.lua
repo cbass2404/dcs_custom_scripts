@@ -1,0 +1,9 @@
+---@class config
+---@field activeMissionFlag string The name of the user flag that indicates which mission is currently active. This flag should be set to a value corresponding to the index of the active mission in the missions array (e.g., 1 for the first mission, 2 for the second mission, etc.).
+---@field partialSuccessPercent number The percentage threshold for achieving a "Partial Success" rating in the final score calculation. Must be a positive number between 0 and 100.
+---@field missions mission[] An array of mission objects, where each mission object contains the following fields:
+---  - name: string - The name of the mission, used for display purposes.
+---  - completedFlag: string - The name of the user flag that indicates whether the mission has been completed (1 for completed, 0 for not completed).
+---  - operationTitle: string - The title of the operation associated with the mission, used for display purposes.
+---  - introText: string - The introductory text for the mission, which can be displayed to the player at the start of the mission.
+---  - outroText: string - The concluding text for the mission, which can be displayed to the player at the end of the mission.
