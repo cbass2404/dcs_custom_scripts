@@ -32,7 +32,7 @@ function damageHandler:onEvent(event)
         return
     end
 
-    for _, tracker in pairs(activeDamageTrackers) do
+    for _, tracker in pairs(CustomClasses.activeDamageTrackers) do
         local inZone, uniqueId = damageHandler:targetInZone(unit, tracker.zoneName)
 
         if not uniqueId then

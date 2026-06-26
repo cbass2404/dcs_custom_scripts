@@ -22,9 +22,9 @@ function damageTracker:new(zoneName, damageThreshold, eventTriggerFlag)
         return nil
     end
 
-    local instance = {}
-    setmetatable(instance, self)
-    self.__index = self
+    local instance = setmetatable({}, {
+        __index = self
+    })
 
     trigger.action.setUserFlag(eventTriggerFlag, 0)
 
