@@ -36,7 +36,7 @@ Insurgents emboldened by foreign trainers have been causing havok around the Tor
 dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\main.lua")
 
 -- ONCE > TIME MORE (2) > DO SCRIPT
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\missions\\kodiak_mist\\config.lua")
+dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\config.lua")
 
 -- ONCE > TIME MORE (3) > DO SCRIPT
 dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\damage_tracker.lua")
@@ -90,10 +90,10 @@ MagnusDCSScripting.initializeDamageTracker("TRAIN_YARD_COLLATERAL_ZONE", 5, "TRA
 
 ### Infantry Beacons
 
-| Waypoint                              | Frequency | Name | Audio          | Comments |
-| ------------------------------------- | --------- | ---- | -------------- | -------- |
-| Anvil 1-1 (Farp London Capture Force) | 41.5 mhz  | LCF  | .-.. -.-. ..-. |          |
-| Heavy 1-1 (Crashed Helo Survivors)    | 32.25 mhz | SUR  | ... ..- .-.    |          |
+| Waypoint                           | Frequency | Name | Audio          | Comments |
+| ---------------------------------- | --------- | ---- | -------------- | -------- |
+| Nomad (Farp London Capture Force)  | 41.5 mhz  | LCF  | .-.. -.-. ..-. |          |
+| Heavy 1-1 (Crashed Helo Survivors) | 32.25 mhz | SUR  | ... ..- .-.    |          |
 
 ### Mission
 

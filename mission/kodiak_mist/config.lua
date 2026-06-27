@@ -11,81 +11,61 @@ config.missions = {
     [1] = {
         name = "Capture Farp London",
         completedFlag = "FARP_LONDON_COMPLETE",
-        operationTitle = "Operation Iron Anchor",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Iron Anchor"
     },
 
     [2] = {
         name = "Silkworm",
         completedFlag = "SILKWORM_COMPLETE",
-        operationTitle = "Operation Sea Spray",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Sea Spray"
     },
 
     [3] = {
         name = "Town Liberation",
         completedFlag = "TOWN_COMPLETE",
-        operationTitle = "Operation Quiet Citadel",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Quiet Citadel"
     },
 
     [4] = {
         name = "Dam Defense",
         completedFlag = "DAM_COMPLETE",
-        operationTitle = "Operation Hydro Lock",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Hydro Lock"
     },
 
     [5] = {
         name = "Trainyard",
         completedFlag = "TRAINYARD_COMPLETE",
-        operationTitle = "Operation Steel Junction",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Steel Junction"
     },
 
     [6] = {
         name = "Capture Farp Paris",
         completedFlag = "FARP_PARIS_COMPLETE",
-        operationTitle = "Operation Paris Guard",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Paris Guard"
     },
 
     [7] = {
         name = "IED Factory",
         completedFlag = "IED_COMPLETE",
-        operationTitle = "Operation Wire Cutter",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Wire Cutter"
     },
 
     [8] = {
         name = "Training Camp",
         completedFlag = "TRAINING_COMPLETE",
-        operationTitle = "Operation Citadel Sweep",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Citadel Sweep"
     },
 
     [9] = {
         name = "CSAR",
         completedFlag = "CRASHED_COMPLETE",
-        operationTitle = "Operation Steel Canopy",
-        introText = "",
-        outroText = ""
+        operationTitle = "Operation Steel Canopy"
     },
 
     [10] = {
         name = "Return to Ship",
         completedFlag = "RTS_COMPLETE",
-        operationTitle = "",
-        introText = "",
-        outroText = ""
+        operationTitle = ""
     }
 }
 

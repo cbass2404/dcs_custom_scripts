@@ -8,3 +8,8 @@ Lua Library for custom dcs mission generation
 2. config.lua
 3. Library Files
 4. Event Listener
+
+## Kneeboards
+
+low def = 768 × 1024 pixels
+high def = 1536 × 2048 pixels
