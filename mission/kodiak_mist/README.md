@@ -119,6 +119,19 @@ Note: Only one spacebar press will advance the mission no matter who presses it.
 ## TODOS
 
 - generate audio for script
+  - Farp London
+  - Silkworm
+  - Town Liberation
+  - Dam Defense
+  - Trainyard
+  - Farp Paris
+  - IED Factory
+  - Training Camp
+  - CSAR
+  - Return to ship
+- setup radio transmission
+  - script news by current mission status
+  - add music
 - change script to radio transmission
 - test heavier winds to make the sea rougher for ship ops
 
