@@ -3,7 +3,7 @@ local damageHandler = {}
 
 function damageHandler:onEvent(event)
     -- Fail silently for unhandled frames to protect CPU performance
-    if not event.target or not event.target:isExist() then
+    if not event.target or not event.target.isExist or not event.target:isExist() then
         return
     end
 

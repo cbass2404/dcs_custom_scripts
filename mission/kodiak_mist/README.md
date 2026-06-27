@@ -118,12 +118,9 @@ Note: Only one spacebar press will advance the mission no matter who presses it.
 
 ## TODOS
 
-- morse code translation kneeboard
 - generate audio for script
 - change script to radio transmission
-- update awacs (Overlord) to 124
-- add kneeboard dividers for different missions
-- add graphics in game with mission names
+- test heavier winds to make the sea rougher for ship ops
 
 ## Pre-Release TODOS
 
