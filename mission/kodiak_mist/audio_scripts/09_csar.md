@@ -27,7 +27,7 @@ TLDR:
 
 ## Heavy 1-1 under heavy fire, can not take back off, 20km out
 
-Break, break! 
+Break, break!
 
 Overlord! Vanguard! Heavy 1-1!
 
@@ -40,7 +40,6 @@ Vanguard, Overlord
 Satellite confirms a smoke plume rising from the valley floor. Your mission parameters have just changed: Operation Steel Canopy is now a rescue. Get our boys home!
 
 ## 15km out
-
 
 Overlord, Vanguard
 
@@ -62,7 +61,7 @@ Maintain your holding orbit at 15 klicks. Do not compromise their attack runs. S
 
 Overlord Vanguard Hawg 1-1.
 
-The valley floor sanitized. Winchester ordnance. Bingo fuel. Egressing west. 
+The valley floor sanitized. Winchester ordnance. Bingo fuel. Egressing west.
 
 Vanguard, the sandbox is all yours. Good luck. Out.
 

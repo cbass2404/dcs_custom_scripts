@@ -9,6 +9,8 @@ Insurgents emboldened by foreign trainers have been causing havok around the Tor
 ### Production
 
 ```lua
+config.env = "prod"
+
 -- MUST BE FIRST
 -- ONCE > TIME MORE (1) > DO SCRIPT FILE
 -- dcs_scripts/main.lua
@@ -27,11 +29,17 @@ Insurgents emboldened by foreign trainers have been causing havok around the Tor
 -- MUST BE LAST
 -- ONCE > TIME MORE (4) > DO SCRIPT FILE
 -- dcs_scripts/mission/kodiak_mist/event_handler.lua
+
+
+-- ONCE > TIME MORE (20) > DO SCRIPT
+MagnusDCSScripting.initializeDamageTracker()
 ```
 
 ### Dev Mode
 
 ```lua
+config.env = "dev"
+
 -- ONCE > TIME MORE (1) > DO SCRIPT
 dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\main.lua")
 
@@ -51,11 +59,7 @@ dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\final_score.lua")
 dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\event_handler.lua")
 
 -- ONCE > TIME MORE (20) > DO SCRIPT
-MagnusDCSScripting.initializeDamageTracker("TOWN_COLLATERAL_ZONE", 10, "TOWN_UPRISING")
-
-MagnusDCSScripting.initializeDamageTracker("DAM_COLLATERAL_ZONE", 1, "DAM_UPRISING")
-
-MagnusDCSScripting.initializeDamageTracker("TRAIN_YARD_COLLATERAL_ZONE", 5, "TRAIN_YARD_UPRISING")
+MagnusDCSScripting.initializeDamageTracker()
 ```
 
 ## Communication
@@ -118,22 +122,8 @@ Note: Only one spacebar press will advance the mission no matter who presses it.
 
 ## TODOS
 
-- generate audio for script
-  - Farp London
-  - Silkworm
-  - Town Liberation
-  - Dam Defense
-  - Trainyard
-  - Farp Paris
-  - IED Factory
-  - Training Camp
-  - CSAR
-  - Return to ship
-- setup radio transmission
-  - script news by current mission status
-  - add music
-- change script to radio transmission
-- test heavier winds to make the sea rougher for ship ops
+- adjust amphib vehicles away from land fall early
+- amphib on station audio cut off 3 seconds early due to despawn
 
 ## Pre-Release TODOS
 

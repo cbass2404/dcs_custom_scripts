@@ -1,5 +1,8 @@
 -- Mission Definitions
 ---@class mission
 ---@field name string
+--- @field collateralDamageFlag string|nil The name of the user flag that will be set to 1 if the collateral damage threshold is exceeded, indicating a mission failure due to excessive collateral damage.
+--- @field collateralThreshold number|nil The maximum allowed collateral damage for the mission before it is considered a failure. Must be a non-negative integer greater than 0.
+--- @field collateralThresholdZoneName string|nil The name of the zone used for tracking collateral damage in the mission. This should correspond to a defined zone in the mission editor that encompasses the area where collateral damage can occur.
 ---@field completedFlag string
 ---@field operationTitle string
