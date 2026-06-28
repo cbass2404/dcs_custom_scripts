@@ -2,19 +2,20 @@
 
 ## RC Intro
 
-### Prompt
-
-### Script
+Vanguard Overlord
 
 Do not shut down. Pull up to the hot pit, top off your fuel bladders, and leave the weapon racks empty.
 
 Your watch is over, pilot. It's time to return to the boat and rotate out. The carrier fleet is waiting for you 50 klicks off the coast. A fresh aviation squadron is stepping up to take your place.
 
+TLDR:
+
+- Top off your fuel
+- Remove all ordinance
+- Tune ADF to 1050 khz TLT
+- Return to the boats for debrief
+
 ## RC Complete
-
-### Prompt
-
-### Script
 
 Homeplate Tower, this is Vanguard.
 

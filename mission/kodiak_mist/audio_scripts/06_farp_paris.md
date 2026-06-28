@@ -4,12 +4,6 @@ Operation Paris Guard
 
 ## FP Intro
 
-### Prompt
-
-Deadly serious, sharp, and commanding. The delivery should convey that this threat caught NATO intelligence completely off guard and every second counts
-
-### Script
-
 Vanguard Overlord
 
 This is Overlord with an immediate flash override tasking. Break off your current post-flight checks. We have a time-critical tactical emergency, over
@@ -22,29 +16,24 @@ High threat, Vanguard. Radar tracks confirm the Russian transport flight is bein
 
 Tune in to 515 khz FPR, get Anvil loaded up and get up there now!
 
+TLDR:
+
+- Load up with an A2A payload, hostile helicopters expected
+- Pickup Team Anvil at the North end of the Tarmac
+- Tune ADF to 515 khz FPR
+- Ingress on Farp Paris, deploy Team Anvil for capture
+
 ## Team Anvil pops blue smoke at pickup point
-
-### Prompt
-
-### Script
 
 Vanguard, this is Anvil Actual. We have eyes on you. Popping blue smoke at our position for extraction. Vector 1-8-0 to the blue cloud, over.
 
 ## On approach to Farp Paris Overlord announces enemy birds incoming from the north
-
-### Prompt
-
-### Script
 
 Vanguard, Overlord.
 
 Bandit inbound to FARP Paris. Flight of three: two Black Sharks and one Hip. Bearing zero-zero-zero from the FARP, distance fifteen kilometers, inbound hot. Engage and clear the airspace before landing, over.
 
 ## Airspace clear, Uzi pops green smoke on Farp for LZ and troop deployment
-
-### Prompt
-
-### Script
 
 Vanguard Uzi one one.
 
@@ -56,12 +45,6 @@ Over.
 
 ## FP Complete
 
-### Prompt
-
-Satisfied, supportive, and lowering the high-stress tension from the previous briefings. The transition from intense combat director to a commander wrapping up the duty day should be clear.
-
-### Script
-
 Vanguard Overlord
 
 Sat-intel confirms all enemy aviation assets in the sector are neutralized. You won the race.
@@ -69,3 +52,7 @@ Sat-intel confirms all enemy aviation assets in the sector are neutralized. You 
 You just locked down our western flank and denied the enemy a massive strategic advantage. Since you’ve taken the field, you are ordered to set down and hold it.
 
 You are cleared to land at FARP Paris for an overnight layover. Ground crews from Kemi-Tornio are being airlifted in via heavy transport to set up refueling bladder systems by morning. Secure your aircraft, get some rack time, and tell Team Anvil they did a hell of a job. Overlord out.
+
+## Paris Tower
+
+Vanguard, Paris Tower. We see you on approach. Glad to have you back. You are cleared for an immediate taxiway landing. Paris Tower Out.

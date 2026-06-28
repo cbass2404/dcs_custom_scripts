@@ -4,10 +4,6 @@ Operation Steel Canopy
 
 ## CH Intro
 
-### Prompt
-
-### Script
-
 Vanguard, this is Overlord.
 
 We have an immediate tactical escort requirement on the board.
@@ -16,51 +12,47 @@ One more mission before we head back to the boat. A friendly Chinook—Call Sign
 
 Hostiles are potentially in the area. Mechanized patrols are hunting the sector, so ground crews have prepped your pylons with air-to-ground ordnance only. You need to protect Heavy 1-1, clear the zone, and at least one of you needs cabin capacity for the troop pickup. Get those extra men on board.
 
-No beacons available in that mountain corridor. Open your kneeboards and fly blind on the instruments. Egress the airspace immediately and fly Southeast on a heading of 102 degrees for exactly 30 klicks. Secure that airspace and get our boys out of the dirt. Overlord out.
+No beacons available in that mountain corridor. Open your kneeboards and fly blind on the instruments. Egress the airspace immediately and fly Southeast on a heading of 102 degrees for 30 klicks. Secure that airspace and get our boys out of the dirt. Overlord out.
 
 Vanguard, Paris Control
 
 Ground crews are clear of your perimeter. You are cleared for takeoff with immediate egress to the southeast. Wind is calm, over.
 
+TLDR:
+
+- Light air to ground weapons, potential light armor expected
+- Egress at 1-0-2 for 30 klicks
+- Catch up with Heavy 1-1 and provide overwatch while they pick up the troops
+- Need capacity for four troops on one of your birds
+
 ## Heavy 1-1 under heavy fire, can not take back off, 20km out
 
-### Prompt
+Break, break! 
 
-### Script
+Overlord! Vanguard! Heavy 1-1!
 
-Break, break! Overlord! Vanguard! This is Heavy 1-1 on primary tactical! We are taking heavy fire! Massed hostile infantry and armored technicals have ambushed the LZ!
+Taking heavy fire! Massed hostile infantry and armored technicals have ambushed the LZ!
 
-We can't hold her! Number two engine is blown and the cabin is losing hydraulic pressure! Main rotor RPM is dropping fast! We are going down! I repeat, Heavy 1-1 is going down! We are impacting the valley floor approximately two klicks south of the primary LZ! Brace, bra—
+We can't hold her! Number 2 rolling back! Main rotor RPM is dropping fast! We are going down! I repeat, Heavy 1-1 is going down! Brace, bray—
 
 Vanguard, Overlord
 
-Satellite confirms a smoke plume rising from the valley floor. Your mission parameters have just changed: Operation Steel Canopy is now CSAR
+Satellite confirms a smoke plume rising from the valley floor. Your mission parameters have just changed: Operation Steel Canopy is now a rescue. Get our boys home!
 
 ## 15km out
 
-### Prompt
-
-The A-10 Gun FX: The iconic BRRRRRRRT sound is critical here. It should sound slightly distant and muffled by the valley terrain, playing directly over the radio background noise of the Air Force pilot.
-
-Command Tone: Firm and authoritative. They are preventing a friendly-fire disaster, so the order to hold orbit must be absolute.
-
-Pilot Tone: Frustrated but professional. The sudden transition from sprinting to a rescue to being forced to wait and watch should carry a bit of tense, pent-up energy.
-
-### Script
 
 Overlord, Vanguard
 
-We are passing 15 klicks out from the crash site. Smoke plume is visually confirmed on the horizon. We are preparing to push directly into the valley to engage the ambush elements, over.
+We are passing 15 klicks out from the crash site. Smoke plume is visually confirmed. Preparing to push into the valley to engage the ambush elements, over.
 
 Overlord
 
 Negative, Vanguard 1-1! Hold your current position! Execute a hard bank and hold orbit at your current range! Do not enter that valley, over!
 
-Vanguard
+Overlord Vanguard, say again? We have survivors on the ground taking heavy fire, we need to get our guns working, over!
 
-Overlord, say again? We have survivors on the ground taking heavy fire, we need to get our guns working, over!
-
-Overlord
+Vanguard Overlord
 
 Break, break! The Air Force has finally shown up, Vanguard! We have flights of Warthogs entering the airspace from the east right now. The Warthogs are laying down close air support to sanitize the entire perimeter.
 
@@ -68,13 +60,11 @@ Maintain your holding orbit at 15 klicks. Do not compromise their attack runs. S
 
 ## A-10s out of airspace, cleared to enter
 
-### Prompt
+Overlord Vanguard Hawg 1-1.
 
-### Script
+The valley floor sanitized. Winchester ordnance. Bingo fuel. Egressing west. 
 
-Hawg 1-1
-
-Overlord, this is Hawg 1-1. The valley floor is completely sanitized. All hostile armor and heavy weapons technicals are destroyed. We are Winchester on ordnance and bingo fuel, egressing the sector to the west. Vanguard, the sandbox is all yours. Good luck. Out.
+Vanguard, the sandbox is all yours. Good luck. Out.
 
 Overlord
 
@@ -82,21 +72,13 @@ Copy your egress, Hawg 1-1. Outstanding work. Vanguard 1-1, this is Overlord. Th
 
 ## Heavy 1-1 pops smoke
 
-### Prompt
+Heavy 1-1 Lead from the tree line. We hear you. Popping blue smoke. I repeat, popping blue smoke now.
 
-### Script
-
-Vanguard, this is Heavy 1-1 Lead from the tree line. We hear you. We hear you inbound from the ridges. Popping blue smoke. I repeat, popping blue smoke now.
-
-Be advised: remaining enemy ground forces are one-point-five klicks Northeast of the smoke. They are regrouping fast.
+Be advised: remaining enemy ground forces are 1.5 klicks Northeast of the smoke. They are regrouping fast.
 
 Advise ingress from the Southwest. Egress Southwest. Do not overshoot the pad to the North, or you will enter their active kill zone.
 
 ## Out of zone with rescued pilots
-
-### Prompt
-
-### Script
 
 Vanguard Overlord
 
@@ -105,10 +87,6 @@ Outstanding recovery! Sat-intel confirms you cleared the valley just as the enem
 The main regional facilities are overloaded, Vanguard. A temporary hospital has been setup near the flight line at Kemi-Tornio to receive your passengers. Look for the red smoke on arrival. Triage teams are on the tarmac waiting for your skids to hit the deck.
 
 ## CH Complete
-
-### Prompt
-
-### Script
 
 Kemi Tower, Vanguard
 
