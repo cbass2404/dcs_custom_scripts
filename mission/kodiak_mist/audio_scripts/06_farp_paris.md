@@ -55,4 +55,4 @@ You are cleared to land at FARP Paris for an overnight layover. Ground crews fro
 
 ## Paris Tower
 
-Vanguard, Paris Tower. We see you on approach. Glad to have you back. You are cleared for an immediate taxiway landing. Paris Tower Out.
+Vanguard, Paris Tower. We see you on approach. Glad to have you back. You are cleared for an immediate landing. Paris Tower Out.

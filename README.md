@@ -13,3 +13,13 @@ Lua Library for custom dcs mission generation
 
 low def = 768 × 1024 pixels
 high def = 1536 × 2048 pixels
+
+## Dev/Prod Mode
+
+Go to DCS World/Scripts/MissionScripting.lua and un/comment:
+
+```lua
+    -- sanitizeModule('os')
+    -- sanitizeModule('io')
+    -- sanitizeModule('lfs')
+```

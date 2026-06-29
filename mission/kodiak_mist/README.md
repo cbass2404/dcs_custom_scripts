@@ -64,13 +64,13 @@ MagnusDCSScripting.initializeDamageTracker()
 
 ## Communication
 
-| Callsign       | Type    | Frequency | Comments    |
-| -------------- | ------- | --------- | ----------- |
-| Overlord 1-1   | AWACS   | 124 mhz   |             |
-| UZI 1-1        | JTAC    | 127.5 mhz | LASER: 1775 |
-| London         | FARP    | 150 mhz   |             |
-| Paris          | FARP    | 134 mhz   |             |
-| HMS Invincible | CARRIER | 141 mhz   |             |
+| Callsign           | Type    | Frequency | Comments    |
+| ------------------ | ------- | --------- | ----------- |
+| Overlord 1-1       | AWACS   | 124 mhz   |             |
+| UZI 1-1            | JTAC    | 127.5 mhz | LASER: 1775 |
+| London             | FARP    | 150 mhz   |             |
+| Paris              | FARP    | 134 mhz   |             |
+| Strike Group Alpha | CARRIER | 141 mhz   |             |
 
 ## Navigation
 
@@ -88,9 +88,9 @@ MagnusDCSScripting.initializeDamageTracker()
 
 ### Non-Directional Beacons
 
-| Waypoint       | Frequency | Name | Audio      | Comments |
-| -------------- | --------- | ---- | ---------- | -------- |
-| HMS Invincible | 1050 khz  | INV  | .. -. ...- |          |
+| Waypoint           | Frequency | Name | Audio      | Comments |
+| ------------------ | --------- | ---- | ---------- | -------- |
+| Strike Group Alpha | 1050 khz  | INV  | .. -. ...- |          |
 
 ### Infantry Beacons
 
@@ -113,7 +113,7 @@ MagnusDCSScripting.initializeDamageTracker()
 | 7   | 8   | IED Factory     | IED_COMPLETE         | IED Factory A-B                                          | Operation Wire Cutter    |
 | 8   | 9   | Training Camp   | TRAINING_COMPLETE    | Training Camp Defenders <br> Training Camp Bunker        | Operation Citadel Sweep  |
 | 9   | 10  | CSAR            | CRASHED_COMPLETE     | Crashed Helo Ambushers A-D                               | Operation Steel Canopy   |
-| 10  | 11  | Return to Ship  | RTS_COMPLETE         | All Missions Complete, landed at HMS Invincible          |                          |
+| 10  | 11  | Return to Ship  | RTS_COMPLETE         | All Missions Complete, landed at Strike Group Alpha      |                          |
 | 11  |     | MISSION END     |                      |                                                          |                          |
 
 Press the Spacebar when your flight is ready to continue and tuned into Overlord.

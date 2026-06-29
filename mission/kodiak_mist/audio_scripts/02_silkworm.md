@@ -27,3 +27,7 @@ Outstanding work. Direct hits confirmed on satellite imagery. The fleet has a cl
 Vanguard, switch your ADF receiver to 950 kHz. That frequency will give you a direct homing beacon straight back to FARP London. Execute a direct approach route over the water to avoid any remaining coastal stragglers.
 
 Land, hot refuel, and load right back up with a heavy air-to-ground payload. Bad news just came down from HQ: the Air Force is experiencing massive logistical delays and cannot support the next phase. The entire inland push is falling squarely on our shoulders.
+
+## Kemi Tower
+
+Vanguard, London Tower. We see you on approach. Glad to have you back. You are cleared for an immediate landing. London Tower Out.

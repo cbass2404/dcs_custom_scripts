@@ -61,7 +61,7 @@ Maintain your holding orbit at 15 klicks. Do not compromise their attack runs. S
 
 Overlord Vanguard Hawg 1-1.
 
-The valley floor sanitized. Winchester ordnance. Bingo fuel. Egressing west.
+Valley floor sanitized. Winchester. Bingo fuel. Egressing west.
 
 Vanguard, the sandbox is all yours. Good luck. Out.
 

@@ -36,9 +36,6 @@ function damageTracker:onBuildingHit(id)
     env.info("[MagnusDCSScripting Damage Tracker]: " .. self.zoneName .. " logged unique impact at " .. id ..
                  ". Current score: " .. self.totalDamage .. "/" .. self.damageThreshold)
 
-    trigger.action.outTextForCoalition(coalition.side.BLUE, "[Damage Tracker]:" .. " | id: " .. id ..
-    " | totalCollateral: " .. self.totalDamage, 10)
-
     if self.totalDamage >= self.damageThreshold then
         self:onThresholdExceeded()
     end

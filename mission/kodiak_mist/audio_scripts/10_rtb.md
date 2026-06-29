@@ -13,7 +13,7 @@ TLDR:
 - Top off your fuel
 - Remove all ordinance
 - Tune ADF to 1050 khz TLT
-- Tune radio to 141 mHz for HMS Invisible
+- Tune radio to 141 mHz for Strike Group Alpha
 - Return to the boats for debrief
 
 ## RC Complete

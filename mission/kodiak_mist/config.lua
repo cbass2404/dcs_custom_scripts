@@ -1,5 +1,9 @@
+---@type config
+local config = {}
+
 --- @type "dev"|"prod"
-local env = "dev"
+-- config.env = "dev"
+config.env = "prod"
 
 local devFlags = {
     ACTIVE_MISSION = 0,
@@ -43,14 +47,11 @@ local devFlags = {
     RTS_COMPLETE = 0 -- 0 = not completed, 1 = completed successfully
 }
 
-if env == "dev" then
+if config.env == "dev" then
     for flag, value in pairs(devFlags) do
         trigger.action.setUserFlag(flag, value)
     end
 end
-
----@type config
-local config = {}
 
 --- @type string
 config.activeMissionFlag = "ACTIVE_MISSION"
@@ -93,7 +94,7 @@ config.missions = {
         name = "Trainyard",
         completedFlag = "TRAINYARD_COMPLETE",
         operationTitle = "Operation Steel Junction",
-        collateralThreshold = 10,
+        collateralThreshold = 20,
         collateralThresholdZoneName = "TRAIN_YARD_COLLATERAL_ZONE",
         collateralDamageFlag = "TRAIN_YARD_UPRISING"
     },
@@ -128,7 +129,5 @@ config.missions = {
         operationTitle = ""
     }
 }
-
-config.env = env
 
 MagnusDCSScripting.config = config
