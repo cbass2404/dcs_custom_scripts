@@ -12,8 +12,21 @@ function damageHandler:onEvent(event)
         return
     end
 
-    local isBuilding = Object.getCategory(event.target) == Object.Category.SCENERY
-    if not isBuilding then
+    local isScenery = Object.getCategory(event.target) == Object.Category.SCENERY
+    if not isScenery then
+        return
+    end
+
+    local typeName = event.initiator:getTypeName():lower()
+
+    local isFoliage =
+        typeName:find("tree") or typeName:find("bush") or typeName:find("forest") or typeName:find("dub") or -- Russian for Oak
+            typeName:find("topol") or -- Russian for Poplar
+        typeName:find("oreh") or -- Russian for Walnut
+        typeName:find("el_") or -- Russian prefix for Spruce/Fir
+        typeName:find("trava")
+
+    if isFoliage then
         return
     end
 

@@ -2,43 +2,46 @@
 local config = {}
 
 --- @type "dev"|"prod"
--- config.env = "dev"
-config.env = "prod"
+config.env = "dev"
+-- config.env = "prod"
 
 local devFlags = {
-    ACTIVE_MISSION = 0,
+    ACTIVE_MISSION = 8,
 
     -- ACTIVE MISSION 1: Capture Farp London
-    FARP_LONDON_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully
+    FARP_LONDON_COMPLETE = 1, -- 0 = not completed, 1 = completed successfully
+    FARP_LONDON_OCCUPIED = 1, -- 0 = not occupied, 1 = occupied by blue coalition, prevents repetitive ATC inbound calls for multiple players
 
     -- ACTIVE MISSION 2: Silkworm
-    SILKWORM_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully
+    SILKWORM_COMPLETE = 1, -- 0 = not completed, 1 = completed successfully
 
     -- ACTIVE_MISSION 3: Town Liberation
     -- Note: This mission has collateral damage conditions
     -- IF TOWN_COMPLETE IS SET TO 1, THE MISSION IS CONSIDERED SUCCESSFUL REGARDLESS OF THE COLLATERAL DAMAGE FLAG. HOWEVER, IF TOWN_COMPLETE IS SET TO 2 AND THE COLLATERAL DAMAGE FLAG (TOWN_UPRISING) IS SET TO 1, THEN THE MISSION IS CONSIDERED A FAILURE DUE TO EXCESSIVE COLLATERAL DAMAGE.
-    TOWN_COMPLETE = 0,
+    TOWN_COMPLETE = 1,
     TOWN_UPRISING = 0,
+    KEMI_TORNIO_OCCUPIED = 1, -- 0 = not occupied, 1 = occupied by blue coalition, prevents repetitive ATC inbound calls for multiple players
 
     -- ACTIVE MISSION 4: Dam Defense
     -- Note: This mission has collateral damage conditions
     -- IF DAM_COMPLETE IS SET TO 1, THE MISSION IS CONSIDERED SUCCESSFUL REGARDLESS OF THE COLLATERAL DAMAGE FLAG. HOWEVER, IF DAM_COMPLETE IS SET TO 2 AND THE COLLATERAL DAMAGE FLAG (DAM_UPRISING) IS SET TO 1, THEN THE MISSION IS CONSIDERED A FAILURE DUE TO EXCESSIVE COLLATERAL DAMAGE.
-    DAM_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully, 2 = failed due to collateral damage
+    DAM_COMPLETE = 1, -- 0 = not completed, 1 = completed successfully, 2 = failed due to collateral damage
     DAM_ALIVE = 1, -- 1 = dam is still alive, 0 = dam has been destroyed
     DAM_UPRISING = 0, -- 0 = collateral damage threshold not exceeded, 1 = collateral damage threshold exceeded (mission failure)
 
     -- ACTIVE MISSION 5: Trainyard
-    TRAINYARD_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully, 2 = failed due to collateral damage
+    TRAINYARD_COMPLETE = 1, -- 0 = not completed, 1 = completed successfully, 2 = failed due to collateral damage
     TRAIN_YARD_UPRISING = 0, -- 0 = collateral damage threshold not exceeded, 1 = collateral damage threshold exceeded (mission failure)
 
     -- ACTIVE MISSION 6: Capture Farp Paris
-    FARP_PARIS_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully
+    FARP_PARIS_COMPLETE = 1, -- 0 = not completed, 1 = completed successfully
+    FARP_PARIS_OCCUPIED = 1, -- 0 = not occupied, 1 = occupied by blue coalition, prevents repetitive ATC inbound calls for multiple players
 
     -- ACTIVE MISSION 7: IED Factory
-    IED_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully
+    IED_COMPLETE = 1, -- 0 = not completed, 1 = completed successfully
 
     -- ACTIVE MISSION 8: Training Camp
-    TRAINING_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully
+    TRAINING_COMPLETE = 1, -- 0 = not completed, 1 = completed successfully
 
     -- ACTIVE MISSION 9: CSAR
     CRASHED_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully

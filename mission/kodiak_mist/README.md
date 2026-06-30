@@ -122,9 +122,3 @@ Note: Only one spacebar press will advance the mission no matter who presses it.
 
 ## TODOS
 
-- adjust amphib vehicles away from land fall early
-- amphib on station audio cut off 3 seconds early due to despawn
-
-## Pre-Release TODOS
-
-- remove dofile links to local files when ready to deploy
