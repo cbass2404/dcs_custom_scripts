@@ -3,7 +3,7 @@ local damageHandler = {}
 
 function damageHandler:onEvent(event)
     -- Fail silently for unhandled frames to protect CPU performance
-    if not event.target or not event.target.isExist or not event.target:isExist() then
+    if not event.target or not event.target.isExist or not event.target:isExist() or not event.initiator then
         return
     end
 
@@ -17,17 +17,19 @@ function damageHandler:onEvent(event)
         return
     end
 
-    local typeName = event.initiator:getTypeName():lower()
+    local typeName = event.initiator:getTypeName()
 
-    local isFoliage =
-        typeName:find("tree") or typeName:find("bush") or typeName:find("forest") or typeName:find("dub") or -- Russian for Oak
-            typeName:find("topol") or -- Russian for Poplar
-        typeName:find("oreh") or -- Russian for Walnut
-        typeName:find("el_") or -- Russian prefix for Spruce/Fir
-        typeName:find("trava")
+    if typeName then
+        typeName = typeName:lower()
 
-    if isFoliage then
-        return
+        -- 3. Run your foliage check
+        local isFoliage = typeName:find("tree") or typeName:find("bush") or typeName:find("forest") or
+                              typeName:find("dub") or typeName:find("topol") or typeName:find("oreh") or
+                              typeName:find("el_") or typeName:find("trava")
+
+        if isFoliage then
+            return
+        end
     end
 
     for _, tracker in pairs(MagnusDCSScripting.activeDamageTrackers) do
