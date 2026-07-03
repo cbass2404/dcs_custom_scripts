@@ -1,0 +1,2 @@
+--- This file defines the allOfCoalitionInZone function, which checks if all units of a specified coalition and category are within a given zone. It is used in the main event handler to determine if certain mission conditions have been met.
+---@alias allOfCoalitionInZone fun(zoneName: string, coalitionType: number, unitCategory: number|nil): boolean

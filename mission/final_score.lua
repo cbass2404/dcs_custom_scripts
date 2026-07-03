@@ -28,7 +28,7 @@ local function getFinalScore()
     local displayMessage = ""
     if finalScore == perfectScore then
         displayMessage = string.format("Mission Success %d/%d", finalScore, perfectScore)
-        trigger.action.outTextForCoalition(2, displayMessage, 60)
+        trigger.action.outText(displayMessage, 60)
         return -- Cleanly exits here on perfect runs, skipping all code below
     end
 
@@ -42,8 +42,8 @@ local function getFinalScore()
         displayMessage = string.format("Mission Failure %d/%d", finalScore, perfectScore)
     end
 
-    -- 6. Broadcast message to Blue Coalition (2)
-    trigger.action.outTextForCoalition(2, displayMessage, 60)
+    -- 6. Broadcast message to All Coalition (2)
+    trigger.action.outText(displayMessage, 60)
 
     -- 7. Clean up event handler to prevent memory leaks or unintended behavior in future missions
     world.removeEventHandler(MagnusDCSScripting.eventHandler)

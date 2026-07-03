@@ -8,3 +8,4 @@
 --- @field getFinalScore getFinalScore|nil The getFinalScore function, which calculates and displays the player's final score based on mission completion and the defined partial success threshold.
 --- @field initializeDamageTracker initializeDamageTracker|nil The initializeDamageTracker function, which creates and registers new damageTracker instances for specified zones, damage thresholds, and event trigger flags.
 --- @field eventHandler EventHandler|nil The event handler instance that listens for DCS World events and processes them according to the defined logic in the damageHandler class.
+--- @field allOfCoalitionInZone allOfCoalitionInZone|nil The allOfCoalitionInZone function, which checks if all units of a specified coalition and category are within a given zone.

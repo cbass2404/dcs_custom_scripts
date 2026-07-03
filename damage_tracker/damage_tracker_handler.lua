@@ -3,7 +3,8 @@ local damageHandler = {}
 
 function damageHandler:onEvent(event)
     -- Fail silently for unhandled frames to protect CPU performance
-    if not event.target or not event.target.isExist or not event.target:isExist() or not event.initiator then
+    if not event.target or not event.target.isExist or not event.target:isExist() or not event.initiator or
+        not event.initiator:getCoalition() == coalition.side.BLUE and event.weapon:isExist() then
         return
     end
 
@@ -12,24 +13,11 @@ function damageHandler:onEvent(event)
         return
     end
 
-    local isScenery = Object.getCategory(event.target) == Object.Category.SCENERY
-    if not isScenery then
+    local desc = event.target:getDesc()
+
+    if not Object.getCategory(event.target) == Object.Category.SCENERY and desc and desc.attributes and
+        desc.attributes["Buildings"] then
         return
-    end
-
-    local typeName = event.initiator:getTypeName()
-
-    if typeName then
-        typeName = typeName:lower()
-
-        -- 3. Run your foliage check
-        local isFoliage = typeName:find("tree") or typeName:find("bush") or typeName:find("forest") or
-                              typeName:find("dub") or typeName:find("topol") or typeName:find("oreh") or
-                              typeName:find("el_") or typeName:find("trava")
-
-        if isFoliage then
-            return
-        end
     end
 
     for _, tracker in pairs(MagnusDCSScripting.activeDamageTrackers) do

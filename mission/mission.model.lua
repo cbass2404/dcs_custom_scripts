@@ -6,3 +6,6 @@
 --- @field collateralThresholdZoneName string|nil The name of the zone used for tracking collateral damage in the mission. This should correspond to a defined zone in the mission editor that encompasses the area where collateral damage can occur.
 ---@field completedFlag string
 ---@field operationTitle string
+---@field missionStartZone string
+---@field missionEndZone string
+---@field instructions string

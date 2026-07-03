@@ -25,13 +25,16 @@ config.env = "prod"
 -- dcs_scripts/damage_tracker/damage_tracker.lua
 -- dcs_scripts/damage_tracker/initialize_damage_tracker.lua
 -- dcs_scripts/mission/final_score.lua
+-- dcs_scripts/units/all_of_coalition_in_zone.lua
+
 
 -- MUST BE LAST
 -- ONCE > TIME MORE (4) > DO SCRIPT FILE
 -- dcs_scripts/mission/kodiak_mist/event_handler.lua
+-- dcs_scripts/mission/kodiak_mist/menu/generate_radio_menu.lua
 
 
--- ONCE > TIME MORE (20) > DO SCRIPT
+-- ONCE > TIME MORE (5) > DO SCRIPT
 MagnusDCSScripting.initializeDamageTracker()
 ```
 
