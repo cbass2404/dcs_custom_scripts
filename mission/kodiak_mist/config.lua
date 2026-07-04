@@ -26,7 +26,6 @@ local devFlags = {
     -- Note: This mission has collateral damage conditions
     -- IF DAM_COMPLETE IS SET TO 1, THE MISSION IS CONSIDERED SUCCESSFUL REGARDLESS OF THE COLLATERAL DAMAGE FLAG. HOWEVER, IF DAM_COMPLETE IS SET TO 2 AND THE COLLATERAL DAMAGE FLAG (DAM_UPRISING) IS SET TO 1, THEN THE MISSION IS CONSIDERED A FAILURE DUE TO EXCESSIVE COLLATERAL DAMAGE.
     DAM_COMPLETE = 0, -- 0 = not completed, 1 = completed successfully, 2 = failed due to collateral damage
-    DAM_ALIVE = 1, -- 1 = dam is still alive, 0 = dam has been destroyed
     DAM_UPRISING = 0, -- 0 = collateral damage threshold not exceeded, 1 = collateral damage threshold exceeded (mission failure)
 
     -- ACTIVE MISSION 5: Trainyard

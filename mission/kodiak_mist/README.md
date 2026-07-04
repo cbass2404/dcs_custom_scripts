@@ -79,28 +79,28 @@ MagnusDCSScripting.initializeDamageTracker()
 
 ### Objectives
 
-| NDB             | Frequency | Name | Audio         | Comments                   |
-| --------------- | --------- | ---- | ------------- | -------------------------- |
-| Dam Defense     | 675 khz   | DDT  | -.. -.. -     |                            |
-| Farp London     | 950 khz   | FLN  | ..-. .-.. -.  | TODO: Revist morse code    |
-| Farp Paris      | 515 khz   | FPR  | ..-. .--. .-. | TODO: Revist morse code    |
-| Kemi Tornio     | 415 khz   | KTA  | -.- - .-      |                            |
-| Silkworm        | 575 khz   | SWT  | ... .-- -     | Targets 180 for 8.5 clicks |
-| Town Liberation | 550 khz   | TLT  | - .-.. -      |                            |
-| Trainyard       | 775 khz   | TYT  | - -.-- -      |                            |
+| NDB             | Frequency | Name | Audio         | Timer Flag   | Comments |
+| --------------- | --------- | ---- | ------------- | ------------ | -------- |
+| Dam Defense     | 675 khz   | DDT  | -.. -.. -     | DD_NDB_CLOCK |          |
+| Farp London     | 950 khz   | FLN  | ..-. .-.. -.  | FL_NDB_FLAG  |          |
+| Farp Paris      | 515 khz   | FPR  | ..-. .--. .-. | FP_NDB_FLAG  |          |
+| Kemi Tornio     | 415 khz   | KTA  | -.- - .-      | KT_NDB_FLAG  |          |
+| Silkworm        | 575 khz   | SWT  | ... .-- -     | SW_NDB_FLAG  |          |
+| Town Liberation | 550 khz   | TLT  | - .-.. -      | TL_NDB_FLAG  |          |
+| Trainyard       | 775 khz   | TYT  | - -.-- -      | TY_NDB_FLAG  |          |
 
 ### Non-Directional Beacons
 
-| Waypoint           | Frequency | Name | Audio      | Comments |
-| ------------------ | --------- | ---- | ---------- | -------- |
-| Strike Group Alpha | 1050 khz  | INV  | .. -. ...- |          |
+| Waypoint           | Frequency | Name | Audio      | Timer Flag   | Comments |
+| ------------------ | --------- | ---- | ---------- | ------------ | -------- |
+| Strike Group Alpha | 1050 khz  | INV  | .. -. ...- | SGA_NDB_FLAG |          |
 
 ### Infantry Beacons
 
-| Waypoint                           | Frequency | Name | Audio          | Comments |
-| ---------------------------------- | --------- | ---- | -------------- | -------- |
-| Nomad (Farp London Capture Force)  | 41.5 mhz  | LCF  | .-.. -.-. ..-. |          |
-| Heavy 1-1 (Crashed Helo Survivors) | 32.25 mhz | SUR  | ... ..- .-.    |          |
+| Waypoint                           | Frequency | Name | Audio          | Timer Flag     | Comments |
+| ---------------------------------- | --------- | ---- | -------------- | -------------- | -------- |
+| Nomad (Farp London Capture Force)  | 41.5 mhz  | LCF  | .-.. -.-. ..-. | NOMAD_NDB_FLAG |          |
+| Heavy 1-1 (Crashed Helo Survivors) | 32.25 mhz | SUR  | ... ..- .-.    | HEAVY_NDB_FLAG |          |
 
 ### Mission
 
@@ -124,4 +124,3 @@ Press the Spacebar when your flight is ready to continue and tuned into Overlord
 Note: Only one spacebar press will advance the mission no matter who presses it. Do not continue until everyone is ready.
 
 ## TODOS
-
