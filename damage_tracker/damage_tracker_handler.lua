@@ -4,7 +4,8 @@ local damageHandler = {}
 function damageHandler:onEvent(event)
     -- Fail silently for unhandled frames to protect CPU performance
     if not event.target or not event.target.isExist or not event.target:isExist() or not event.initiator or
-        not event.initiator:getCoalition() == coalition.side.BLUE or not event.weapon:isExist() then
+        not event.initiator.getCoalition or not event.initiator:getCoalition() == coalition.side.BLUE or
+        not event.weapon or not event.weapon.isExist or not event.weapon:isExist() then
         return
     end
 
@@ -16,8 +17,7 @@ function damageHandler:onEvent(event)
     local category = event.target:getCategory()
     local desc = event.target:getDesc()
 
-    if not (category == Object.Category.SCENERY) or not desc or not desc.attributes or
-        not desc.attributes["Buildings"] or desc.attributes["Bridges"] or desc.attributes["Fortifications"] then
+    if not (category == Object.Category.SCENERY) or not desc or not desc.attributes or not desc.attributes["Buildings"] then
         return
     end
 
@@ -32,6 +32,8 @@ function damageHandler:onEvent(event)
 
         if inZone then
             tracker:onBuildingHit(uniqueId)
+            env.info("[MagnusDCSScripting Damage Tracker Handler]: EUnique ID for unit in zone " .. tracker.zoneName ..
+                         ": " .. uniqueId)
             return -- Exit tracking loop immediately once target zone is handled
         end
     end
