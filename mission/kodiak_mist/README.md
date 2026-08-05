@@ -50,6 +50,7 @@ dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\main.lua")
 dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\config.lua")
 
 -- ONCE > TIME MORE (3) > DO SCRIPT
+dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\helpers\\EA-18G Growler Electronic Warfare ScriptV1.3.lua")
 dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\damage_tracker.lua")
 
 dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\damage_tracker_handler.lua")
