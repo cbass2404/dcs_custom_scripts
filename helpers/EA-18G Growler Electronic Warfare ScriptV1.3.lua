@@ -15,11 +15,15 @@ local function getHeading(unit)
     return hdg
 end
 
+local function get3DDistSq(p1, p2)
+    local dx = p1.x - p2.x
+    local dy = p1.y - p2.y
+    local dz = p1.z - p2.z
+    return dx * dx + dy * dy + dz * dz
+end
+
 local function get3DDist(p1, p2)
-    local dx = (p1.x or 0) - (p2.x or 0)
-    local dy = (p1.y or 0) - (p2.y or 0)
-    local dz = (p1.z or 0) - (p2.z or 0)
-    return math.sqrt(dx * dx + dy * dy + dz * dz)
+    return math.sqrt(get3DDistSq(p1, p2))
 end
 
 local function getBearing(from, to)
@@ -181,6 +185,8 @@ local jammerUnits = {}
 local jammerSettings = {}
 local jammerGroupIDs = {}
 local jammerMenus = {}
+local jammerMenuNames = {}
+local lastRegisterTime = {}
 local spotTargetMenus = {}
 local spotTargetCommands = {}
 
@@ -411,23 +417,39 @@ local function pushUnique(t, v)
     t[#t + 1] = v
 end
 
+-- Menus are per-group but state is per-unit, so a group holding more than one
+-- jammer slot needs a distinct menu root per occupant or the callbacks collide.
+local function computeMenuRootName(unit)
+    local base = "EW - Electronic Warfare"
+    local grp = unit:getGroup()
+    if grp and grp:isExist() and #(grp:getUnits() or {}) > 1 then
+        return base .. " (" .. unit:getName() .. ")"
+    end
+    return base
+end
+
 function registerJammerUnit(unit)
     if not unit or not unit:isExist() then
         return
     end
     local name = unit:getName()
     local gid = unit:getGroup():getID()
+    local now = timer.getTime()
 
-    if jammerMenus[name] and jammerGroupIDs[name] == gid then
+    -- BIRTH and PLAYER_ENTER_UNIT both fire for the same spawn; collapse them.
+    if jammerMenus[name] and jammerGroupIDs[name] == gid and (now - (lastRegisterTime[name] or -math.huge)) < 1 then
         return
     end
-    if jammerMenus[name] and jammerGroupIDs[name] ~= gid then
-        missionCommands.removeItemForGroup(jammerGroupIDs[name], jammerMenus[name])
-        jammerMenus[name] = nil
-    end
+
+    -- Never trust that the leave/death event cleaned up: PLAYER_LEAVE_UNIT often
+    -- arrives with a nil initiator in MP, which would otherwise leave the slot
+    -- flagged as configured and deny the next occupant the loadout menu.
+    unregisterJammerByName(name)
 
     pushUnique(jammerUnits, name)
     jammerGroupIDs[name] = gid
+    jammerMenuNames[name] = computeMenuRootName(unit)
+    lastRegisterTime[name] = now
 
     emitterCapacity[name] = nil
     maxEmitterCapacity[name] = 0
@@ -454,6 +476,8 @@ function unregisterJammerByName(name)
     end
 
     jammerMenus[name] = nil
+    jammerMenuNames[name] = nil
+    lastRegisterTime[name] = nil
     jammerGroupIDs[name] = nil
     jammerSettings[name] = nil
     emitterCapacity[name] = nil
@@ -637,31 +661,31 @@ local function defensiveLoop(name)
     end
     local pos = unit:getPoint()
     local spoof = {{
-        dist = 37000,
+        rangeSq = 1369000000,
         pk = 50
     }, {
-        dist = 27800,
+        rangeSq = 772840000,
         pk = 70
     }, {
-        dist = 18500,
+        rangeSq = 342250000,
         pk = 85
     }, {
-        dist = 11100,
+        rangeSq = 123210000,
         pk = 90
     }, {
-        dist = 5556,
+        rangeSq = 30869136,
         pk = 98
     }}
     for id, entry in pairs(trackedMissiles) do
         local m = entry.missile
         if m and Object.isExist(m) then
             local mp = m:getPoint()
-            local dist = get3DDist(pos, mp)
+            local distSq = get3DDistSq(pos, mp)
             local allowed = s.defensive or (s.defDir and inSector(unit, mp, s.defDir))
             if allowed then
                 for _, z in ipairs(spoof) do
-                    if dist < z.dist and math.random(100) <= z.pk then
-                        local nm = math.floor(dist / 1852)
+                    if distSq < z.rangeSq and math.random(100) <= z.pk then
+                        local nm = math.floor(math.sqrt(distSq) / 1852)
                         local br = getClockBearing(unit, mp)
                         emitEvent(name, "Spoofed incoming missile, ~" .. nm .. " nm (" .. br .. ")")
                         Object.destroy(m)
@@ -702,9 +726,9 @@ local function offensiveLoop(name)
     end
     iterateTargets(function(g, u)
         local up = u:getPoint()
-        local dist = get3DDist(jp, up)
+        local distSq = get3DDistSq(jp, up)
         local allowed = s.offensive or (s.offDir and inSector(unit, up, s.offDir))
-        if allowed and dist < 50000 and land.isVisible(up, jp) then
+        if allowed and distSq < 2500000000 and land.isVisible(up, jp) then
             local ctrl = g:getController()
             if ctrl and ctrl.setOption then
                 ctrl:setOption(AI.Option.Ground.id.ROE, AI.Option.Ground.val.ROE.WEAPON_HOLD)
@@ -732,9 +756,9 @@ local function restoreSAMs()
                         local jp = ju:getPoint()
                         local sp = sam:getPoint()
                         local maxCap = maxEmitterCapacity[jammer] or 0
-                        local maxRange = (maxCap >= 3000) and 148160 or 111120
-                        if get3DDist(jp, sp) <= maxRange and land.isVisible(sp, jp) and (emitterCapacity[jammer] or 0) >
-                            15 then
+                        local maxRangeSq = (maxCap >= 3000) and 21951385600 or 12347654400
+                        if get3DDistSq(jp, sp) <= maxRangeSq and land.isVisible(sp, jp) and
+                            (emitterCapacity[jammer] or 0) > 15 then
                             keep = true
                             break
                         end
@@ -1069,7 +1093,8 @@ local function buildPostLoadoutMenus(jammerName, root, gid)
             jammerMenus[jammerName] = nil
         end
 
-        local simpleRoot = missionCommands.addSubMenuForGroup(gid, "EW - Electronic Warfare")
+        local simpleRoot = missionCommands.addSubMenuForGroup(gid,
+            jammerMenuNames[jammerName] or "EW - Electronic Warfare")
         jammerMenus[jammerName] = simpleRoot
 
         missionCommands.addCommandForGroup(gid, "Power ON Jammer Pods", simpleRoot, function()
@@ -1141,7 +1166,7 @@ function buildMenusFor(jammerName)
         return
     end
     local gid = unit:getGroup():getID()
-    local root = missionCommands.addSubMenuForGroup(gid, "EW - Electronic Warfare")
+    local root = missionCommands.addSubMenuForGroup(gid, jammerMenuNames[jammerName] or "EW - Electronic Warfare")
     jammerMenus[jammerName] = root
     if not loadoutConfigured[jammerName] then
         buildLoadoutMenu(jammerName, root, gid)

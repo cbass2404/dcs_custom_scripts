@@ -1,0 +1,51 @@
+{
+  "file": "helpers/EA-18G Growler Electronic Warfare ScriptV1.3.lua",
+  "description": "Replace sqrt-based distance with squared distance for per-tick range comparisons, eliminating math.sqrt from hot paths that run every second per missile/radar unit.",
+  "changes": [
+    {
+      "id": 1,
+      "location": "after get3DDist (line ~18)",
+      "description": "Added get3DDistSq helper — same math without sqrt, no 'or 0' guards since DCS getPoint() always returns a full vec3.",
+      "before": null,
+      "after": "local function get3DDistSq(p1, p2)\n    local dx = p1.x - p2.x\n    local dy = p1.y - p2.y\n    local dz = p1.z - p2.z\n    return dx*dx + dy*dy + dz*dz\nend"
+    },
+    {
+      "id": 2,
+      "location": "defensiveLoop — spoof threshold table",
+      "description": "Pre-squared the five spoof range thresholds so no sqrt is needed during comparison. Field named rangeSq (not distSq) to distinguish it from the loop variable distSq. sqrt is deferred to the rare spoof event for the nm display string only.",
+      "before": "local spoof = {\n    {dist=37000, pk=50},{dist=27800, pk=70},{dist=18500, pk=85},{dist=11100, pk=90},{dist=5556, pk=98}\n}",
+      "after": "local spoof = {\n    {rangeSq=1369000000, pk=50},{rangeSq=772840000, pk=70},{rangeSq=342250000, pk=85},{rangeSq=123210000, pk=90},{rangeSq=30869136, pk=98}\n}"
+    },
+    {
+      "id": 3,
+      "location": "defensiveLoop — missile range check",
+      "description": "Use squared distance for the per-missile comparison. sqrt only computed on the rare spoof event for the display string.",
+      "before": "local dist = get3DDist(pos, mp)\n...\nif dist < z.dist and math.random(100) <= z.pk then\n    local nm = math.floor(dist/1852)",
+      "after": "local distSq = get3DDistSq(pos, mp)\n...\nif distSq < z.rangeSq and math.random(100) <= z.pk then\n    local nm = math.floor(math.sqrt(distSq)/1852)"
+    },
+    {
+      "id": 4,
+      "location": "offensiveLoop — radar unit range check",
+      "description": "Pure comparison against 50,000 m — no actual distance value needed, so sqrt is eliminated entirely. 50000^2 = 2,500,000,000.",
+      "before": "local dist = get3DDist(jp, up)\nlocal allowed = s.offensive or (s.offDir and inSector(unit, up, s.offDir))\nif allowed and dist < 50000 and land.isVisible(up, jp) then",
+      "after": "local distSq = get3DDistSq(jp, up)\nlocal allowed = s.offensive or (s.offDir and inSector(unit, up, s.offDir))\nif allowed and distSq < 2500000000 and land.isVisible(up, jp) then"
+    },
+    {
+      "id": 5,
+      "location": "restoreSAMs — suppressed SAM keep check",
+      "description": "Pure range comparison — replaced with pre-computed squared constants. 148160^2 = 21,951,385,600 | 111120^2 = 12,347,654,400.",
+      "before": "local maxRange = (maxCap >= 3000) and 148160 or 111120\nif get3DDist(jp, sp) <= maxRange and land.isVisible(sp, jp) and ...",
+      "after": "local maxRangeSq = (maxCap >= 3000) and 21951385600 or 12347654400\nif get3DDistSq(jp, sp) <= maxRangeSq and land.isVisible(sp, jp) and ..."
+    }
+  ],
+  "unchanged": [
+    {
+      "location": "spotJammingTick",
+      "reason": "Uses dist directly in probability formula: 0.2 + ((fullEff / dist) * 0.8) — actual distance required."
+    },
+    {
+      "location": "buildTargetListForMenu",
+      "reason": "Runs every 10 seconds (not a per-tick hot path) and needs dist to format the nm label string."
+    }
+  ]
+}
