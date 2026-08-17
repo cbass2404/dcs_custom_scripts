@@ -19,67 +19,30 @@
 --
 local savePath = (lfs and lfs.writedir and (lfs.writedir() .. "Missions\\Saves")) or nil
 local ww2Maps = {
-    Normandy = true,
+    Normandy = true
 }
 local saveFile = ww2Maps[env.mission.theatre] and "Foothold Config WW2.lua" or "Foothold Config.lua"
 local mizConfigPath = ww2Maps[env.mission.theatre] and ("l10n/DEFAULT/" .. saveFile) or nil
 local externalConfigChunk = nil
 -- Add new top-level config tables here so an omitted external table triggers the warning.
-FootholdConfigTrackedTableNames = {
-    "RedTemplateEnabled",
-    "RedCapPlaneEnabled",
-    "BlueCapPlaneEnabled",
-    "RedCasPlaneEnabled",
-    "BlueCasPlaneEnabled",
-    "RedSeadPlaneEnabled",
-    "BlueSeadPlaneEnabled",
-    "RedRunwayStrikePlaneEnabled",
-    "RedCasHeloEnabled",
-    "BlueCasHeloEnabled",
-    "RedSupplyHeloEnabled",
-    "BlueSupplyHeloEnabled",
-    "CapLimitStages",
-    "RedCasLimitStages",
-    "RedSeadLimitStages",
-    "RedRunwayStrikeLimitStages",
-    "BlueCapSupportStages",
-    "BlueCasSupportStages",
-    "BlueSeadSupportStages",
-    "CapCountIgnoreTypes",
-    "RedCasCountIgnoreTypes",
-    "BlueCasCountIgnoreTypes",
-    "MessageOfTheDay",
-    "CallsignOverrides",
-    "EscortTypeByPlayerType",
-    "WarehouseWeaponCaps",
-    "AllowedToCarrySupplies",
-    "ZoneSupplyTakeoffWarningTypes",
-    "ShopPrices",
-    "ShopRankRequirements",
-    "RewardContribution",
-    "CTLDPrices",
-    "MAX_AT_SPAWN",
-    "CTLDUnitCapabilities",
-    "AllowedCsar",
-    "AllowedFlightTimeReward",
-    "ewrs_specialPlaneTypes",
-    "allowedPlanes",
-    "allowedPlanesRed",
-    "allowedPlanesVietnam",
-    "allowedPlanesRedVietnam",
-    "restockAircraft",
-    "restrictedWeapons",
-    "restrictedWeaponsVietnam",
-    "ForbiddWeaponsInAllEra",
-}
+FootholdConfigTrackedTableNames = {"RedTemplateEnabled", "RedCapPlaneEnabled", "BlueCapPlaneEnabled",
+                                   "RedCasPlaneEnabled", "BlueCasPlaneEnabled", "RedSeadPlaneEnabled",
+                                   "BlueSeadPlaneEnabled", "RedRunwayStrikePlaneEnabled", "RedCasHeloEnabled",
+                                   "BlueCasHeloEnabled", "RedSupplyHeloEnabled", "BlueSupplyHeloEnabled",
+                                   "CapLimitStages", "RedCasLimitStages", "RedSeadLimitStages",
+                                   "RedRunwayStrikeLimitStages", "BlueCapSupportStages", "BlueCasSupportStages",
+                                   "BlueSeadSupportStages", "CapCountIgnoreTypes", "RedCasCountIgnoreTypes",
+                                   "BlueCasCountIgnoreTypes", "MessageOfTheDay", "CallsignOverrides",
+                                   "EscortTypeByPlayerType", "WarehouseWeaponCaps", "AllowedToCarrySupplies",
+                                   "ZoneSupplyTakeoffWarningTypes", "ShopPrices", "ShopRankRequirements",
+                                   "RewardContribution", "CTLDPrices", "MAX_AT_SPAWN", "CTLDUnitCapabilities",
+                                   "AllowedCsar", "AllowedFlightTimeReward", "ewrs_specialPlaneTypes", "allowedPlanes",
+                                   "allowedPlanesRed", "allowedPlanesVietnam", "allowedPlanesRedVietnam",
+                                   "restockAircraft", "restrictedWeapons", "restrictedWeaponsVietnam",
+                                   "ForbiddWeaponsInAllEra"}
 -- Add new top-level scalar settings here so an omitted external setting triggers the warning.
-FootholdConfigTrackedScalarNames = {
-    "PlayerZoneSuppliesConsumeStock",
-    "RadioMenuStopSupplies",
-    "NormalSupplyCapacity",
-    "WarehouseSupplyCapacity",
-    "CTLDSupplyCapacity",
-}
+FootholdConfigTrackedScalarNames = {"PlayerZoneSuppliesConsumeStock", "RadioMenuStopSupplies", "NormalSupplyCapacity",
+                                    "WarehouseSupplyCapacity", "CTLDSupplyCapacity"}
 
 local function applyExternalConfigWithFallbackWarning()
     local internalTableDefaults = {}
@@ -94,7 +57,7 @@ local function applyExternalConfigWithFallbackWarning()
         __newindex = function(_, key, value)
             externalAssignments[key] = true
             rawset(_G, key, value)
-        end,
+        end
     })
     setfenv(externalConfigChunk, externalEnvironment)
     externalConfigChunk()
@@ -111,16 +74,22 @@ local function applyExternalConfigWithFallbackWarning()
             missingConfigNames[#missingConfigNames + 1] = settingName
         end
     end
-    if #missingConfigNames == 0 then return end
+    if #missingConfigNames == 0 then
+        return
+    end
     table.sort(missingConfigNames)
 
-    env.warning("[FOOTHOLD_CONFIG_EXTERNAL_OUTDATED] External Foothold config is outdated. Internal defaults were applied for: " .. table.concat(missingConfigNames, ", "))
+    env.warning(
+        "[FOOTHOLD_CONFIG_EXTERNAL_OUTDATED] External Foothold config is outdated. Internal defaults were applied for: " ..
+            table.concat(missingConfigNames, ", "))
 
     local warningCount = 0
     SCHEDULER:New(nil, function()
         warningCount = warningCount + 1
         trigger.action.outText(FootholdLocalization:Get("FOOTHOLD_CONFIG_EXTERNAL_OUTDATED"), 9)
-        if warningCount >= 12 then return false end
+        if warningCount >= 12 then
+            return false
+        end
     end, {}, 1, 10)
 end
 
@@ -156,9 +125,13 @@ if mizConfigPath and not FootholdConfigLoaded then
             if FootholdLocalization then
                 FootholdLocalization:SetLocale(FootholdLocale)
             end
-            SCHEDULER:New(nil, function() trigger.action.outText("Loaded " .. saveFile .. " externally.", 30) end, {}, 1)
+            SCHEDULER:New(nil, function()
+                trigger.action.outText("Loaded " .. saveFile .. " externally.", 30)
+            end, {}, 1)
         else
-            SCHEDULER:New(nil, function() trigger.action.outText("Loaded " .. saveFile .. " from mission.", 30) end, {}, 1)
+            SCHEDULER:New(nil, function()
+                trigger.action.outText("Loaded " .. saveFile .. " from mission.", 30)
+            end, {}, 1)
         end
         FootholdConfigLoadedOk = true
         return
@@ -200,7 +173,7 @@ RedTemplateEnabled = {
     ["SA-11"] = true, -- eras=Modern|Coldwar; SA-11 [Modern/CW]
     ["Tor M2"] = false, -- eras=Modern; Tor M2 [Modern]
     ["Pantsir S1"] = false, -- eras=Modern; Pantsir S1 [Modern]
-	["MANPAD"] = true, -- eras=Modern|Coldwar; MANPAD [Modern/CW]
+    ["MANPAD"] = true -- eras=Modern|Coldwar; MANPAD [Modern/CW]
 }
 
 -- AI aircraft templates used by missions that support config-driven template selection.
@@ -216,7 +189,7 @@ RedCapPlaneEnabled = {
     ["RED_MIRAGE_F1CE_CAP_R530F_EMx2_MAGIC2x2"] = true, -- eras=Modern|Coldwar; Mirage F1CE Fox 1 CAP [Modern/CW]
     ["RED_MIG29A_CAP_R73x6"] = true, -- eras=Modern|Coldwar; MiG-29A IR CAP [Modern/CW]
     ["RED_MIG29A_CAP_R73x4_R27ER2X"] = true, -- eras=Modern|Coldwar; MiG-29A Fox 1 CAP [Modern/CW]
-    ["RED_MIG25PD_CAP_R40Rx2_R60Mx2"] = true, --eras=Modern|Coldwar; MiG-25PD Fox 1 CAP [Modern/CW]
+    ["RED_MIG25PD_CAP_R40Rx2_R60Mx2"] = true, -- eras=Modern|Coldwar; MiG-25PD Fox 1 CAP [Modern/CW]
     ["RED_SU27_CAP_R27ERx5_R73x3_ECM"] = true, -- eras=Modern|Coldwar; Su-27 Fox 1 CAP [Modern/CW]
     ["RED_MIG23MLD_CAP_R24Rx2_R60Mx2"] = true, -- eras=Modern|Coldwar; MiG-23MLD Fox 1 CAP [Modern/CW]
     ["RED_MIG21BIS_CAP_R3Rx4"] = true, -- eras=Coldwar|Vietnam; MiG-21bis Fox 1 CAP [CW/VN]
@@ -224,7 +197,7 @@ RedCapPlaneEnabled = {
     ["RED_MIG15BIS_CAP_GUNS_TANKS"] = false, -- eras=Vietnam; MiG-15bis Guns CAP [VN]
     ["RED_MIG19P_CAP_K13A"] = false, -- eras=Vietnam; MiG-19P IR CAP [VN]
     ["RED_MIG21BIS_CAP_R3Rx2_R3Sx2"] = false, -- eras=Vietnam; MiG-21bis Fox 1 CAP [VN]
-    ["RED_L39C_CAP_R3S2X"] = false, -- eras=Vietnam; L-39C Fox 2 CAP [VN]
+    ["RED_L39C_CAP_R3S2X"] = false -- eras=Vietnam; L-39C Fox 2 CAP [VN]
 }
 
 -- @gui label="BLUE CAP Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
@@ -243,7 +216,7 @@ BlueCapPlaneEnabled = {
     ["BLUE_F4E_CAP_AIM7E2x4_AIM9Jx4_TANKSx3_ALE40"] = true, -- eras=Vietnam|Coldwar; F-4E Fox 1 CAP [VN/CW]
     ["BLUE_F100D_CAP_AIM9Ex2"] = false, -- eras=Vietnam; F-100D IR CAP [VN]
     ["BLUE_F5E3_CAP_AIM9Bx2"] = false, -- eras=Vietnam; F-5E-3 IR CAP [VN]
-    ["BLUE_F86F_CAP_GAR8x2"] = false, -- eras=Vietnam; F-86F IR CAP [VN]
+    ["BLUE_F86F_CAP_GAR8x2"] = false -- eras=Vietnam; F-86F IR CAP [VN]
 }
 
 -- @gui label="RED CAS Plane Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
@@ -277,7 +250,7 @@ RedCasPlaneEnabled = {
     ["RED_L39C_CAS_S5M2XHE_1SHIP"] = false, -- eras=Vietnam; L-39C Rockets CAS [VN]
     ["RED_L39C_CAS_S5M2XHE_2SHIP"] = false, -- eras=Vietnam; 2x L-39C Rockets CAS [VN]
     ["RED_L39C_CAS_FAB100Mx2_1SHIP"] = false, -- eras=Vietnam; L-39C Bomb CAS [VN]
-    ["RED_L39C_CAS_FAB100Mx2_2SHIP"] = false, -- eras=Vietnam; 2x L-39C Bomb CAS [VN]
+    ["RED_L39C_CAS_FAB100Mx2_2SHIP"] = false -- eras=Vietnam; 2x L-39C Bomb CAS [VN]
 
 }
 
@@ -294,7 +267,7 @@ BlueCasPlaneEnabled = {
     ["BLUE_F100D_CAS_MK82x8_TANKSx2_2SHIP"] = false, -- eras=Vietnam; 2x F-100D Mk-82 CAS [VN]
     ["BLUE_F100D_CAS_M117x6_TANKSx2_2SHIP"] = false, -- eras=Vietnam; 2x F-100D M117 CAS [VN]
     ["BLUE_F5E3_CAS_MK82LDx4_AIM9Bx2_TANK275_2SHIP"] = false, -- eras=Vietnam; 2x F-5E-3 Mk-82 CAS [VN]
-    ["BLUE_F5E3_CAS_MK82SEx4_AIM9Bx2_TANK275_2SHIP"] = false, -- eras=Vietnam; 2x F-5E-3 Snakeye CAS [VN]
+    ["BLUE_F5E3_CAS_MK82SEx4_AIM9Bx2_TANK275_2SHIP"] = false -- eras=Vietnam; 2x F-5E-3 Snakeye CAS [VN]
 }
 
 -- @gui label="RED SEAD Plane Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
@@ -310,13 +283,13 @@ RedSeadPlaneEnabled = {
     ["RED_SU24M_SEAD_KH58x2_FAB1500M54_L081_R60Mx4_2SHIP"] = true, -- eras=Modern|Coldwar; 2x Su-24M SEAD [Modern/CW]
     ["RED_SU24M_SEAD_KH31Px2_KH25MLx2_FAB1500M54_L081_1SHIP"] = true, -- eras=Modern|Coldwar; Su-24M SEAD [Modern/CW]
     ["RED_SU17M4_SEAD_KH25MRx4_R60x2_TANKSx2_1SHIP"] = true, -- eras=Vietnam|Coldwar; Su-17M4 SEAD [CW/VN]
-    ["RED_SU17M4_SEAD_KH25MRx4_R60x2_TANKSx2_2SHIP"] = true, -- eras=Vietnam|Coldwar; 2x Su-17M4 SEAD [CW/VN]
+    ["RED_SU17M4_SEAD_KH25MRx4_R60x2_TANKSx2_2SHIP"] = true -- eras=Vietnam|Coldwar; 2x Su-17M4 SEAD [CW/VN]
 }
 
 -- @gui label="BLUE SEAD Plane Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
 BlueSeadPlaneEnabled = {
     ["BLUE_F4E_SEAD_AGM45Ax4_AIM7E2x3_TANK600_ALQ131"] = true, -- eras=Vietnam|Coldwar; 2x F-4E Shrike SEAD [VN/CW]
-    ["BLUE_F100D_SEAD_AGM45Ax2_CBU7x2_TANKSx2_2SHIP"] = false, -- eras=Vietnam; 2x F-100D SEAD [VN]
+    ["BLUE_F100D_SEAD_AGM45Ax2_CBU7x2_TANKSx2_2SHIP"] = false -- eras=Vietnam; 2x F-100D SEAD [VN]
 }
 
 -- @gui label="RED Runway Strike Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
@@ -324,7 +297,7 @@ RedRunwayStrikePlaneEnabled = {
     ["RED_SU33_RUNWAY_BETAB500x4_R27ERx4_R73x2_3SHIP"] = false, -- eras=Modern; 3x Su-33 Runway [Modern]
     ["RED_MIG27K_RUNWAY_BETAB500x2_FAB250x2_R60Mx4_3SHIP"] = true, -- eras=Modern|Coldwar; 3x MiG-27K Runway [Modern/CW]
     ["RED_MIRAGE_F1EE_RUNWAY_DURANDALx6_S530Fx2_AIM9JULIx2_3SHIP"] = true, -- eras=Modern|Coldwar; 3x Mirage F1EE Runway [Modern/CW]
-    ["RED_MIG21BIS_RUNWAY_BETAB500x2_R3Rx2_TANK490_3SHIP"] = false, -- eras=Vietnam; 3x MiG-21bis BetAB Runway [VN]
+    ["RED_MIG21BIS_RUNWAY_BETAB500x2_R3Rx2_TANK490_3SHIP"] = false -- eras=Vietnam; 3x MiG-21bis BetAB Runway [VN]
 }
 
 -- @gui label="RED CAS Helo Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
@@ -340,7 +313,7 @@ RedCasHeloEnabled = {
     ["RED_MI8_CAS_FAB100x6_1SHIP"] = true, -- eras=Vietnam|Coldwar; Mi-8 FAB-100 CAS [VN/CW]
     ["RED_MI8_CAS_FAB100x6_2SHIP"] = true, -- eras=Vietnam|Coldwar; 2x Mi-8 FAB-100 CAS [VN/CW]
     ["RED_MI8_CAS_GUV_YAKB_GSHPx2_KORD_PKT_1SHIP"] = true, -- eras=Vietnam|Coldwar; Mi-8 gunpod CAS [VN/CW]
-    ["RED_MI8_CAS_GUV_YAKB_GSHPx2_KORD_PKT_2SHIP"] = true, -- eras=Vietnam|Coldwar; 2x Mi-8 gunpod CAS [VN/CW]
+    ["RED_MI8_CAS_GUV_YAKB_GSHPx2_KORD_PKT_2SHIP"] = true -- eras=Vietnam|Coldwar; 2x Mi-8 gunpod CAS [VN/CW]
 }
 
 -- @gui label="BLUE CAS Helo Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
@@ -355,21 +328,21 @@ BlueCasHeloEnabled = {
     ["BLUE_OH58D_CAS_AGM114x2_APKWS_1SHIP"] = false, -- eras=Modern; OH-58D CAS [Modern]
     ["BLUE_OH58D_CAS_AGM114x2_APKWS_2SHIP"] = false, -- eras=Modern; 2x OH-58D CAS [Modern]
     ["BLUE_UH1H_CAS_XM158x2_M134x3_M60_1SHIP"] = true, -- eras=Coldwar|Vietnam; UH-1H CAS [CW/VN]
-    ["BLUE_UH1H_CAS_XM158x2_M134x3_M60_2SHIP"] = true, -- eras=Coldwar|Vietnam; 2x UH-1H CAS [CW/VN]
+    ["BLUE_UH1H_CAS_XM158x2_M134x3_M60_2SHIP"] = true -- eras=Coldwar|Vietnam; 2x UH-1H CAS [CW/VN]
 }
 
 -- @gui label="RED Supply Helo Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
 RedSupplyHeloEnabled = {
     ["RED_MI8_SUPPLY_KORD"] = true, -- eras=Modern|Coldwar|Vietnam; Mi-8 Supply [All]
-    ["RED_MI8_SUPPLY_KORD_PKT"] = true, -- eras=Modern|Coldwar|Vietnam; Mi-8 Supply [All]
+    ["RED_MI8_SUPPLY_KORD_PKT"] = true -- eras=Modern|Coldwar|Vietnam; Mi-8 Supply [All]
 }
 
 -- @gui label="BLUE Supply Helo Templates" editor="checkboxTable" rowLabel="comment" confirmSetRowsByEra="Select aircraft templates based on Era?"
 BlueSupplyHeloEnabled = {
-	["BLUE_CH47_SUPPLY_M240Hx2"] = true, -- eras=Modern|Coldwar; CH-47 Supply [Modern/CW]
-	["BLUE_CH47_SUPPLY_M60Dx3"] = true, -- eras=Modern|Coldwar; CH-47 Supply [Modern/CW]
+    ["BLUE_CH47_SUPPLY_M240Hx2"] = true, -- eras=Modern|Coldwar; CH-47 Supply [Modern/CW]
+    ["BLUE_CH47_SUPPLY_M60Dx3"] = true, -- eras=Modern|Coldwar; CH-47 Supply [Modern/CW]
     ["BLUE_UH60A_SUPPLY_UNARMED"] = true, -- eras=Modern|Coldwar; UH-60A Supply [Modern/CW]
-    ["BLUE_UH1H_SUPPLY_UNARMED"] = true, -- eras=Coldwar|Vietnam; UH-1H Supply [CW/VN]
+    ["BLUE_UH1H_SUPPLY_UNARMED"] = true -- eras=Coldwar|Vietnam; UH-1H Supply [CW/VN]
 }
 
 -- ============================================================================
@@ -398,7 +371,7 @@ end
 -- ONLY VALID ON CAUCASUS, PERSIAN GULF, SYRIA AND AFGHANISTAN.
 -- if false, the mission will start from the other end. Carrier zone will be disabled.
 StartNormal = true
- 
+
 -- When the mission is completed, if you want the server to restart automatically and reset everything, then set this to true.
 -- If false, you will have a menu where you can choose to restart the mission. 
 AutoRestart = true
@@ -492,16 +465,19 @@ GlobalSettings = GlobalSettings or {}
 -- [1] = RED coalition
 -- [2] = BLUE coalition
 -- @gui label="AI Spawn Speed Scaling" editor="sideMultiplier" min="0.10" max="5.00" step="0.05"
-GlobalSettings.difficultyScaling = { [1]=1.25, [2]=1 }
+GlobalSettings.difficultyScaling = {
+    [1] = 1.25,
+    [2] = 1
+}
 
 -- @gui label="Red AI Plane Skill" validValues="Average=Average | Good=Good | High=High | Excellent=Excellent | Random=Random"
-AiPlaneSkill            = "Random" -- AI skill used for spawned airplanes Red only (MOOSE SPAWN:InitSkill).
+AiPlaneSkill = "Random" -- AI skill used for spawned airplanes Red only (MOOSE SPAWN:InitSkill).
 
 -- Valid: "Average", "Good", "High", "Excellent", "Random" (case-insensitive). Unknown values become "High".
-RedAiGroundSkill        = "Good" -- AI skill used for spawned RED zone ground defenses (MOOSE SPAWN:InitSkill).
+RedAiGroundSkill = "Good" -- AI skill used for spawned RED zone ground defenses (MOOSE SPAWN:InitSkill).
 
 -- Valid: "Average", "Good", "High", "Excellent", "Random" (case-insensitive). Unknown values become "High".
-BlueAiGroundSkill       = "Excellent" -- AI skill used for spawned BLUE zone ground defenses (MOOSE SPAWN:InitSkill).
+BlueAiGroundSkill = "Excellent" -- AI skill used for spawned BLUE zone ground defenses (MOOSE SPAWN:InitSkill).
 
 -- Controls whether SAM groups are hidden on MFDs.
 -- Valid values only: false | true | "random"
@@ -521,15 +497,15 @@ EnableHunter = true
 
 -- Valid values: "easy" | "medium" | "hard"
 -- Here, you can adjust how many cap should spawn. medium, is the default (Balanaced)
-CapDifficulty           = "medium" -- RED CAP amount.  This can be further custommized in the advance section.
-CasDifficulty           = "medium" -- RED CAS amount.  This can be further custommized in the advance section.
-SeadDifficulty          = "medium" -- RED SEAD amount.  This can be further custommized in the advance section.
+CapDifficulty = "medium" -- RED CAP amount.  This can be further custommized in the advance section.
+CasDifficulty = "medium" -- RED CAS amount.  This can be further custommized in the advance section.
+SeadDifficulty = "medium" -- RED SEAD amount.  This can be further custommized in the advance section.
 
-FriendlyCapSupport      = "medium" -- BLUE CAP support limit. This can be further custommized in the advance section.
-FriendlyCasSupport      = "medium" -- BLUE CAS support limit.  This can be further custommized in the advance section.
-FriendlySeadSupport     = "medium" -- BLUE SEAD support limit.  This can be further custommized in the advance section.
-RunwayStrikeDifficulty  = "medium" -- RED RUNWAYSTRIKE amount.  This can be further custommized in the advance section.
-RedReactiveDifficulty   = "medium" -- RED reactive counterpressure difficulty.
+FriendlyCapSupport = "medium" -- BLUE CAP support limit. This can be further custommized in the advance section.
+FriendlyCasSupport = "medium" -- BLUE CAS support limit.  This can be further custommized in the advance section.
+FriendlySeadSupport = "medium" -- BLUE SEAD support limit.  This can be further custommized in the advance section.
+RunwayStrikeDifficulty = "medium" -- RED RUNWAYSTRIKE amount.  This can be further custommized in the advance section.
+RedReactiveDifficulty = "medium" -- RED reactive counterpressure difficulty.
 
 -- ============================================================================
 -- Difficulty advanced
@@ -541,38 +517,87 @@ RedReactiveDifficulty   = "medium" -- RED reactive counterpressure difficulty.
 -- @gui linkedSetting="CapDifficulty"
 -- @gui installPolicy="keepTable"
 CapLimitStages = {
-	easy = {
-		{ player = 0, amount = 0 },
-		{ player = 1, amount = 1 },
-		{ player = 2, amount = 1 },
-		{ player = 3, amount = 2 },
-		{ player = 4, amount = 3 },
-		{ player = 6, amount = 4 },
-		{ player = 10, amount = 5 },
-		{ player = 999, amount = 6 },
-	},
-	medium = {
-		{ player = 0, amount = 1 },
-		{ player = 1, amount = 1 },
-		{ player = 2, amount = 2 },
-		{ player = 3, amount = 3 },
-		{ player = 4, amount = 3 },
-		{ player = 6, amount = 4 },
-		{ player = 9, amount = 5 },
-		{ player = 10, amount = 6 },
-		{ player = 999, amount = 7 },
-	},
-	hard = {
-		{ player = 0, amount = 1 },
-		{ player = 1, amount = 2 },
-		{ player = 2, amount = 3 },
-		{ player = 3, amount = 4 },
-		{ player = 4, amount = 5 },
-		{ player = 6, amount = 5 },
-		{ player = 9, amount = 6 },
-		{ player = 10, amount = 7 },
-		{ player = 999, amount = 8 },
-	},
+    easy = {{
+        player = 0,
+        amount = 0
+    }, {
+        player = 1,
+        amount = 1
+    }, {
+        player = 2,
+        amount = 1
+    }, {
+        player = 3,
+        amount = 2
+    }, {
+        player = 4,
+        amount = 3
+    }, {
+        player = 6,
+        amount = 4
+    }, {
+        player = 10,
+        amount = 5
+    }, {
+        player = 999,
+        amount = 6
+    }},
+    medium = {{
+        player = 0,
+        amount = 1
+    }, {
+        player = 1,
+        amount = 1
+    }, {
+        player = 2,
+        amount = 2
+    }, {
+        player = 3,
+        amount = 3
+    }, {
+        player = 4,
+        amount = 3
+    }, {
+        player = 6,
+        amount = 4
+    }, {
+        player = 9,
+        amount = 5
+    }, {
+        player = 10,
+        amount = 6
+    }, {
+        player = 999,
+        amount = 7
+    }},
+    hard = {{
+        player = 0,
+        amount = 1
+    }, {
+        player = 1,
+        amount = 2
+    }, {
+        player = 2,
+        amount = 3
+    }, {
+        player = 3,
+        amount = 4
+    }, {
+        player = 4,
+        amount = 5
+    }, {
+        player = 6,
+        amount = 5
+    }, {
+        player = 9,
+        amount = 6
+    }, {
+        player = 10,
+        amount = 7
+    }, {
+        player = 999,
+        amount = 8
+    }}
 }
 
 -- Advance settings for CasDifficulty.
@@ -582,35 +607,78 @@ CapLimitStages = {
 -- @gui linkedSetting="CasDifficulty"
 -- @gui installPolicy="keepTable"
 RedCasLimitStages = {
-	easy = {
-		{ player = 0, amount = 0 },
-		{ player = 1, amount = 0 },
-		{ player = 2, amount = 1 },
-		{ player = 3, amount = 1 },
-		{ player = 4, amount = 2 },
-		{ player = 5, amount = 2 },
-		{ player = 999, amount = 3 },
-	},
-	medium = {
-		{ player = 0, amount = 1 },
-		{ player = 1, amount = 1 },
-		{ player = 2, amount = 2 },
-		{ player = 3, amount = 2 },
-		{ player = 4, amount = 3 },
-		{ player = 5, amount = 3 },
-		{ player = 9, amount = 4 },
-		{ player = 999, amount = 4 },
-	},
-	hard = {
-		{ player = 0, amount = 1 },
-		{ player = 1, amount = 2 },
-		{ player = 2, amount = 2 },
-		{ player = 3, amount = 3 },
-		{ player = 4, amount = 4 },
-		{ player = 5, amount = 4 },
-		{ player = 9, amount = 6 },
-		{ player = 999, amount = 7 },
-	},
+    easy = {{
+        player = 0,
+        amount = 0
+    }, {
+        player = 1,
+        amount = 0
+    }, {
+        player = 2,
+        amount = 1
+    }, {
+        player = 3,
+        amount = 1
+    }, {
+        player = 4,
+        amount = 2
+    }, {
+        player = 5,
+        amount = 2
+    }, {
+        player = 999,
+        amount = 3
+    }},
+    medium = {{
+        player = 0,
+        amount = 1
+    }, {
+        player = 1,
+        amount = 1
+    }, {
+        player = 2,
+        amount = 2
+    }, {
+        player = 3,
+        amount = 2
+    }, {
+        player = 4,
+        amount = 3
+    }, {
+        player = 5,
+        amount = 3
+    }, {
+        player = 9,
+        amount = 4
+    }, {
+        player = 999,
+        amount = 4
+    }},
+    hard = {{
+        player = 0,
+        amount = 1
+    }, {
+        player = 1,
+        amount = 2
+    }, {
+        player = 2,
+        amount = 2
+    }, {
+        player = 3,
+        amount = 3
+    }, {
+        player = 4,
+        amount = 4
+    }, {
+        player = 5,
+        amount = 4
+    }, {
+        player = 9,
+        amount = 6
+    }, {
+        player = 999,
+        amount = 7
+    }}
 }
 
 -- Advance settings for SeadDifficulty..
@@ -620,35 +688,78 @@ RedCasLimitStages = {
 -- @gui linkedSetting="SeadDifficulty"
 -- @gui installPolicy="keepTable"
 RedSeadLimitStages = {
-	easy = {
-		{ player = 0, amount = 0 },
-		{ player = 1, amount = 0 },
-		{ player = 2, amount = 1 },
-		{ player = 3, amount = 1 },
-		{ player = 4, amount = 2 },
-		{ player = 5, amount = 2 },
-		{ player = 999, amount = 3 },
-	},
-	medium = {
-		{ player = 0, amount = 0 },
-		{ player = 1, amount = 1 },
-		{ player = 2, amount = 1 },
-		{ player = 3, amount = 2 },
-		{ player = 4, amount = 3 },
-		{ player = 5, amount = 3 },
-		{ player = 9, amount = 4 },
-		{ player = 999, amount = 4 },
-	},
-	hard = {
-		{ player = 0, amount = 1 },
-		{ player = 1, amount = 2 },
-		{ player = 2, amount = 2 },
-		{ player = 3, amount = 3 },
-		{ player = 4, amount = 4 },
-		{ player = 5, amount = 4 },
-		{ player = 9, amount = 6 },
-		{ player = 999, amount = 7 },
-	},
+    easy = {{
+        player = 0,
+        amount = 0
+    }, {
+        player = 1,
+        amount = 0
+    }, {
+        player = 2,
+        amount = 1
+    }, {
+        player = 3,
+        amount = 1
+    }, {
+        player = 4,
+        amount = 2
+    }, {
+        player = 5,
+        amount = 2
+    }, {
+        player = 999,
+        amount = 3
+    }},
+    medium = {{
+        player = 0,
+        amount = 0
+    }, {
+        player = 1,
+        amount = 1
+    }, {
+        player = 2,
+        amount = 1
+    }, {
+        player = 3,
+        amount = 2
+    }, {
+        player = 4,
+        amount = 3
+    }, {
+        player = 5,
+        amount = 3
+    }, {
+        player = 9,
+        amount = 4
+    }, {
+        player = 999,
+        amount = 4
+    }},
+    hard = {{
+        player = 0,
+        amount = 1
+    }, {
+        player = 1,
+        amount = 2
+    }, {
+        player = 2,
+        amount = 2
+    }, {
+        player = 3,
+        amount = 3
+    }, {
+        player = 4,
+        amount = 4
+    }, {
+        player = 5,
+        amount = 4
+    }, {
+        player = 9,
+        amount = 6
+    }, {
+        player = 999,
+        amount = 7
+    }}
 }
 
 -- Advance settings for RunwayStrikeDifficulty.
@@ -658,35 +769,78 @@ RedSeadLimitStages = {
 -- @gui linkedSetting="RunwayStrikeDifficulty"
 -- @gui installPolicy="keepTable"
 RedRunwayStrikeLimitStages = {
-	easy = {
-		{ player = 0, amount = 0 },
-		{ player = 1, amount = 0 },
-		{ player = 2, amount = 1 },
-		{ player = 3, amount = 1 },
-		{ player = 4, amount = 2 },
-		{ player = 5, amount = 2 },
-		{ player = 999, amount = 3 },
-	},
-	medium = {
-		{ player = 0, amount = 0 },
-		{ player = 1, amount = 0 },
-		{ player = 2, amount = 1 },
-		{ player = 3, amount = 2 },
-		{ player = 4, amount = 3 },
-		{ player = 5, amount = 3 },
-		{ player = 9, amount = 4 },
-		{ player = 999, amount = 4 },
-	},
-	hard = {
-		{ player = 0, amount = 0 },
-		{ player = 1, amount = 1 },
-		{ player = 2, amount = 2 },
-		{ player = 3, amount = 3 },
-		{ player = 4, amount = 4 },
-		{ player = 5, amount = 4 },
-		{ player = 9, amount = 6 },
-		{ player = 999, amount = 7 },
-	},
+    easy = {{
+        player = 0,
+        amount = 0
+    }, {
+        player = 1,
+        amount = 0
+    }, {
+        player = 2,
+        amount = 1
+    }, {
+        player = 3,
+        amount = 1
+    }, {
+        player = 4,
+        amount = 2
+    }, {
+        player = 5,
+        amount = 2
+    }, {
+        player = 999,
+        amount = 3
+    }},
+    medium = {{
+        player = 0,
+        amount = 0
+    }, {
+        player = 1,
+        amount = 0
+    }, {
+        player = 2,
+        amount = 1
+    }, {
+        player = 3,
+        amount = 2
+    }, {
+        player = 4,
+        amount = 3
+    }, {
+        player = 5,
+        amount = 3
+    }, {
+        player = 9,
+        amount = 4
+    }, {
+        player = 999,
+        amount = 4
+    }},
+    hard = {{
+        player = 0,
+        amount = 0
+    }, {
+        player = 1,
+        amount = 1
+    }, {
+        player = 2,
+        amount = 2
+    }, {
+        player = 3,
+        amount = 3
+    }, {
+        player = 4,
+        amount = 4
+    }, {
+        player = 5,
+        amount = 4
+    }, {
+        player = 9,
+        amount = 6
+    }, {
+        player = 999,
+        amount = 7
+    }}
 }
 
 -- Advance settings for FriendlyCapSupport.
@@ -696,19 +850,30 @@ RedRunwayStrikeLimitStages = {
 -- @gui linkedSetting="FriendlyCapSupport"
 -- @gui installPolicy="keepTable"
 BlueCapSupportStages = {
-	easy = {
-		{ player = 0, amount = 2 },
-		{ player = 1, amount = 2 },
-		{ player = 999, amount = 1 },
-	},
-	medium = {
-		{ player = 0, amount = 1 },
-		{ player = 1, amount = 1 },
-		{ player = 999, amount = 0 },
-	},
-	hard = {
-		{ player = 999, amount = 0 },
-	},
+    easy = {{
+        player = 0,
+        amount = 2
+    }, {
+        player = 1,
+        amount = 2
+    }, {
+        player = 999,
+        amount = 1
+    }},
+    medium = {{
+        player = 0,
+        amount = 1
+    }, {
+        player = 1,
+        amount = 1
+    }, {
+        player = 999,
+        amount = 0
+    }},
+    hard = {{
+        player = 999,
+        amount = 0
+    }}
 }
 -- Advance settings for FriendlyCasSupport.
 -- Players in the table below are counted as active players if they are not in the BlueCasCountIgnoreTypes.
@@ -717,19 +882,30 @@ BlueCapSupportStages = {
 -- @gui linkedSetting="FriendlyCasSupport"
 -- @gui installPolicy="keepTable"
 BlueCasSupportStages = {
-	easy = {
-		{ player = 0, amount = 2 },
-		{ player = 1, amount = 2 },
-		{ player = 999, amount = 1 },
-	},
-	medium = {
-		{ player = 0, amount = 1 },
-		{ player = 1, amount = 1 },
-		{ player = 999, amount = 0 },
-	},
-	hard = {
-		{ player = 999, amount = 0 },
-	},
+    easy = {{
+        player = 0,
+        amount = 2
+    }, {
+        player = 1,
+        amount = 2
+    }, {
+        player = 999,
+        amount = 1
+    }},
+    medium = {{
+        player = 0,
+        amount = 1
+    }, {
+        player = 1,
+        amount = 1
+    }, {
+        player = 999,
+        amount = 0
+    }},
+    hard = {{
+        player = 999,
+        amount = 0
+    }}
 }
 -- players in the table below are counted as active players if they are not in the BlueCasCountIgnoreTypes.
 -- The logic here, The less the players, the more AI will help you. The list in BlueCasCountIgnoreTypes, is types that doesn't count as active players.
@@ -738,19 +914,30 @@ BlueCasSupportStages = {
 -- @gui linkedSetting="FriendlySeadSupport"
 -- @gui installPolicy="keepTable"
 BlueSeadSupportStages = {
-	easy = {
-		{ player = 0, amount = 2 },
-		{ player = 1, amount = 2 },
-		{ player = 999, amount = 1 },
-	},
-	medium = {
-		{ player = 0, amount = 1 },
-		{ player = 1, amount = 1 },
-		{ player = 999, amount = 0 },
-	},
-	hard = {
-		{ player = 999, amount = 0 },
-	},
+    easy = {{
+        player = 0,
+        amount = 2
+    }, {
+        player = 1,
+        amount = 2
+    }, {
+        player = 999,
+        amount = 1
+    }},
+    medium = {{
+        player = 0,
+        amount = 1
+    }, {
+        player = 1,
+        amount = 1
+    }, {
+        player = 999,
+        amount = 0
+    }},
+    hard = {{
+        player = 999,
+        amount = 0
+    }}
 }
 
 -- Units that will NOT be counted when calculating how many players are "active"
@@ -764,27 +951,27 @@ BlueSeadSupportStages = {
 
 -- @gui editor="checkboxTable"
 CapCountIgnoreTypes = {
-	["A-10C_2"] = true,
-	["Hercules"] = true,
-	["A-10A"] = true,
-	["A-10C"] = true,
-	["AV8BNA"] = true,
-	["AJS37"] = true,
-	["C-130J-30"] = true,
+    ["A-10C_2"] = true,
+    ["Hercules"] = true,
+    ["A-10A"] = true,
+    ["A-10C"] = true,
+    ["AV8BNA"] = true,
+    ["AJS37"] = true,
+    ["C-130J-30"] = true
 }
 
 -- @gui editor="checkboxTable"
 RedCasCountIgnoreTypes = {
-	["Hercules"] = true,
-	["C-130J-30"] = true,
-	["CH-47Fbl1"] = true,
+    ["Hercules"] = true,
+    ["C-130J-30"] = true,
+    ["CH-47Fbl1"] = true
 }
 
 -- @gui editor="checkboxTable"
 BlueCasCountIgnoreTypes = {
-	["Hercules"] = true,
-	["C-130J-30"] = true,
-	["CH-47Fbl1"] = true,
+    ["Hercules"] = true,
+    ["C-130J-30"] = true,
+    ["CH-47Fbl1"] = true
 }
 
 -- ============================================================================
@@ -795,8 +982,7 @@ MessageOfTheDay = {
     enabled = false, -- Set to true to show this message to everyone.
     durationSec = 15, -- How long the message stays on screen.
     intervalSec = 1800, -- How often the message repeats.
-    text =
-[[]],
+    text = [[]]
 }
 -- ============================================================================
 -- Welcome Message Callsigns
@@ -811,66 +997,65 @@ CallsignOverrides = {
         ["Bender2"] = {1404, 1405, 1406, 1407},
         ["Crimson3"] = {1410, 1411, 1412, 1413},
         ["Dusty4"] = {1300, 1301, 1302, 1303},
-        ["Lion3"] = {1310, 1311, 1312, 1313},
+        ["Lion3"] = {1310, 1311, 1312, 1313}
     },
     ["F.16CM"] = {
         ["Indy9"] = {1500, 1501, 1502, 1503},
         ["Jester1"] = {1510, 1511, 1512, 1513},
-        ["Venom4"] = {1610, 1611, 1612, 1613},
+        ["Venom4"] = {1610, 1611, 1612, 1613}
     },
     ["A.10C"] = {
         ["Hawg8"] = {1330, 1331, 1332, 1333},
         ["Tusk2"] = {1350, 1351, 1352, 1353},
-        ["Pig7"] = {1340, 1341, 1342, 1343},
+        ["Pig7"] = {1340, 1341, 1342, 1343}
     },
     ["AH.64D"] = {
         ["Rage9"] = {1610, 1611, 1612, 1613},
-        ["Salty1"] = {1620, 1621, 1622, 1623},
+        ["Salty1"] = {1620, 1621, 1622, 1623}
     },
     ["Ka.50.III"] = {
-        ["Orca6"] = {1560, 1561, 1562, 1563},
+        ["Orca6"] = {1560, 1561, 1562, 1563}
     },
     ["AJS37"] = {
         ["Fenris6"] = {1060, 1061, 1062, 1063},
-        ["Grim7"] = {1070, 1071, 1072, 1073},
+        ["Grim7"] = {1070, 1071, 1072, 1073}
     },
     ["UH.1H"] = {
-        ["Nitro5"] = {1050, 1051, 1052, 1053},
+        ["Nitro5"] = {1050, 1051, 1052, 1053}
     },
     ["CH.47F"] = {
-        ["Greyhound3"] = {1370, 1371, 1372, 1373},
+        ["Greyhound3"] = {1370, 1371, 1372, 1373}
     },
     ["F.15E.S4"] = {
-        ["Hitman3"] = {1360, 1361, 1362, 1363},
+        ["Hitman3"] = {1360, 1361, 1362, 1363}
     },
     ["AV.8B"] = {
-        ["Quarterback1"] = {1434, 1435, 1436, 1437},
+        ["Quarterback1"] = {1434, 1435, 1436, 1437}
     },
     ["M.2000"] = {
-        ["Quebec8"] = {1600, 1601, 1602, 1603},
+        ["Quebec8"] = {1600, 1601, 1602, 1603}
     },
     [".OH.58D"] = {
-        ["Blackjack4"] = {1440, 1441, 1442, 1443},
+        ["Blackjack4"] = {1440, 1441, 1442, 1443}
     },
     ["F.14B"] = {
         ["Elvis5"] = {1100, 1101, 1102, 1103},
-        ["Mustang4"] = {1104, 1105, 1106, 1107},
+        ["Mustang4"] = {1104, 1105, 1106, 1107}
     },
     ["F.4E.45MC"] = {
         ["Savage1"] = {0120, 0121, 0122, 0123},
-        ["Scary2"] = {0130, 0131, 0132, 0133},
+        ["Scary2"] = {0130, 0131, 0132, 0133}
     },
     ["MiG.29A.Fulcrum"] = {
-        ["Wedge7"] = {0524, 0525, 0526, 0527},
+        ["Wedge7"] = {0524, 0525, 0526, 0527}
     },
     ["Mi.24P"] = {
-        ["Scorpion3"] = {0610, 0611, 0612, 0613},
+        ["Scorpion3"] = {0610, 0611, 0612, 0613}
     },
     ["C.130J.30"] = {
-        ["Mighty1"] = {1160, 1161, 1162, 1163},
-    },
+        ["Mighty1"] = {1160, 1161, 1162, 1163}
+    }
 }
-
 
 -- ============================================================================
 -- Escort
@@ -885,22 +1070,22 @@ CallsignOverrides = {
 -- Use 0 for the same altitude, or 1000 through 10000 in 1000-foot steps.
 -- @gui installPolicy="mergeRows"
 EscortTypeByPlayerType = {
-    ["C-130J-30"]      = { true, 2, 10000 },
-    ["AV8BNA"]         = { true, 2, 10000 },
-    ["A-10C_2"]        = { true, 2, 10000 },
-    ["A-10C"]          = { true, 2, 10000 },
-    ["A-10A"]          = { true, 2, 10000 },
-    ["Hercules"]       = { true, 2, 10000 },
-    ["F-15ESE"]        = { true, 2, 10000 },
-    ["AJS37"]          = { true, 2, 10000 },
-    ["MiG-29 Fulcrum"] = { false, 2, 10000 },
-    ["F-16C_50"]       = { false, 2, 10000 },
-    ["FA-18C_hornet"]  = { false, 2, 10000 },
-    ["MiG-21Bis"]      = { false, 3, 10000 },
-    ["Su-25T"]         = { true, 3, 10000 },
-    ["Su-25"]          = { true, 3, 10000 },
-    ["M-2000C"]        = { false, 2, 10000 },
-    ["Bronco-OV-10A"]  = { false, 1, 10000 },
+    ["C-130J-30"] = {true, 2, 10000},
+    ["AV8BNA"] = {true, 2, 10000},
+    ["A-10C_2"] = {true, 2, 10000},
+    ["A-10C"] = {true, 2, 10000},
+    ["A-10A"] = {true, 2, 10000},
+    ["Hercules"] = {true, 2, 10000},
+    ["F-15ESE"] = {true, 2, 10000},
+    ["AJS37"] = {true, 2, 10000},
+    ["MiG-29 Fulcrum"] = {false, 2, 10000},
+    ["F-16C_50"] = {false, 2, 10000},
+    ["FA-18C_hornet"] = {false, 2, 10000},
+    ["MiG-21Bis"] = {false, 3, 10000},
+    ["Su-25T"] = {true, 3, 10000},
+    ["Su-25"] = {true, 3, 10000},
+    ["M-2000C"] = {false, 2, 10000},
+    ["Bronco-OV-10A"] = {false, 1, 10000}
 }
 
 -- Plane escort option for takeoff from the ground.
@@ -939,7 +1124,10 @@ CTLDSupplyCapacity = 2
 -- [1] = RED coalition
 -- [2] = BLUE coalition
 -- @gui label="Supply Speed Scaling" editor="sideMultiplier" min="0.10" max="5.00" step="0.05" timePreviewRed="Normal zone:1200" timePreviewBlue="Normal zone:1200 | [WH]:600"
-GlobalSettings.supplyDifficultyScaling = { [1]=1, [2]=1 }
+GlobalSettings.supplyDifficultyScaling = {
+    [1] = 1,
+    [2] = 1
+}
 
 -- Scales repair, rebuild, and installation time after supplies are available.
 -- 0.5 = twice as fast
@@ -953,7 +1141,10 @@ GlobalSettings.supplyDifficultyScaling = { [1]=1, [2]=1 }
 -- Player, CTLD, airdropped, zsup3, and supplies2 supplies skip the Blue base time.
 -- Supply production, dispatch, and travel times are not changed by this setting.
 -- @gui label="Repair Time Scaling" editor="sideMultiplier" min="0.10" max="5.00" step="0.05" timePreviewRed="Unit:60 | SR/TR/STR:180 | Maximum:1200" timePreviewBlue="Normal base:900 | [WH] base:300 | Expedited base:0 | Unit:120 | SR/TR/STR:180 | Maximum:1200"
-GlobalSettings.repairDifficultyScaling = { [1]=1, [2]=1 }
+GlobalSettings.repairDifficultyScaling = {
+    [1] = 1,
+    [2] = 1
+}
 
 -- If true, player-picked Zone supplies consume one ready supply package from the campaign zone.
 -- Returned or removed cargo restores that package; destroyed or delivered cargo does not.
@@ -962,7 +1153,6 @@ PlayerZoneSuppliesConsumeStock = true
 
 -- If true, C-130J-30 AND Chinook! Use the internal (Ground crew for the Chinook and C-130 loading system only (not CTLD menu load).
 UseC130LoadAndUnload = false -- need to be true if using Logisticsystem as the cargo need to be tracked.
-
 
 -- If true, AI supply helicopters use cargo transport for warehouse deliveries.
 SuppliesCargoTransport = true
@@ -984,25 +1174,25 @@ RadioMenuStopSupplies = false
 -- This option is the legacy option. this won't be used if WarehouseLogistics = true
 -- @gui installPolicy="mergeRows" editor="checkboxTable"
 AllowedToCarrySupplies = {
-    ["Ka-50"]         = true,
-    ["Ka-50_3"]       = true,
-    ["Mi-24P"]        = true,
-    ["SA342Mistral"]  = true,
-    ["SA342L"]        = true,
-    ["SA342M"]        = true,
-    ["SA342Minigun"]  = true,
-    ["UH-60L"]        = true,
-    ["UH-60L_DAP"]    = true,
+    ["Ka-50"] = true,
+    ["Ka-50_3"] = true,
+    ["Mi-24P"] = true,
+    ["SA342Mistral"] = true,
+    ["SA342L"] = true,
+    ["SA342M"] = true,
+    ["SA342Minigun"] = true,
+    ["UH-60L"] = true,
+    ["UH-60L_DAP"] = true,
     ["AH-64D_BLK_II"] = true,
-    ["UH-1H"]         = true,
-    ["Mi-8MT"]        = true,
-    ["Hercules"]      = true,
-    ["OH58D"]         = true,
-    ["CH-47Fbl1"]     = true,
+    ["UH-1H"] = true,
+    ["Mi-8MT"] = true,
+    ["Hercules"] = true,
+    ["OH58D"] = true,
+    ["CH-47Fbl1"] = true,
     ["Bronco-OV-10A"] = true,
-    ["OH-6A"]         = true,
-    ["C-130J-30"]     = true,
-    ["A-10C_2"] = true,
+    ["OH-6A"] = true,
+    ["C-130J-30"] = true,
+    ["A-10C_2"] = true
 }
 
 -- If false, the "Supplies not loaded" warning sound is disabled.
@@ -1014,28 +1204,28 @@ WarningNoSupplies = true
 -- This is if the aircraft can carry supplies, and no supplies is loaded, Then this will be a reminder.
 -- @gui installPolicy="mergeRows" editor="checkboxTable"
 ZoneSupplyTakeoffWarningTypes = {
-    ["AH-64D_BLK_II"] = true,  -- This is for the legacy warehouse logistics or if you use troops to capture, with engineer.
-    ["Bronco-OV-10A"] = true,  -- legacy mode
-    ["C-130J-30"]     = true,
-    ["CH-47Fbl1"]     = true,
-    ["Ka-50_3"]       = true,  -- legacy mode
-    ["MH-60R"]        = true,  -- legacy mode
-    ["Mi-24P"]        = true,
-    ["Mi-8MT"]        = true,
-    ["OH-6A"]         = true,  -- legacy mode
-    ["UH-1H"]         = true,
-    ["UH-60L"]        = true,
-    ["UH-60L_DAP"]    = true,
-    ["AH-6J"]         = true,
-    ["Ka-50"]         = true,
-    ["MH-6J"]         = true,
-    ["OH58D"]         = true,
-    ["SA342L"]        = true,
-    ["SA342M"]        = true,
-    ["SA342Minigun"]  = true,
-    ["SA342Mistral"]  = true,
-    ["Hercules"]      = true,  -- should not be set to true if using WarehouseLogistics. can not detect that generic cargo
-    ["A-10C_2"] = true,
+    ["AH-64D_BLK_II"] = true, -- This is for the legacy warehouse logistics or if you use troops to capture, with engineer.
+    ["Bronco-OV-10A"] = true, -- legacy mode
+    ["C-130J-30"] = true,
+    ["CH-47Fbl1"] = true,
+    ["Ka-50_3"] = true, -- legacy mode
+    ["MH-60R"] = true, -- legacy mode
+    ["Mi-24P"] = true,
+    ["Mi-8MT"] = true,
+    ["OH-6A"] = true, -- legacy mode
+    ["UH-1H"] = true,
+    ["UH-60L"] = true,
+    ["UH-60L_DAP"] = true,
+    ["AH-6J"] = true,
+    ["Ka-50"] = true,
+    ["MH-6J"] = true,
+    ["OH58D"] = true,
+    ["SA342L"] = true,
+    ["SA342M"] = true,
+    ["SA342Minigun"] = true,
+    ["SA342Mistral"] = true,
+    ["Hercules"] = true, -- should not be set to true if using WarehouseLogistics. can not detect that generic cargo
+    ["A-10C_2"] = true
 }
 
 -- If true, smart weapons found in the WarehouseWeaponCaps table at the bottom, will be HALF what we add to the warehouse.
@@ -1044,8 +1234,7 @@ StrictSmartWeaponsInventory = true
 
 -- This table will be used if StrictSmartWeaponsInventory is set to true.
 -- Smart weapons in this table will be HALF what we add to the warehouse.
-WarehouseWeaponCaps = {
-}
+WarehouseWeaponCaps = {}
 
 -- ============================================================================
 -- Shop / Rewards
@@ -1060,104 +1249,104 @@ AdvanceCaptureRemainingThreshold = 35
 -- Shop prices.
 -- @gui installPolicy="mergeRows"
 ShopPrices = {
-	smoke         = 20,   -- Smoke markers
-    flare         = 20,   -- Flare markers
-	illum         = 100,  -- Illumination bomb
-	dynamiccap    = 500,  -- CAP Flight
-	dynamicarco   = 1000,  -- Dynamic Tanker (Drogue)
-	dynamictexaco = 1000,  -- Dynamic Tanker (Boom)
-	dynamiccas    = 1000, -- CAS Flight
-	dynamicdecoy  = 300,  -- TALD DECOY Flight
-	dynamicsead   = 500,  -- SEAD Flight
-	groundattack  = 1000, -- Ground attack convoy
-	dynamicbomb   = 500,  -- Bomber Flight
-	strategicbomber = 1500, -- Strategic bomber
-	dynamicstatic = 500,  -- Static structure Flight
-	cruisemsl     = 800,  -- Cruise Missile Strike
-	supplies2     = 200,  -- Resupply friendly Zone
-	supplies      = 1000, -- Fully Upgrade Friendly Zone
-	jtac          = 500,  -- MQ-9 Reaper JTAC mission
-	["9lineam"]   = 0,    -- Jtac 9line AM
-	["9linefm"]   = 0,    -- Jtac 9line FM
-	jam           = 500,  -- Jam radars at zone
-	armor         = 100,  -- Deploy armor
-	artillery     = 100,  -- Deploy artillery
-	recon         = 50,   -- Deploy recon group
-	airdef        = 150,  -- Deploy air defence
-	capture       = 500,  -- Capture neutral zone
-	advancecapture = 500, -- Advance capture pressured enemy zone
-	intel         = 150,  -- Satellite Intel (60 min)
-	zinf          = 500,  -- Add infantry squad to zone
-	zsam          = 2000, -- Add Hawk/Nasams system to a zone
-	zlogc         = 2000, -- Make a zone logistic center
-	zsup3         = 750,  -- Add 3 supplies to a zone
-	zwh50         = 500,  -- Resupply warehouse with 50
-	zarm          = 1000, -- Add armor group to a zone
-	zpat          = 5000, -- Add Patriot system to zone
-	zgci          = 500,  -- Add GCI station to zone
-	gslot         = 3000, -- Unlock extra upgrade slot
-	farphere      = 1000, -- Deploy FARP
-    zhimars       = 2500, -- Add HIMARS to a zone
+    smoke = 20, -- Smoke markers
+    flare = 20, -- Flare markers
+    illum = 100, -- Illumination bomb
+    dynamiccap = 500, -- CAP Flight
+    dynamicarco = 1000, -- Dynamic Tanker (Drogue)
+    dynamictexaco = 1000, -- Dynamic Tanker (Boom)
+    dynamiccas = 1000, -- CAS Flight
+    dynamicdecoy = 300, -- TALD DECOY Flight
+    dynamicsead = 500, -- SEAD Flight
+    groundattack = 1000, -- Ground attack convoy
+    dynamicbomb = 500, -- Bomber Flight
+    strategicbomber = 1500, -- Strategic bomber
+    dynamicstatic = 500, -- Static structure Flight
+    cruisemsl = 800, -- Cruise Missile Strike
+    supplies2 = 200, -- Resupply friendly Zone
+    supplies = 1000, -- Fully Upgrade Friendly Zone
+    jtac = 500, -- MQ-9 Reaper JTAC mission
+    ["9lineam"] = 0, -- Jtac 9line AM
+    ["9linefm"] = 0, -- Jtac 9line FM
+    jam = 500, -- Jam radars at zone
+    armor = 100, -- Deploy armor
+    artillery = 100, -- Deploy artillery
+    recon = 50, -- Deploy recon group
+    airdef = 150, -- Deploy air defence
+    capture = 500, -- Capture neutral zone
+    advancecapture = 500, -- Advance capture pressured enemy zone
+    intel = 150, -- Satellite Intel (60 min)
+    zinf = 500, -- Add infantry squad to zone
+    zsam = 2000, -- Add Hawk/Nasams system to a zone
+    zlogc = 2000, -- Make a zone logistic center
+    zsup3 = 750, -- Add 3 supplies to a zone
+    zwh50 = 500, -- Resupply warehouse with 50
+    zarm = 1000, -- Add armor group to a zone
+    zpat = 5000, -- Add Patriot system to zone
+    zgci = 500, -- Add GCI station to zone
+    gslot = 3000, -- Unlock extra upgrade slot
+    farphere = 1000, -- Deploy FARP
+    zhimars = 2500 -- Add HIMARS to a zone
 }
 
 -- Shop ranks.
 -- @gui installPolicy="mergeRows"
 ShopRankRequirements = {
-	jtac           = 2,  -- MQ-9 Reaper JTAC mission
-	dynamiccap     = 2,  -- CAP Flight
-	dynamiccas     = 5,  -- CAS Flight
-	dynamicbomb    = 4,  -- Bomber Flight
-	strategicbomber = 6, -- Strategic bomber
-	dynamicsead    = 4,  -- SEAD Flight
-	groundattack   = 5,  -- Ground attack convoy
-	dynamicdecoy   = 1,  -- TALD DECOY Flight
-	dynamicstatic  = 4,  -- Static structure Flight
-	dynamicarco    = 3,  -- Dynamic Tanker (Drogue)
-	dynamictexaco  = 3,  -- Dynamic Tanker (Boom)
-	farphere       = 4,  -- Deploy FARP
-	capture        = 1,  -- Capture neutral zone
-	advancecapture = 1,  -- Advance capture pressured enemy zone
-	smoke          = 1,  -- Smoke markers
-	flare          = 1,  -- Flare markers
-	illum          = 1,  -- Illumination bomb
-	intel          = 5,  -- Satellite Intel (60 min)
-	supplies2      = 1,  -- Resupply friendly Zone
-	supplies       = 6,  -- Fully Upgrade Friendly Zone
-	zinf           = 5,  -- Add infantry squad to zone
-	zarm           = 7,  -- Add armor group to a zone
-	zsam           = 6,  -- Add Hawk/Nasams system to a zone
-	zlogc          = 1,  -- Make a zone logistic center
-	zsup3          = 2,  -- Add 3 supplies to a zone
-	zwh50          = 2,  -- Resupply warehouse with 50
-	gslot          = 9,  -- Unlock extra upgrade slot
-	zpat           = 8,  -- Add Patriot system to zone
-	zgci           = 3,  -- Add GCI station to zone
-	armor          = 3,  -- Deploy armor
-	artillery      = 3,  -- Deploy artillery
-	recon          = 3,  -- Deploy recon group
-	airdef         = 3,  -- Deploy air defence
-	["9lineam"]    = 1,  -- Jtac 9line AM
-	["9linefm"]    = 1,  -- Jtac 9line FM
-	cruisemsl      = 10, -- Cruise Missile Strike -- This does not exist in some maps.
-	jam            = 4,  -- Jam radars at zone
-    zhimars        = 8,  -- Add HIMARS to a zone
+    jtac = 2, -- MQ-9 Reaper JTAC mission
+    dynamiccap = 2, -- CAP Flight
+    dynamiccas = 5, -- CAS Flight
+    dynamicbomb = 4, -- Bomber Flight
+    strategicbomber = 6, -- Strategic bomber
+    dynamicsead = 4, -- SEAD Flight
+    groundattack = 5, -- Ground attack convoy
+    dynamicdecoy = 1, -- TALD DECOY Flight
+    dynamicstatic = 4, -- Static structure Flight
+    dynamicarco = 3, -- Dynamic Tanker (Drogue)
+    dynamictexaco = 3, -- Dynamic Tanker (Boom)
+    farphere = 4, -- Deploy FARP
+    capture = 1, -- Capture neutral zone
+    advancecapture = 1, -- Advance capture pressured enemy zone
+    smoke = 1, -- Smoke markers
+    flare = 1, -- Flare markers
+    illum = 1, -- Illumination bomb
+    intel = 5, -- Satellite Intel (60 min)
+    supplies2 = 1, -- Resupply friendly Zone
+    supplies = 6, -- Fully Upgrade Friendly Zone
+    zinf = 5, -- Add infantry squad to zone
+    zarm = 7, -- Add armor group to a zone
+    zsam = 6, -- Add Hawk/Nasams system to a zone
+    zlogc = 1, -- Make a zone logistic center
+    zsup3 = 2, -- Add 3 supplies to a zone
+    zwh50 = 2, -- Resupply warehouse with 50
+    gslot = 9, -- Unlock extra upgrade slot
+    zpat = 8, -- Add Patriot system to zone
+    zgci = 3, -- Add GCI station to zone
+    armor = 3, -- Deploy armor
+    artillery = 3, -- Deploy artillery
+    recon = 3, -- Deploy recon group
+    airdef = 3, -- Deploy air defence
+    ["9lineam"] = 1, -- Jtac 9line AM
+    ["9linefm"] = 1, -- Jtac 9line FM
+    cruisemsl = 10, -- Cruise Missile Strike -- This does not exist in some maps.
+    jam = 4, -- Jam radars at zone
+    zhimars = 8 -- Add HIMARS to a zone
 }
 
 -- Earning per kill by target type.
 -- @gui installPolicy="mergeRows"
 RewardContribution = {
-	infantry         = 10,
-	ground           = 10,
-	sam              = 30,
-	airplane         = 50,
-	ship             = 200,
-	helicopter       = 50,
-	crate            = 100,
-	rescue           = 200,
-    structure        = 100,
-	["Zone upgrade"] = 100,
-	["Zone capture"] = 200,
-    ["Warehouse delivery"] = 150,
+    infantry = 10,
+    ground = 10,
+    sam = 30,
+    airplane = 50,
+    ship = 200,
+    helicopter = 50,
+    crate = 100,
+    rescue = 200,
+    structure = 100,
+    ["Zone upgrade"] = 100,
+    ["Zone capture"] = 200,
+    ["Warehouse delivery"] = 150
 }
 
 -- Reward when done refueling, credits per 100 lbs.
@@ -1183,92 +1372,190 @@ AllowScriptedSupplies = false
 -- If false, CTLD crates/units are free.
 CTLDCost = true
 
- -- If true, Red side can use CTLD on a basic level.
+-- If true, Red side can use CTLD on a basic level.
 Allow_Red_CTLD = true
 
 -- This is the prices for each CTLD unit and their required rank. Rank 1 is the lowest.
 -- @gui installPolicy="mergeRows"
 CTLDPrices = {
-  ["Engineer soldier"]       = { price = 50, reqRank = 1 },
-  ["Squad 8"]                = { price = 50, reqRank = 1 },
-  ["Platoon 16"]             = { price = 100, reqRank = 1 },
-  ["Platoon 32"]             = { price = 200, reqRank = 1 },
-  ["Anti-Air Soldiers"]      = { price = 100, reqRank = 1 },
-  ["Mortar Squad"]           = { price = 100, reqRank = 1 },
-  ["Mephisto"]               = { price = 250, reqRank = 2 },
-  ["Humvee"]                 = { price = 250, reqRank = 1 },
-  ["Bradly"]                 = { price = 250, reqRank = 1 },
-  ["L118"]                   = { price = 150, reqRank = 1 },
-  ["Ammo Truck"]             = { price = 100, reqRank = 1 },
-  ["Humvee scout"]           = { price = 100, reqRank = 1 },
-  ["Linebacker"]             = { price = 300, reqRank = 2 },
-  ["Vulcan"]                 = { price = 300, reqRank = 2 },
-  ["HAWK System"]            = { price = 750, reqRank = 3 },
-  ["Hawk TR Add-on"]         = { price = 250, reqRank = 3 },
-  ["Hawk SR Add-on"]         = { price = 250, reqRank = 3 },
-  ["Hawk LN Add-on"]         = { price = 250, reqRank = 3 },
-  ["NASAMS System"]          = { price = 750, reqRank = 3 },
-  ["NASAMS C2 Add-on"]       = { price = 250, reqRank = 3 },
-  ["NASAMS SR Add-on"]       = { price = 250, reqRank = 3 },
-  ["NASAMS LN Add-on"]       = { price = 250, reqRank = 3 },
-  ["FARP"]                   = { price = 500, reqRank = 1 },
-  ["FARP with ZELL"]         = { price = 750, reqRank = 1 },
-  ["IRIS T STR Add-on"]      = { price = 750, reqRank = 3 },
-  ["IRIS T LN Add-on"]       = { price = 500, reqRank = 3 },
-  ["IRIS T C2 Add-on"]       = { price = 500, reqRank = 3 },
-  ["IRIS T System"]          = { price = 1800, reqRank = 3 },
-  ["C-RAM"]                  = { price = 500, reqRank = 2 },
-  ["HIMARS GMLRRS HE GUIDED"]= { price = 1000, reqRank = 3 },
-  ["FV-107 Scimitar"]        = { price = 250, reqRank = 2 },
-  ["FV-101 Scorpion"]        = { price = 250, reqRank = 2 },
-  ["Avenger"]                = { price = 250, reqRank = 2 },
+    ["Engineer soldier"] = {
+        price = 50,
+        reqRank = 1
+    },
+    ["Squad 8"] = {
+        price = 50,
+        reqRank = 1
+    },
+    ["Platoon 16"] = {
+        price = 100,
+        reqRank = 1
+    },
+    ["Platoon 32"] = {
+        price = 200,
+        reqRank = 1
+    },
+    ["Anti-Air Soldiers"] = {
+        price = 100,
+        reqRank = 1
+    },
+    ["Mortar Squad"] = {
+        price = 100,
+        reqRank = 1
+    },
+    ["Mephisto"] = {
+        price = 250,
+        reqRank = 2
+    },
+    ["Humvee"] = {
+        price = 250,
+        reqRank = 1
+    },
+    ["Bradly"] = {
+        price = 250,
+        reqRank = 1
+    },
+    ["L118"] = {
+        price = 150,
+        reqRank = 1
+    },
+    ["Ammo Truck"] = {
+        price = 100,
+        reqRank = 1
+    },
+    ["Humvee scout"] = {
+        price = 100,
+        reqRank = 1
+    },
+    ["Linebacker"] = {
+        price = 300,
+        reqRank = 2
+    },
+    ["Vulcan"] = {
+        price = 300,
+        reqRank = 2
+    },
+    ["HAWK System"] = {
+        price = 750,
+        reqRank = 3
+    },
+    ["Hawk TR Add-on"] = {
+        price = 250,
+        reqRank = 3
+    },
+    ["Hawk SR Add-on"] = {
+        price = 250,
+        reqRank = 3
+    },
+    ["Hawk LN Add-on"] = {
+        price = 250,
+        reqRank = 3
+    },
+    ["NASAMS System"] = {
+        price = 750,
+        reqRank = 3
+    },
+    ["NASAMS C2 Add-on"] = {
+        price = 250,
+        reqRank = 3
+    },
+    ["NASAMS SR Add-on"] = {
+        price = 250,
+        reqRank = 3
+    },
+    ["NASAMS LN Add-on"] = {
+        price = 250,
+        reqRank = 3
+    },
+    ["FARP"] = {
+        price = 500,
+        reqRank = 1
+    },
+    ["FARP with ZELL"] = {
+        price = 750,
+        reqRank = 1
+    },
+    ["IRIS T STR Add-on"] = {
+        price = 750,
+        reqRank = 3
+    },
+    ["IRIS T LN Add-on"] = {
+        price = 500,
+        reqRank = 3
+    },
+    ["IRIS T C2 Add-on"] = {
+        price = 500,
+        reqRank = 3
+    },
+    ["IRIS T System"] = {
+        price = 1800,
+        reqRank = 3
+    },
+    ["C-RAM"] = {
+        price = 500,
+        reqRank = 2
+    },
+    ["HIMARS GMLRRS HE GUIDED"] = {
+        price = 1000,
+        reqRank = 3
+    },
+    ["FV-107 Scimitar"] = {
+        price = 250,
+        reqRank = 2
+    },
+    ["FV-101 Scorpion"] = {
+        price = 250,
+        reqRank = 2
+    },
+    ["Avenger"] = {
+        price = 250,
+        reqRank = 2
+    }
 }
 
 -- MAX_AT_SPAWN is how many units of each should load from the save file after the last session.
 -- @gui installPolicy="mergeRows"
 MAX_AT_SPAWN = {
-    ["Engineer soldier"]        = 0,
-    ["Mephisto"]                = 2,
-    ["Humvee"]                  = 2,
-    ["Bradly"]                  = 2,
-    ["L118"]                    = 3,
-    ["Ammo Truck"]              = 3,
-    ["Humvee scout"]            = 1,
-    ["Squad 8"]                 = 0,
-    ["Platoon 16"]              = 0,
-    ["Platoon 32"]              = 0,
-    ["Anti-Air Soldiers"]       = 2,
-    ["Mortar Squad"]            = 2,
-    ["Linebacker"]              = 2,
-    ["Vulcan"]                  = 2,
-    ["HAWK System"]             = 3,
-    ["Hawk TR Add-on"]          = 3,
-    ["Hawk SR Add-on"]          = 3,
-    ["Hawk LN Add-on"]          = 8,
-    ["NASAMS System"]           = 3,
-    ["NASAMS C2 Add-on"]        = 3,
-    ["NASAMS SR Add-on"]        = 3,
-    ["NASAMS LN Add-on"]        = 8,
-    ["Tank Abrahams"]           = 0,
-    ["FARP"]                    = 3,
-    ["IRIS T STR Add-on"]       = 3,
-    ["IRIS T LN Add-on"]        = 8,
-    ["IRIS T C2 Add-on"]        = 3,
-    ["IRIS T System"]           = 2,
-    ["C-RAM"]                   = 4,
+    ["Engineer soldier"] = 0,
+    ["Mephisto"] = 2,
+    ["Humvee"] = 2,
+    ["Bradly"] = 2,
+    ["L118"] = 3,
+    ["Ammo Truck"] = 3,
+    ["Humvee scout"] = 1,
+    ["Squad 8"] = 0,
+    ["Platoon 16"] = 0,
+    ["Platoon 32"] = 0,
+    ["Anti-Air Soldiers"] = 2,
+    ["Mortar Squad"] = 2,
+    ["Linebacker"] = 2,
+    ["Vulcan"] = 2,
+    ["HAWK System"] = 3,
+    ["Hawk TR Add-on"] = 3,
+    ["Hawk SR Add-on"] = 3,
+    ["Hawk LN Add-on"] = 8,
+    ["NASAMS System"] = 3,
+    ["NASAMS C2 Add-on"] = 3,
+    ["NASAMS SR Add-on"] = 3,
+    ["NASAMS LN Add-on"] = 8,
+    ["Tank Abrahams"] = 0,
+    ["FARP"] = 3,
+    ["IRIS T STR Add-on"] = 3,
+    ["IRIS T LN Add-on"] = 8,
+    ["IRIS T C2 Add-on"] = 3,
+    ["IRIS T System"] = 2,
+    ["C-RAM"] = 4,
     ["HIMARS GMLRRS HE GUIDED"] = 4,
-    ["FV-107 Scimitar"]         = 2,
-    ["FV-101 Scorpion"]         = 2,
-    ["Avenger"]                 = 2,
+    ["FV-107 Scimitar"] = 2,
+    ["FV-101 Scorpion"] = 2,
+    ["Avenger"] = 2
 }
 
 -- If true, engineers can capture/upgrade zones via CTLD.
 -- If false, only regular troops can capture/upgrade zones.
 CaptureZoneWithEngineer = true
 
-
 -- MAX_SAVED_FARPS is how many farps should load from the save file after the last session.
-MAX_SAVED_FARPS      = 3
+MAX_SAVED_FARPS = 3
 
 -- IRIS merge behavior toggle.
 -- true  = merge from full template (destroyed IRIS units can come back on merge).
@@ -1290,57 +1577,56 @@ IRIS_RESTORE_UNIT_HEALTH_ON_MERGE = false
 --
 -- CAUTION, CHANGING VALUES IN THE TABLE BELOW WILL MOSTLY HAVE NEGETIVE IMPACT ON THE CTLD CODE.
 CTLDUnitCapabilities = {
-    ["SA342Mistral"] = { true, true, 1, 2, 10, 400 },
-    ["SA342L"] = { true, true, 1, 2, 10, 400 },
-    ["SA342M"] = { true, true, 1, 2, 10, 400 },
-    ["SA342Minigun"] = { true, true, 1, 2, 10, 400 },
-    ["UH-1H"] = { true, true, 1, 8, 15, 800 },
-    ["Mi-8MT"] = { true, true, 3, 16, 15, 6000 },
-    ["Mi-8MTV2"] = { true, true, 3, 18, 15, 6000 },
-    ["Ka-50"] = { true, false, 1, 0, 15, 400 },
-    ["Ka-50_3"] = { true, false, 1, 0, 15, 400 },
-    ["Mi-24P"] = { true, true, 2, 8, 15, 1000 },
-    ["Mi-24V"] = { true, true, 2, 8, 15, 1000 },
-    ["C-130J-30"] = { true, true, 7, 64, 35, 21500 },
-    ["UH-60L"] = { true, true, 2, 20, 16, 3500 },
-    ["UH-60L_DAP"] = { true, true, 2, 20, 16, 3500 },
-    ["AH-64D_BLK_II"] = { true, false, 1, 0, 15, 400 },
-    ["MH-60R"] = { true, true, 2, 20, 16, 3500 },
-    ["CH-47Fbl1"] = { true, true, 5, 32, 20, 10800 },
-    ["OH58D"] = { true, false, 1, 0, 14, 400 },
-    ["A-10C_2"] = { true, false, 1, 0, 15, 3000 },
+    ["SA342Mistral"] = {true, true, 1, 2, 10, 400},
+    ["SA342L"] = {true, true, 1, 2, 10, 400},
+    ["SA342M"] = {true, true, 1, 2, 10, 400},
+    ["SA342Minigun"] = {true, true, 1, 2, 10, 400},
+    ["UH-1H"] = {true, true, 1, 8, 15, 800},
+    ["Mi-8MT"] = {true, true, 3, 16, 15, 6000},
+    ["Mi-8MTV2"] = {true, true, 3, 18, 15, 6000},
+    ["Ka-50"] = {true, false, 1, 0, 15, 400},
+    ["Ka-50_3"] = {true, false, 1, 0, 15, 400},
+    ["Mi-24P"] = {true, true, 2, 8, 15, 1000},
+    ["Mi-24V"] = {true, true, 2, 8, 15, 1000},
+    ["C-130J-30"] = {true, true, 7, 64, 35, 21500},
+    ["UH-60L"] = {true, true, 2, 20, 16, 3500},
+    ["UH-60L_DAP"] = {true, true, 2, 20, 16, 3500},
+    ["AH-64D_BLK_II"] = {true, false, 1, 0, 15, 400},
+    ["MH-60R"] = {true, true, 2, 20, 16, 3500},
+    ["CH-47Fbl1"] = {true, true, 5, 32, 20, 10800},
+    ["OH58D"] = {true, false, 1, 0, 14, 400},
+    ["A-10C_2"] = {true, false, 1, 0, 15, 3000}
 }
 
 -- ============================================================================
 -- CSAR
 -- ============================================================================
 
-
 -- If 0, the CSAR menu won't appear.
 -- CSAR allowed typeName: value is number of pilots that can be carried.
 -- @gui label="Allowed CSAR Aircraft" installPolicy="mergeRows"
 AllowedCsar = {
-    ["Ka-50"]         = 1,
-    ["Ka-50_3"]       = 1,
-    ["Mi-24P"]        = 8,
-    ["SA342Mistral"]  = 3,
-    ["SA342L"]        = 3,
-    ["SA342M"]        = 3,
-    ["SA342Minigun"]  = 3,
-    ["UH-60L"]        = 11,
-    ["UH-60L_DAP"]    = 11,
+    ["Ka-50"] = 1,
+    ["Ka-50_3"] = 1,
+    ["Mi-24P"] = 8,
+    ["SA342Mistral"] = 3,
+    ["SA342L"] = 3,
+    ["SA342M"] = 3,
+    ["SA342Minigun"] = 3,
+    ["UH-60L"] = 11,
+    ["UH-60L_DAP"] = 11,
     ["AH-64D_BLK_II"] = 2,
-    ["UH-1H"]         = 11,
-    ["Mi-8MT"]        = 24,
-    ["OH58D"]         = 1,
-    ["CH-47Fbl1"]     = 32,
+    ["UH-1H"] = 11,
+    ["Mi-8MT"] = 24,
+    ["OH58D"] = 1,
+    ["CH-47Fbl1"] = 32,
     ["Bronco-OV-10A"] = 5,
-    ["OH-6A"]         = 2,
-    ["C-130J-30"]     = 0,
-    ["Hercules"]      = 0,
-    ["MH-6J"]         = 4,
-    ["AH-6J"]         = 4,
-    ["MH-60R"]        = 10,
+    ["OH-6A"] = 2,
+    ["C-130J-30"] = 0,
+    ["Hercules"] = 0,
+    ["MH-6J"] = 4,
+    ["AH-6J"] = 4,
+    ["MH-60R"] = 10
 }
 
 -- Chance (0-100) to spawn a downed pilot when the landing pilot has no credits. This applies both to players and AI.
@@ -1391,7 +1677,7 @@ RewardAllAircraft = false
 --
 --
 -- @gui installPolicy="mergeRows" editor="checkboxTable"
-AllowedFlightTimeReward  = {
+AllowedFlightTimeReward = {
     ['Ka-50'] = true,
     ['Ka-50_3'] = true,
     ['Mi-24P'] = true,
@@ -1410,13 +1696,13 @@ AllowedFlightTimeReward  = {
     ['MH-6J'] = true,
     ['AH-6J'] = true,
     ['FA-18C_hornet'] = false,
-	['F-16C_50'] = false,
-	['F-14B'] = false,
-	['F-14BU'] = false,
-	['MiG-29 Fulcrum'] = false,
-	['C-130J-30'] = true,
-	['CH-47Fbl1'] = true,
-	['Hercules'] = true,
+    ['F-16C_50'] = false,
+    ['F-14B'] = false,
+    ['F-14BU'] = false,
+    ['MiG-29 Fulcrum'] = false,
+    ['C-130J-30'] = true,
+    ['CH-47Fbl1'] = true,
+    ['Hercules'] = true
 }
 
 -- ============================================================================
@@ -1466,12 +1752,13 @@ ewrs_maxFriendlyDisplay = 3 -- Max friendly aircraft shown in friendly picture r
 ewrs_showType = true -- If true, EWRS reports aircraft type. If false, EWRS reports Unknown.
 ewrs_mergedRangeNm = 5 -- Style 2 only. Hostile contacts under this range show Merged. Set to 0 to disable.
 -- @gui installPolicy="mergeRows" editor="checkboxTable"
-ewrs_specialPlaneTypes = { -- Aircraft typeNames that show friendlies by default. Players can still override this in their F10 EWRS menu.
-  ["F-4E-45MC"] = true,
-  ["MiG-29 Fulcrum"] = true,
-  ["F-5E-3_FC"] = true,
-  ["C-130J-30"] = true,
-}
+ewrs_specialPlaneTypes =
+    { -- Aircraft typeNames that show friendlies by default. Players can still override this in their F10 EWRS menu.
+        ["F-4E-45MC"] = true,
+        ["MiG-29 Fulcrum"] = true,
+        ["F-5E-3_FC"] = true,
+        ["C-130J-30"] = true
+    }
 
 -- ============================================================================
 -- AIEN
@@ -1482,18 +1769,18 @@ AIEN.config = AIEN.config or {}
 
 AIEN.config.dontInitialize = false -- set to true to disable AIEN.
 
-AIEN.config.blueAI 		        = true -- set to false to disable reactions for the blue coalition and their messages if they get hit by enemy.
-AIEN.config.redAI			    = true -- set to false to disable reactions for the red coalition and their messages if they get hit by enemy.
+AIEN.config.blueAI = true -- set to false to disable reactions for the blue coalition and their messages if they get hit by enemy.
+AIEN.config.redAI = true -- set to false to disable reactions for the red coalition and their messages if they get hit by enemy.
 
-AIEN.config.dismount 			= true -- set to false if you want trucks, APC not to dismount troops when hit but not killed.
-AIEN.config.message_feed	    = true -- set to false if you want to disable the message feed when an AI get hit.
+AIEN.config.dismount = true -- set to false if you want trucks, APC not to dismount troops when hit but not killed.
+AIEN.config.message_feed = true -- set to false if you want to disable the message feed when an AI get hit.
 
-AIEN.config.initiative			= true -- set to false if you want to disable the initiative system where AI can move to the enemy if they detect one.
+AIEN.config.initiative = true -- set to false if you want to disable the initiative system where AI can move to the enemy if they detect one.
 
 -- Increase these only if you have performance issues (start with Active, then Idle).
-phaseCycleTimerMin = 0.2       -- Affects initialization only. Raise to 0.3-0.5 if init is spiking.
-phaseCycleTimerActive = 0.04   -- Main runtime cadence when work is pending. Try 0.06-0.08.
-phaseCycleTimerIdle = 0.5      -- Relaxed cadence when idle. Raise to 0.8-1.0 if needed.
+phaseCycleTimerMin = 0.2 -- Affects initialization only. Raise to 0.3-0.5 if init is spiking.
+phaseCycleTimerActive = 0.04 -- Main runtime cadence when work is pending. Try 0.06-0.08.
+phaseCycleTimerIdle = 0.5 -- Relaxed cadence when idle. Raise to 0.8-1.0 if needed.
 
 -- ============================================================================
 -- Aircraft / Weapons
@@ -1501,561 +1788,251 @@ phaseCycleTimerIdle = 0.5      -- Relaxed cadence when idle. Raise to 0.8-1.0 if
 
 -- In this list, you can either remove or add what is allowed in the coldwar era.
 -- @gui label="Allowed Aircraft" installPolicy="mergeRows" newItemPolicy="commentWhenVisible" editor="bucket" visibleWhen="Era:Coldwar"
-allowedPlanes = {
-    "A-10A",
-    "A-10C",
-    --"A-10C_2",
-    "A-4E-C",
-    "AH-1W",
-    --"AH-64D_BLK_II",
-    "AH-6J",
-    "AJS37",
-    "An-30M",
-    "AV8BNA",
-    "Bronco-OV-10A",
-    "C-101CC",
-    "C-130J-30",
-    "CH-47Fbl1",
-    "E-2C",
-    "F/A-18A",
-    "F-100D",
-    "F-14A",
-    "F-14A-135-GR",
-    "F-14A-135-GR-Early",
-    "F-14A-95-GR",
-    "F-14B",
-    "F-15C",
-    "F-15E",
-    "F-15ESE",
-    "F-16A MLU",
-    "F-16C_50",
-    "F-4E-45MC",
-    "F-5E-3",
-    "F-5E-3_FC",
-    "F-86F Sabre",
-    --"FA-18C_hornet",
-    "Hercules",
-    "Ka-27",
-    "L-39C",
-    "M-2000C",
-    "MB-339A",
-    "MB-339APAN",
-    "MH-60R",
-    "MH-6J",
-    "Mi-24P",
-    "Mi-24V",
-    "Mi-28NE",
-    "Mi-8MT",
-    "MiG-15bis",
-    "MiG-15bis_FC",
-    "MiG-19P",
-    "MiG-21Bis",
-    "MiG-23MLD",
-    "MiG-29 Fulcrum",
-    "MiG-29A",
-    "Mirage-F1AD",
-    "Mirage-F1AZ",
-    "Mirage-F1B",
-    "Mirage-F1BD",
-    "Mirage-F1BE",
-    "Mirage-F1BQ",
-    "Mirage-F1C",
-    "Mirage-F1C-200",
-    "Mirage-F1CE",
-    "Mirage-F1CG",
-    "Mirage-F1CH",
-    "Mirage-F1CJ",
-    "Mirage-F1CK",
-    "Mirage-F1CR",
-    "Mirage-F1CT",
-    "Mirage-F1CZ",
-    "Mirage-F1DDA",
-    "Mirage-F1ED",
-    "Mirage-F1EDA",
-    "Mirage-F1EE",
-    "Mirage-F1EH",
-    "Mirage-F1EQ",
-    "Mirage-F1M-CE",
-    "Mirage-F1M-EE",
-    "OH58D",
-    "OH-6A",
-    "P3C_Orion",
-    "SA342L",
-    --"SA342M",
-    "SA342Minigun",
-    --"SA342Mistral",
-    "SU22",
-    "Su-24MR",
-    "Su-25",
-    "UH-1H",
-    "UH-60A",
-    "UH-60L",
-    "UH-60L_DAP",
-    "A-10C_2",
-    "AH-64D_BLK_II",
-    "FA-18C_hornet",
-    "Ka-50_3",
-    "Su-27",
-}
+allowedPlanes = {"A-10A", "A-10C", -- "A-10C_2",
+"A-4E-C", "AH-1W", -- "AH-64D_BLK_II",
+"AH-6J", "AJS37", "An-30M", "AV8BNA", "Bronco-OV-10A", "C-101CC", "C-130J-30", "CH-47Fbl1", "E-2C", "F/A-18A", "F-100D",
+                 "F-14A", "F-14A-135-GR", "F-14A-135-GR-Early", "F-14A-95-GR", "F-14B", "F-15C", "F-15E", "F-15ESE",
+                 "F-16A MLU", "F-16C_50", "F-4E-45MC", "F-5E-3", "F-5E-3_FC", "F-86F Sabre", -- "FA-18C_hornet",
+"Hercules", "Ka-27", "L-39C", "M-2000C", "MB-339A", "MB-339APAN", "MH-60R", "MH-6J", "Mi-24P", "Mi-24V", "Mi-28NE",
+                 "Mi-8MT", "MiG-15bis", "MiG-15bis_FC", "MiG-19P", "MiG-21Bis", "MiG-23MLD", "MiG-29 Fulcrum",
+                 "MiG-29A", "Mirage-F1AD", "Mirage-F1AZ", "Mirage-F1B", "Mirage-F1BD", "Mirage-F1BE", "Mirage-F1BQ",
+                 "Mirage-F1C", "Mirage-F1C-200", "Mirage-F1CE", "Mirage-F1CG", "Mirage-F1CH", "Mirage-F1CJ",
+                 "Mirage-F1CK", "Mirage-F1CR", "Mirage-F1CT", "Mirage-F1CZ", "Mirage-F1DDA", "Mirage-F1ED",
+                 "Mirage-F1EDA", "Mirage-F1EE", "Mirage-F1EH", "Mirage-F1EQ", "Mirage-F1M-CE", "Mirage-F1M-EE", "OH58D",
+                 "OH-6A", "P3C_Orion", "SA342L", -- "SA342M",
+"SA342Minigun", -- "SA342Mistral",
+"SU22", "Su-24MR", "Su-25", "UH-1H", "UH-60A", "UH-60L", "UH-60L_DAP", "A-10C_2", "AH-64D_BLK_II", "FA-18C_hornet",
+                 "Ka-50_3", "Su-27"}
 
 -- In this list, you can either remove or add what is allowed for the (RED SIDE) in the coldwar era.
 -- @gui label="Allowed RED Aircraft" installPolicy="mergeRows" newItemPolicy="commentWhenVisible" editor="bucket" visibleWhen="Era:Coldwar"
-allowedPlanesRed = {
-    "A-10A",
-    "A-10C",
-    "A-10C_2",
-    "A-4E-C",
-    "AH-1W",
-    "AH-64D_BLK_II",
-    "AH-6J",
-    "AJS37",
-    "An-30M",
-    "AV8BNA",
-    "Bronco-OV-10A",
-    "C-101CC",
-    "C-130J-30",
-    "CH-47Fbl1",
-    "E-2C",
-    "F-100D",
-    "F-14A",
-    "F-14A-135-GR",
-    "F-14A-135-GR-Early",
-    "F-14A-95-GR",
-    --"F-14BU",
-    "F-15C",
-    "F-15E",
-    "F-15ESE",
-    "F-16A MLU",
-    "F-16C_50",
-    "F-4E-45MC",
-    "F-5E-3",
-    "F-5E-3_FC",
-    "F-86F Sabre",
-    "FA-18C_hornet",
-    "Hercules",
-    "Ka-27",
-    "L-39C",
-    "M-2000C",
-    "MB-339A",
-    "MB-339APAN",
-    "MH-60R",
-    "MH-6J",
-    "Mi-24P",
-    "Mi-24V",
-    "Mi-28NE",
-    "Mi-8MT",
-    "MiG-15bis",
-    "MiG-15bis_FC",
-    "MiG-19P",
-    "MiG-21Bis",
-    "MiG-23MLD",
-    "MiG-29 Fulcrum",
-    "MiG-29A",
-    "Mirage-F1AD",
-    "Mirage-F1AZ",
-    "Mirage-F1B",
-    "Mirage-F1BD",
-    "Mirage-F1BE",
-    "Mirage-F1BQ",
-    "Mirage-F1C",
-    "Mirage-F1C-200",
-    "Mirage-F1CE",
-    "Mirage-F1CG",
-    "Mirage-F1CH",
-    "Mirage-F1CJ",
-    "Mirage-F1CK",
-    "Mirage-F1CR",
-    "Mirage-F1CT",
-    "Mirage-F1CZ",
-    "Mirage-F1DDA",
-    "Mirage-F1ED",
-    "Mirage-F1EDA",
-    "Mirage-F1EE",
-    "Mirage-F1EH",
-    "Mirage-F1EQ",
-    "Mirage-F1M-CE",
-    "Mirage-F1M-EE",
-    "OH58D",
-    "OH-6A",
-    "P3C_Orion",
-    "SA342L",
-    "SA342M",
-    "SA342Minigun",
-    "SA342Mistral",
-    "SU22",
-    "Su-24MR",
-    "Su-25",
-    "UH-1H",
-    "UH-60A",
-    "UH-60L",
-    "UH-60L_DAP",
-}
+allowedPlanesRed = {"A-10A", "A-10C", "A-10C_2", "A-4E-C", "AH-1W", "AH-64D_BLK_II", "AH-6J", "AJS37", "An-30M",
+                    "AV8BNA", "Bronco-OV-10A", "C-101CC", "C-130J-30", "CH-47Fbl1", "E-2C", "F-100D", "F-14A",
+                    "F-14A-135-GR", "F-14A-135-GR-Early", "F-14A-95-GR", -- "F-14BU",
+"F-15C", "F-15E", "F-15ESE", "F-16A MLU", "F-16C_50", "F-4E-45MC", "F-5E-3", "F-5E-3_FC", "F-86F Sabre",
+                    "FA-18C_hornet", "Hercules", "Ka-27", "L-39C", "M-2000C", "MB-339A", "MB-339APAN", "MH-60R",
+                    "MH-6J", "Mi-24P", "Mi-24V", "Mi-28NE", "Mi-8MT", "MiG-15bis", "MiG-15bis_FC", "MiG-19P",
+                    "MiG-21Bis", "MiG-23MLD", "MiG-29 Fulcrum", "MiG-29A", "Mirage-F1AD", "Mirage-F1AZ", "Mirage-F1B",
+                    "Mirage-F1BD", "Mirage-F1BE", "Mirage-F1BQ", "Mirage-F1C", "Mirage-F1C-200", "Mirage-F1CE",
+                    "Mirage-F1CG", "Mirage-F1CH", "Mirage-F1CJ", "Mirage-F1CK", "Mirage-F1CR", "Mirage-F1CT",
+                    "Mirage-F1CZ", "Mirage-F1DDA", "Mirage-F1ED", "Mirage-F1EDA", "Mirage-F1EE", "Mirage-F1EH",
+                    "Mirage-F1EQ", "Mirage-F1M-CE", "Mirage-F1M-EE", "OH58D", "OH-6A", "P3C_Orion", "SA342L", "SA342M",
+                    "SA342Minigun", "SA342Mistral", "SU22", "Su-24MR", "Su-25", "UH-1H", "UH-60A", "UH-60L",
+                    "UH-60L_DAP"}
 
 -- In this list, you can either remove or add what is allowed for BLUE warehouses in the Vietnam era.
 -- @gui label="Vietnam Allowed Aircraft" installPolicy="mergeRows" newItemPolicy="commentWhenVisible" editor="bucket" visibleWhen="Era:Vietnam"
-allowedPlanesVietnam = {
-    "A-4E-C",
-    "Bronco-OV-10A",
-    "CH-47Fbl1",
-    "F-100D",
-    "F-14A",
-    "F-14A-135-GR",
-    "F-14A-135-GR-Early",
-    "F-14A-95-GR",
-    "F-4E-45MC",
-    "F-5E-3",
-    "F-86F Sabre",
-    "OH-6A",
-    "UH-1H",
-    "Su-17M4",
-    --"F-14B",
-    --"F-14BU",
-    -- "AH-1W",
-    -- "C-130J-30",
-    -- "F-5E-3_FC",
-    -- "Hercules",
-    -- "Mi-8MT",
-    -- "MiG-15bis",
-    -- "MiG-15bis_FC",
-    -- "MiG-19P",
-    -- "MiG-21Bis",
+allowedPlanesVietnam = {"A-4E-C", "Bronco-OV-10A", "CH-47Fbl1", "F-100D", "F-14A", "F-14A-135-GR", "F-14A-135-GR-Early",
+                        "F-14A-95-GR", "F-4E-45MC", "F-5E-3", "F-86F Sabre", "OH-6A", "UH-1H", "Su-17M4" -- "F-14B",
+-- "F-14BU",
+-- "AH-1W",
+-- "C-130J-30",
+-- "F-5E-3_FC",
+-- "Hercules",
+-- "Mi-8MT",
+-- "MiG-15bis",
+-- "MiG-15bis_FC",
+-- "MiG-19P",
+-- "MiG-21Bis",
 }
 
 -- In this list, you can either remove or add what is allowed for RED warehouses in the Vietnam era.
 -- @gui label="Vietnam Allowed RED Aircraft" installPolicy="mergeRows" newItemPolicy="commentWhenVisible" editor="bucket" visibleWhen="Era:Vietnam"
-allowedPlanesRedVietnam = {
-    "Mi-8MT",
-    "MiG-15bis",
-    "MiG-15bis_FC",
-    "MiG-19P",
-    "MiG-21Bis",
-    -- "SU22",
-    -- "A-4E-C",
-    -- "Bronco-OV-10A",
-    -- "CH-47Fbl1",
-    -- "F-100D",
-    -- "F-14A",
-    -- "F-14A-135-GR",
-    -- "F-14A-135-GR-Early",
-    -- "F-14A-95-GR",
-    -- "F-4E-45MC",
-    -- "F-5E-3",
-    -- "F-86F Sabre",
-    -- "OH-6A",
-    -- "UH-1H",
-    -- "Su-17M4",
+allowedPlanesRedVietnam = {"Mi-8MT", "MiG-15bis", "MiG-15bis_FC", "MiG-19P", "MiG-21Bis" -- "SU22",
+-- "A-4E-C",
+-- "Bronco-OV-10A",
+-- "CH-47Fbl1",
+-- "F-100D",
+-- "F-14A",
+-- "F-14A-135-GR",
+-- "F-14A-135-GR-Early",
+-- "F-14A-95-GR",
+-- "F-4E-45MC",
+-- "F-5E-3",
+-- "F-86F Sabre",
+-- "OH-6A",
+-- "UH-1H",
+-- "Su-17M4",
 }
 -- The list is applied if AllowMods are true and on Modern era.
 -- Make sure you have the mods installed on the server and the client.
 -- @gui label="Mods aircraft list" installPolicy="mergeRows" editor="bucket" visibleWhen="AllowMods:true"
-restockAircraft = {
-    "A-29B",
-    "A-4E-C",
-    "B-52H",
-    "Bell-47",
-    "Bronco-OV-10A",
-    --"EA-18G",
-    "Eurofighter",
-    "EurofighterT",
-    "F111C",
-    "F15EX",
-    "F16A",
-    "F16A_AA",
-    --"F-22A",
-    "F-23A",
-    --"FA-18E",
-    --"FA-18ET",
-    --"FA-18F",
-    --"FA-18FT",
-    --"Hercules",
-    "JAS39Gripen",
-    "JAS39Gripen_AG",
-    "JAS39Gripen_BVR",
-    "M2000D",
-    "Mi-28NE",
-    "MiG-31BM",
-    "SK-60",
-    "SU22",
-    "Su-25SM3",
-    "Su-30MKA",
-    "Su-30MKI",
-    "Su-30MKM",
-    "Su-30SM",
-    "Su-35",
-    "PUCARA",
-    "Su-35S",
-    "T-45",
-}
+restockAircraft = {"A-29B", "A-4E-C", "B-52H", "Bell-47", "Bronco-OV-10A", -- "EA-18G",
+"Eurofighter", "EurofighterT", "F111C", "F15EX", "F16A", "F16A_AA", -- "F-22A",
+"F-23A", -- "FA-18E",
+-- "FA-18ET",
+-- "FA-18F",
+-- "FA-18FT",
+-- "Hercules",
+"JAS39Gripen", "JAS39Gripen_AG", "JAS39Gripen_BVR", "M2000D", "Mi-28NE", "MiG-31BM", "SK-60", "SU22", "Su-25SM3",
+                   "Su-30MKA", "Su-30MKI", "Su-30MKM", "Su-30SM", "Su-35", "PUCARA", "Su-35S", "T-45"}
 
 -- In the coldwar era, you can add or remove what to restrict
 -- Add "--" if you want to ALLOW a weapon, otherwise the weapon in the list below are removed from the warehouse.
 -- @gui label="Cold War Restricted Weapons" installPolicy="mergeRows" newItemPolicy="commentWhenVisible" editor="bucket" visibleWhen="Era:Coldwar"
-restrictedWeapons = {
-    -- Apache Radar
-    "weapons.containers.ah-64d_radar",
-    -- Missiles
-    "weapons.missiles.AIM_120C",
-    "weapons.missiles.AIM_120",
-    "weapons.missiles.AGM_154",
-    "weapons.missiles.AIM_9X",
-    "weapons.missiles.ADM_141B",
-    "weapons.missiles.AGM_119",
-    "weapons.missiles.AGM_130",
-    "weapons.missiles.AGM_154A",
-    "weapons.missiles.AGM_154B",
-    "weapons.missiles.AGM_65G",
-    "weapons.missiles.AGM_65H",
-    "weapons.missiles.AGM_65K",
-    "weapons.missiles.AGM_65L",
-    "weapons.missiles.AGM_84E",
-    "weapons.missiles.AGM_84H",
-    "weapons.missiles.AGM_86C",
-    "weapons.missiles.ALARM",
-    "weapons.missiles.Ataka_9M120F",
-    "weapons.missiles.Ataka_9M220",
-    "weapons.missiles.Vikhr_M",
-    "weapons.missiles.BK90_MJ1",
-    "weapons.missiles.BK90_MJ2",
-    "weapons.missiles.BK90_MJ1_MJ2",
-    "weapons.missiles.BRM-1_90MM",
-    "weapons.missiles.C_701T",
-    "weapons.missiles.C_802AK",
-    "weapons.missiles.CM-400AKG",
-    "weapons.missiles.CM-802AKG",
-    "weapons.missiles.DWS39_MJ1",
-    "weapons.missiles.DWS39_MJ2",
-    "weapons.missiles.DWS39_MJ1_MJ2",
-    "weapons.missiles.GB-6",
-    "weapons.missiles.GB-6-HE",
-    "weapons.missiles.GB-6-SFW",
-    "weapons.missiles.HJ-12",
-    -- "weapons.missiles.HOT3_MBDA",
-    "weapons.missiles.KD_20",
-    "weapons.missiles.KD_63",
-    "weapons.missiles.KD_63B",
-    "weapons.missiles.LD-10",
-    "weapons.missiles.LS_6",
-    "weapons.missiles.LS_6_500",
-    "weapons.missiles.MICA_R",
-    "weapons.missiles.MICA_T",
-    -- "weapons.missiles.Mistral",
-    "weapons.missiles.PL-12",
-    "weapons.missiles.PL-5EII",
-    "weapons.missiles.PL-8B",
-    "weapons.missiles.S_25L",
-    "weapons.missiles.SD-10",
-    "weapons.missiles.SPIKE_ER",
-    "weapons.missiles.SPIKE_ER2",
-    "weapons.missiles.TGM_65G",
-    "weapons.missiles.TGM_65H",
-    "weapons.missiles.X_35",
-    "weapons.missiles.X_41",
-    "weapons.missiles.X_59M",
-    "weapons.missiles.YJ-12",
-    "weapons.missiles.YJ-83",
-    "weapons.containers.ALQ-184",
-    "weapons.containers.alq-184long",
-    -- "weapons.containers.AN_ASQ_228",
-    "weapons.missiles.AGM_114L",
-    "weapons.missiles.AGM_114",
-    -- "weapons.missiles.AGM_114K",
-    -- "weapons.missiles.AGM_65F",
-    -- Bombs
-    "weapons.bombs.GBU_31_V_4B",
-    "weapons.bombs.CBU_105",
-    "weapons.bombs.CBU_103",
-    "weapons.bombs.CBU_97",
-    "weapons.bombs.GBU_28",
-    "weapons.bombs.GBU_31",
-    "weapons.bombs.GBU_31_V_2B",
-    "weapons.bombs.GBU_31_V_3B",
-    "weapons.bombs.GBU_32_V_2B",
-    "weapons.bombs.GBU_38",
-    "weapons.bombs.GBU_39",
-    "weapons.bombs.GBU_54_V_1B",
-    "weapons.bombs.KAB_500S",
-    "weapons.bombs.KAB_1500LG",
-    "weapons.bombs.KAB_1500T",
-    "weapons.bombs.LS_6_100",
-    "weapons.bombs.GBU-43/B(MOAB)",
-	"weapons.missiles.AGR_20A", -- laser rockets
-	"weapons.missiles.AGR_20_M282"} -- laser rockets
+restrictedWeapons = { -- Apache Radar
+"weapons.containers.ah-64d_radar", -- Missiles
+"weapons.missiles.AIM_120C", "weapons.missiles.AIM_120", "weapons.missiles.AGM_154", "weapons.missiles.AIM_9X",
+"weapons.missiles.ADM_141B", "weapons.missiles.AGM_119", "weapons.missiles.AGM_130", "weapons.missiles.AGM_154A",
+"weapons.missiles.AGM_154B", "weapons.missiles.AGM_65G", "weapons.missiles.AGM_65H", "weapons.missiles.AGM_65K",
+"weapons.missiles.AGM_65L", "weapons.missiles.AGM_84E", "weapons.missiles.AGM_84H", "weapons.missiles.AGM_86C",
+"weapons.missiles.ALARM", "weapons.missiles.Ataka_9M120F", "weapons.missiles.Ataka_9M220", "weapons.missiles.Vikhr_M",
+"weapons.missiles.BK90_MJ1", "weapons.missiles.BK90_MJ2", "weapons.missiles.BK90_MJ1_MJ2",
+"weapons.missiles.BRM-1_90MM", "weapons.missiles.C_701T", "weapons.missiles.C_802AK", "weapons.missiles.CM-400AKG",
+"weapons.missiles.CM-802AKG", "weapons.missiles.DWS39_MJ1", "weapons.missiles.DWS39_MJ2",
+"weapons.missiles.DWS39_MJ1_MJ2", "weapons.missiles.GB-6", "weapons.missiles.GB-6-HE", "weapons.missiles.GB-6-SFW",
+"weapons.missiles.HJ-12", -- "weapons.missiles.HOT3_MBDA",
+"weapons.missiles.KD_20", "weapons.missiles.KD_63", "weapons.missiles.KD_63B", "weapons.missiles.LD-10",
+"weapons.missiles.LS_6", "weapons.missiles.LS_6_500", "weapons.missiles.MICA_R", "weapons.missiles.MICA_T",
+-- "weapons.missiles.Mistral",
+"weapons.missiles.PL-12", "weapons.missiles.PL-5EII", "weapons.missiles.PL-8B", "weapons.missiles.S_25L",
+"weapons.missiles.SD-10", "weapons.missiles.SPIKE_ER", "weapons.missiles.SPIKE_ER2", "weapons.missiles.TGM_65G",
+"weapons.missiles.TGM_65H", "weapons.missiles.X_35", "weapons.missiles.X_41", "weapons.missiles.X_59M",
+"weapons.missiles.YJ-12", "weapons.missiles.YJ-83", "weapons.containers.ALQ-184", "weapons.containers.alq-184long",
+-- "weapons.containers.AN_ASQ_228",
+"weapons.missiles.AGM_114L", "weapons.missiles.AGM_114", -- "weapons.missiles.AGM_114K",
+-- "weapons.missiles.AGM_65F",
+-- Bombs
+"weapons.bombs.GBU_31_V_4B", "weapons.bombs.CBU_105", "weapons.bombs.CBU_103", "weapons.bombs.CBU_97",
+"weapons.bombs.GBU_28", "weapons.bombs.GBU_31", "weapons.bombs.GBU_31_V_2B", "weapons.bombs.GBU_31_V_3B",
+"weapons.bombs.GBU_32_V_2B", "weapons.bombs.GBU_38", "weapons.bombs.GBU_39", "weapons.bombs.GBU_54_V_1B",
+"weapons.bombs.KAB_500S", "weapons.bombs.KAB_1500LG", "weapons.bombs.KAB_1500T", "weapons.bombs.LS_6_100",
+"weapons.bombs.GBU-43/B(MOAB)", "weapons.missiles.AGR_20A", -- laser rockets
+"weapons.missiles.AGR_20_M282"} -- laser rockets
 
 -- In the Vietnam era, you can add or remove what to restrict.
 -- Add "--" if you want to ALLOW a weapon, otherwise weapons in the list below are removed from the warehouse.
 -- @gui label="Vietnam Restricted Weapons" installPolicy="mergeRows" newItemPolicy="commentWhenVisible" editor="bucket" visibleWhen="Era:Vietnam"
-restrictedWeaponsVietnam = {
-    -- Guided weapon pods
-    --"weapons.containers.HB_ORD_Pave_Spike",
-    --"weapons.containers.HB_ORD_Pave_Spike_Fast",
-    -- "weapons.containers.HB_ALE_40_0_0",
-    -- "weapons.containers.HB_ALE_40_0_120",
-    -- "weapons.containers.HB_ALE_40_15_90",
-    -- "weapons.containers.HB_ALE_40_30_0",
-    -- "weapons.containers.HB_ALE_40_30_60",
+restrictedWeaponsVietnam = { -- Guided weapon pods
+-- "weapons.containers.HB_ORD_Pave_Spike",
+-- "weapons.containers.HB_ORD_Pave_Spike_Fast",
+-- "weapons.containers.HB_ALE_40_0_0",
+-- "weapons.containers.HB_ALE_40_0_120",
+-- "weapons.containers.HB_ALE_40_15_90",
+-- "weapons.containers.HB_ALE_40_30_0",
+-- "weapons.containers.HB_ALE_40_30_60",
+-- Modern air-to-air missiles
+"weapons.missiles.AIM-7F", "weapons.missiles.AIM-9L", "weapons.missiles.AIM-9P", "weapons.missiles.AIM-9P3",
+"weapons.missiles.AIM-9P5", "weapons.missiles.AIM_7", "weapons.missiles.AIM_9", "weapons.missiles.CATM_9M",
+"weapons.missiles.P_60", "weapons.missiles.R-13M", "weapons.missiles.R-13M1", -- "weapons.missiles.R-60",
+-- Modern air-to-ground missiles
+"weapons.missiles.AGM_65D", "weapons.missiles.AGM_65G", -- "weapons.missiles.AGM_65A",
+"weapons.missiles.AGM_65B", -- "weapons.missiles.X_25MR",
+"weapons.missiles.OH_6_FIM_92", -- OH-6A Stinger
+"weapons.missiles.AGM_114", "weapons.missiles.AGM_114K", "weapons.missiles.AGM_114L", "weapons.missiles.AGR_20A", -- APKWS
+"weapons.missiles.AGR_20_M282", -- APKWS
+-- "weapons.adapters.M260", -- Bronco modern Hydra pod
+-- Modern rockets
+-- "weapons.nurs.HYDRA_70_M151",
+-- "weapons.nurs.HYDRA_70_M156",
+-- "weapons.nurs.HYDRA_70_M257",
+-- "weapons.nurs.HYDRA_70_M274",
+"weapons.nurs.C_8", "weapons.nurs.C_8CM", "weapons.nurs.C_8CM_BU", "weapons.nurs.C_8CM_GN", "weapons.nurs.C_8CM_RD",
+"weapons.nurs.C_8CM_VT", "weapons.nurs.C_8CM_WH", "weapons.nurs.C_8CM_YE", "weapons.nurs.C_8OFP2", "weapons.nurs.C_8OM",
 
-
-    -- Modern air-to-air missiles
-    "weapons.missiles.AIM-7F",
-    "weapons.missiles.AIM-9L",
-    "weapons.missiles.AIM-9P",
-    "weapons.missiles.AIM-9P3",
-    "weapons.missiles.AIM-9P5",
-    "weapons.missiles.AIM_7",
-    "weapons.missiles.AIM_9",
-    "weapons.missiles.CATM_9M",
-    "weapons.missiles.P_60",
-    "weapons.missiles.R-13M",
-    "weapons.missiles.R-13M1",
-    --"weapons.missiles.R-60",
-
-    -- Modern air-to-ground missiles
-    "weapons.missiles.AGM_65D",
-    "weapons.missiles.AGM_65G",
-    -- "weapons.missiles.AGM_65A",
-    "weapons.missiles.AGM_65B",
-    -- "weapons.missiles.X_25MR",
-    "weapons.missiles.OH_6_FIM_92", -- OH-6A Stinger
-    "weapons.missiles.AGM_114",
-    "weapons.missiles.AGM_114K",
-    "weapons.missiles.AGM_114L",
-    "weapons.missiles.AGR_20A", -- APKWS
-    "weapons.missiles.AGR_20_M282", -- APKWS
-    -- "weapons.adapters.M260", -- Bronco modern Hydra pod
-
-    -- Modern rockets
-    -- "weapons.nurs.HYDRA_70_M151",
-    -- "weapons.nurs.HYDRA_70_M156",
-    -- "weapons.nurs.HYDRA_70_M257",
-    -- "weapons.nurs.HYDRA_70_M274",
-    "weapons.nurs.C_8",
-    "weapons.nurs.C_8CM",
-    "weapons.nurs.C_8CM_BU",
-    "weapons.nurs.C_8CM_GN",
-    "weapons.nurs.C_8CM_RD",
-    "weapons.nurs.C_8CM_VT",
-    "weapons.nurs.C_8CM_WH",
-    "weapons.nurs.C_8CM_YE",
-    "weapons.nurs.C_8OFP2",
-    "weapons.nurs.C_8OM",
-
-    -- Modern guided/cluster bombs
-    -- "weapons.bombs.AGM_62",
-    -- "weapons.bombs.AGM_62_I",
-    "weapons.bombs.BDU_50LGB",
-    "weapons.bombs.BL_755",
-    "weapons.bombs.CBU_87",
-    "weapons.bombs.GBU_8_B",
-    --"weapons.bombs.GBU_10",
-    --"weapons.bombs.GBU_12",
-    "weapons.bombs.GBU_16",
-    "weapons.bombs.GBU_24",
-    "weapons.bombs.HB_F4E_GBU15V1",
-    --"weapons.bombs.ROCKEYE",
-    "weapons.bombs.SAMP250HD",
-    "weapons.bombs.SAMP250LD",
-    "weapons.bombs.Durandal",
-    "weapons.bombs.MK_82AIR",
-    "weapons.bombs.BDU_50HD",
-    "weapons.bombs.BDU_50LD",
-    "weapons.bombs.SAMP250HD",
-    "weapons.bombs.SAMP250LD",
-}
+-- Modern guided/cluster bombs
+-- "weapons.bombs.AGM_62",
+-- "weapons.bombs.AGM_62_I",
+"weapons.bombs.BDU_50LGB", "weapons.bombs.BL_755", "weapons.bombs.CBU_87", "weapons.bombs.GBU_8_B",
+-- "weapons.bombs.GBU_10",
+-- "weapons.bombs.GBU_12",
+"weapons.bombs.GBU_16", "weapons.bombs.GBU_24", "weapons.bombs.HB_F4E_GBU15V1", -- "weapons.bombs.ROCKEYE",
+"weapons.bombs.SAMP250HD", "weapons.bombs.SAMP250LD", "weapons.bombs.Durandal", "weapons.bombs.MK_82AIR",
+"weapons.bombs.BDU_50HD", "weapons.bombs.BDU_50LD", "weapons.bombs.SAMP250HD", "weapons.bombs.SAMP250LD"}
 
 -- This list can be used to add weapons you want to forbidd, This will forbidd all in the table in Modern era as well.
 -- For coldwar, you can still rely on restrictedWeapons.
 -- @gui label="Forbidden Weapons All Eras" editor="bucket"
-ForbiddWeaponsInAllEra = {
-    "weapons.bombs.RN-24", -- Nukes for the Mig-21
-    "weapons.bombs.RN-28", -- Nukes for the Mig-21
-    -- "weapons.containers.ah-64d_radar",
-    -- Missiles
-    -- "weapons.missiles.AIM_120C",
-    -- "weapons.missiles.AIM_120",
-    -- "weapons.missiles.AGM_154",
-    -- "weapons.missiles.AIM_9X",
-    -- "weapons.missiles.ADM_141B",
-    -- "weapons.missiles.AGM_119",
-    -- "weapons.missiles.AGM_130",
-    -- "weapons.missiles.AGM_154A",
-    -- "weapons.missiles.AGM_154B",
-    -- "weapons.missiles.AGM_65G",
-    -- "weapons.missiles.AGM_65H",
-    -- "weapons.missiles.AGM_65K",
-    -- "weapons.missiles.AGM_65L",
-    -- "weapons.missiles.AGM_84E",
-    -- "weapons.missiles.AGM_84H",
-    -- "weapons.missiles.AGM_86C",
-    -- "weapons.missiles.ALARM",
-    -- "weapons.missiles.Ataka_9M120F",
-    -- "weapons.missiles.Ataka_9M220",
-    -- "weapons.missiles.Vikhr_M",
-    -- "weapons.missiles.BK90_MJ1",
-    -- "weapons.missiles.BK90_MJ2",
-    -- "weapons.missiles.BK90_MJ1_MJ2",
-    -- "weapons.missiles.BRM-1_90MM",
-    -- "weapons.missiles.C_701T",
-    -- "weapons.missiles.C_802AK",
-    -- "weapons.missiles.CM-400AKG",
-    -- "weapons.missiles.CM-802AKG",
-    -- "weapons.missiles.DWS39_MJ1",
-    -- "weapons.missiles.DWS39_MJ2",
-    -- "weapons.missiles.DWS39_MJ1_MJ2",
-    -- "weapons.missiles.GB-6",
-    -- "weapons.missiles.GB-6-HE",
-    -- "weapons.missiles.GB-6-SFW",
-    -- "weapons.missiles.HJ-12",
-    -- "weapons.missiles.HOT3_MBDA",
-    -- "weapons.missiles.KD_20",
-    -- "weapons.missiles.KD_63",
-    -- "weapons.missiles.KD_63B",
-    -- "weapons.missiles.LD-10",
-    -- "weapons.missiles.LS_6",
-    -- "weapons.missiles.LS_6_500",
-    -- "weapons.missiles.MICA_R",
-    -- "weapons.missiles.MICA_T",
-    -- "weapons.missiles.Mistral",
-    -- "weapons.missiles.PL-12",
-    -- "weapons.missiles.PL-5EII",
-    -- "weapons.missiles.PL-8B",
-    -- "weapons.missiles.S_25L",
-    -- "weapons.missiles.SD-10",
-    -- "weapons.missiles.SPIKE_ER",
-    -- "weapons.missiles.SPIKE_ER2",
-    -- "weapons.missiles.TGM_65G",
-    -- "weapons.missiles.TGM_65H",
-    -- "weapons.missiles.X_35",
-    -- "weapons.missiles.X_41",
-    -- "weapons.missiles.X_59M",
-    -- "weapons.missiles.YJ-12",
-    -- "weapons.missiles.YJ-83",
-    -- "weapons.containers.ALQ-184",
-    -- "weapons.containers.alq-184long",
-    -- "weapons.containers.AN_ASQ_228",
-    -- "weapons.missiles.AGM_114L",
-    -- "weapons.missiles.AGM_114",
-    -- "weapons.missiles.AGM_114K",
-    -- "weapons.missiles.AGM_65F",
-    -- Bombs
-    -- "weapons.bombs.GBU_31_V_4B",
-    -- "weapons.bombs.CBU_105",
-    -- "weapons.bombs.CBU_103",
-    -- "weapons.bombs.CBU_97",
-    -- "weapons.bombs.GBU_28",
-    -- "weapons.bombs.GBU_31",
-    -- "weapons.bombs.GBU_31_V_2B",
-    -- "weapons.bombs.GBU_31_V_3B",
-    -- "weapons.bombs.GBU_32_V_2B",
-    -- "weapons.bombs.GBU_38",
-    -- "weapons.bombs.GBU_39",
-    -- "weapons.bombs.GBU_54_V_1B",
-    -- "weapons.bombs.KAB_500S",
-    -- "weapons.bombs.KAB_1500LG",
-    -- "weapons.bombs.KAB_1500T",
-    -- "weapons.bombs.LS_6_100",
-    -- "weapons.bombs.GBU-43/B(MOAB)",
-	-- "weapons.missiles.AGR_20A", -- laser rockets
-	-- "weapons.missiles.AGR_20_M282" -- laser rockets
+ForbiddWeaponsInAllEra = {"weapons.bombs.RN-24", -- Nukes for the Mig-21
+"weapons.bombs.RN-28" -- Nukes for the Mig-21
+-- "weapons.containers.ah-64d_radar",
+-- Missiles
+-- "weapons.missiles.AIM_120C",
+-- "weapons.missiles.AIM_120",
+-- "weapons.missiles.AGM_154",
+-- "weapons.missiles.AIM_9X",
+-- "weapons.missiles.ADM_141B",
+-- "weapons.missiles.AGM_119",
+-- "weapons.missiles.AGM_130",
+-- "weapons.missiles.AGM_154A",
+-- "weapons.missiles.AGM_154B",
+-- "weapons.missiles.AGM_65G",
+-- "weapons.missiles.AGM_65H",
+-- "weapons.missiles.AGM_65K",
+-- "weapons.missiles.AGM_65L",
+-- "weapons.missiles.AGM_84E",
+-- "weapons.missiles.AGM_84H",
+-- "weapons.missiles.AGM_86C",
+-- "weapons.missiles.ALARM",
+-- "weapons.missiles.Ataka_9M120F",
+-- "weapons.missiles.Ataka_9M220",
+-- "weapons.missiles.Vikhr_M",
+-- "weapons.missiles.BK90_MJ1",
+-- "weapons.missiles.BK90_MJ2",
+-- "weapons.missiles.BK90_MJ1_MJ2",
+-- "weapons.missiles.BRM-1_90MM",
+-- "weapons.missiles.C_701T",
+-- "weapons.missiles.C_802AK",
+-- "weapons.missiles.CM-400AKG",
+-- "weapons.missiles.CM-802AKG",
+-- "weapons.missiles.DWS39_MJ1",
+-- "weapons.missiles.DWS39_MJ2",
+-- "weapons.missiles.DWS39_MJ1_MJ2",
+-- "weapons.missiles.GB-6",
+-- "weapons.missiles.GB-6-HE",
+-- "weapons.missiles.GB-6-SFW",
+-- "weapons.missiles.HJ-12",
+-- "weapons.missiles.HOT3_MBDA",
+-- "weapons.missiles.KD_20",
+-- "weapons.missiles.KD_63",
+-- "weapons.missiles.KD_63B",
+-- "weapons.missiles.LD-10",
+-- "weapons.missiles.LS_6",
+-- "weapons.missiles.LS_6_500",
+-- "weapons.missiles.MICA_R",
+-- "weapons.missiles.MICA_T",
+-- "weapons.missiles.Mistral",
+-- "weapons.missiles.PL-12",
+-- "weapons.missiles.PL-5EII",
+-- "weapons.missiles.PL-8B",
+-- "weapons.missiles.S_25L",
+-- "weapons.missiles.SD-10",
+-- "weapons.missiles.SPIKE_ER",
+-- "weapons.missiles.SPIKE_ER2",
+-- "weapons.missiles.TGM_65G",
+-- "weapons.missiles.TGM_65H",
+-- "weapons.missiles.X_35",
+-- "weapons.missiles.X_41",
+-- "weapons.missiles.X_59M",
+-- "weapons.missiles.YJ-12",
+-- "weapons.missiles.YJ-83",
+-- "weapons.containers.ALQ-184",
+-- "weapons.containers.alq-184long",
+-- "weapons.containers.AN_ASQ_228",
+-- "weapons.missiles.AGM_114L",
+-- "weapons.missiles.AGM_114",
+-- "weapons.missiles.AGM_114K",
+-- "weapons.missiles.AGM_65F",
+-- Bombs
+-- "weapons.bombs.GBU_31_V_4B",
+-- "weapons.bombs.CBU_105",
+-- "weapons.bombs.CBU_103",
+-- "weapons.bombs.CBU_97",
+-- "weapons.bombs.GBU_28",
+-- "weapons.bombs.GBU_31",
+-- "weapons.bombs.GBU_31_V_2B",
+-- "weapons.bombs.GBU_31_V_3B",
+-- "weapons.bombs.GBU_32_V_2B",
+-- "weapons.bombs.GBU_38",
+-- "weapons.bombs.GBU_39",
+-- "weapons.bombs.GBU_54_V_1B",
+-- "weapons.bombs.KAB_500S",
+-- "weapons.bombs.KAB_1500LG",
+-- "weapons.bombs.KAB_1500T",
+-- "weapons.bombs.LS_6_100",
+-- "weapons.bombs.GBU-43/B(MOAB)",
+-- "weapons.missiles.AGR_20A", -- laser rockets
+-- "weapons.missiles.AGR_20_M282" -- laser rockets
 }
 
 -- Don't touch this.
@@ -2064,7 +2041,9 @@ if externalConfigChunk then
     if FootholdLocalization then
         FootholdLocalization:SetLocale(FootholdLocale)
     end
-    SCHEDULER:New(nil, function() trigger.action.outText("Loaded " .. saveFile .. " externally.", 30) end, {}, 1)
+    SCHEDULER:New(nil, function()
+        trigger.action.outText("Loaded " .. saveFile .. " externally.", 30)
+    end, {}, 1)
 end
 
 FootholdConfigLoadedOk = true
