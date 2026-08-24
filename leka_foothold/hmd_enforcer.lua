@@ -1,3 +1,7 @@
+ForceNoJHMCS = true
+
+local forceNoJHMCS = ForceNoJHMCS or false
+
 -- HMD Enforcer Script (NVG Safe Version)
 -- Event driven: hooks S_EVENT_TAKEOFF the way Foothold's own handlers in zoneCommander.lua do,
 -- reads the helmet draw argument once per takeoff, and only then starts caring about that player.
@@ -7,9 +11,9 @@
 -- A player who gets airborne in a restricted airframe with an HMD fitted is warned and given
 -- HMD_GRACE_PERIOD to put the aircraft back on the ground. Landing closes the case; running out
 -- the clock sends them to Spectator. NVGs are legal and are never touched.
-local HMD_GRACE_PERIOD = 300
+local HMD_GRACE_PERIOD = 60
 -- Countdown reminder cadence, and the tick that checks whether the player is still in the jet
-local HMD_WARNING_INTERVAL = 60
+local HMD_WARNING_INTERVAL = 180
 -- A slot move can be refused while the client is mid state change, so don't let one false
 -- return hand an offender the rest of the sortie
 local HMD_REMOVAL_RETRIES = 3
@@ -17,7 +21,7 @@ local HMD_REMOVAL_RETRY_DELAY = 10
 -- Development only: mirrors every log line into in game chat so a sortie can be debugged
 -- without tailing dcs.log. Set false before this goes on the public server, otherwise
 -- players see the enforcer's internals every time anyone takes off.
-local HMD_DEBUG = true
+local HMD_DEBUG = false
 local HMD_DEBUG_DISPLAY_TIME = 20
 
 -- Restricted airframes and the external model animation argument carrying helmet state.
@@ -28,6 +32,9 @@ local HMD_DEBUG_DISPLAY_TIME = 20
 -- updates reads as a violation and removes everyone in that airframe.
 -- Argument ids and values are per-module. Confirm each in the Model Viewer before
 -- trusting it on a live server, then tune the entry rather than the shared check below.
+-- This WILL NOT work with the A-10C_2. The server never updates the A-10C_2's helmet draw argument.
+-- To restrict the HMD usage, add the airframe to the restricted_types table with the appropriate
+-- slot and validHelmetValue. Only allow the A-10C which does not have HMD capabilities.
 local restricted_types = {
     ["F-16C_50"] = {
         slot = 509,
@@ -103,8 +110,8 @@ local function RemoveToSpectator(case, time)
     case.attempts = case.attempts + 1
 
     if case.attempts >= HMD_REMOVAL_RETRIES then
-        Log(env.warning, "gave up moving '%s' out of %s after %d attempts.",
-            case.playerName, case.typeName, case.attempts)
+        Log(env.warning, "gave up moving '%s' out of %s after %d attempts.", case.playerName, case.typeName,
+            case.attempts)
 
         openCases[case.playerName] = nil
         return nil
@@ -140,9 +147,9 @@ local function GraceTick(playerName, time)
     end
 
     if case.groupId then
-        trigger.action.outTextForGroup(case.groupId, string.format(
-            "SYSTEM: %s HMD detected. Land within %d minute(s) or you will be returned to Spectator.",
-            case.typeName, math.ceil(remaining / 60)), HMD_WARNING_INTERVAL)
+        trigger.action.outTextForGroup(case.groupId,
+            string.format("SYSTEM: %s HMD detected. Land within %d minute(s) or you will be returned to Spectator.",
+                case.typeName, math.ceil(remaining / 60)), HMD_WARNING_INTERVAL)
     end
 
     return time + HMD_WARNING_INTERVAL
@@ -176,8 +183,7 @@ local function OpenCase(unit, playerName, typeName)
 
     case.timerId = timer.scheduleFunction(GraceTick, playerName, timer.getTime() + HMD_WARNING_INTERVAL)
 
-    Log(env.info, "'%s' took off in %s with an HMD, %d seconds to land.",
-        playerName, typeName, HMD_GRACE_PERIOD)
+    Log(env.info, "'%s' took off in %s with an HMD, %d seconds to land.", playerName, typeName, HMD_GRACE_PERIOD)
 end
 
 local function OnTakeoff(unit, playerName)
@@ -258,7 +264,7 @@ end
 -- them, so there is nothing to enforce outside these two. zoneCommander.lua already folds
 -- Gulfwar into Coldwar on load; the second test is there in case that normalization moves or
 -- this file is ever loaded ahead of it.
-if Era == "Coldwar" or Era == "Gulfwar" then
+if forceNoJHMCS then
     world.addEventHandler(hmdEnforcer)
     Log(env.info, "armed on takeoff, %d second grace period.", HMD_GRACE_PERIOD)
 end
