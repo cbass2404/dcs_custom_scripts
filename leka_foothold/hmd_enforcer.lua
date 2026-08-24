@@ -14,6 +14,11 @@ local HMD_WARNING_INTERVAL = 60
 -- return hand an offender the rest of the sortie
 local HMD_REMOVAL_RETRIES = 3
 local HMD_REMOVAL_RETRY_DELAY = 10
+-- Development only: mirrors every log line into in game chat so a sortie can be debugged
+-- without tailing dcs.log. Set false before this goes on the public server, otherwise
+-- players see the enforcer's internals every time anyone takes off.
+local HMD_DEBUG = true
+local HMD_DEBUG_DISPLAY_TIME = 20
 
 -- Restricted airframes and the external model animation argument carrying helmet state.
 --   slot              : draw argument holding the helmet configuration
@@ -43,6 +48,18 @@ local ERA_DISPLAY_NAMES = {
 }
 
 local MISSION_ERA = ERA_DISPLAY_NAMES[Era] or tostring(Era)
+
+-- Single path for every log line so the debug mirror cannot drift from the log.
+-- logger is env.info, env.warning, or env.error.
+local function Log(logger, format, ...)
+    local message = "[HMD Enforcer]: " .. string.format(format, ...)
+
+    logger(message)
+
+    if HMD_DEBUG then
+        trigger.action.outText(message, HMD_DEBUG_DISPLAY_TIME)
+    end
+end
 
 -- Player name -> open case. One entry per offender, cleared on landing, on leaving the jet,
 -- or on removal, so the table tracks live violations only and cannot grow across a session.
@@ -77,8 +94,7 @@ local function RemoveToSpectator(case, time)
             "SYSTEM: %s was returned to Spectator. Reason: the %s HMD is not permitted in this %s mission. NVGs remain legal.",
             case.playerName, case.typeName, MISSION_ERA), 20)
 
-        env.info(string.format("[HMD Enforcer]: moved '%s' to spectator for HMD use in %s.",
-            case.playerName, case.typeName))
+        Log(env.info, "moved '%s' to spectator for HMD use in %s.", case.playerName, case.typeName)
 
         openCases[case.playerName] = nil
         return nil
@@ -87,8 +103,8 @@ local function RemoveToSpectator(case, time)
     case.attempts = case.attempts + 1
 
     if case.attempts >= HMD_REMOVAL_RETRIES then
-        env.warning(string.format("[HMD Enforcer]: gave up moving '%s' out of %s after %d attempts.",
-            case.playerName, case.typeName, case.attempts))
+        Log(env.warning, "gave up moving '%s' out of %s after %d attempts.",
+            case.playerName, case.typeName, case.attempts)
 
         openCases[case.playerName] = nil
         return nil
@@ -160,8 +176,8 @@ local function OpenCase(unit, playerName, typeName)
 
     case.timerId = timer.scheduleFunction(GraceTick, playerName, timer.getTime() + HMD_WARNING_INTERVAL)
 
-    env.info(string.format("[HMD Enforcer]: '%s' took off in %s with an HMD, %d seconds to land.",
-        playerName, typeName, HMD_GRACE_PERIOD))
+    Log(env.info, "'%s' took off in %s with an HMD, %d seconds to land.",
+        playerName, typeName, HMD_GRACE_PERIOD)
 end
 
 local function OnTakeoff(unit, playerName)
@@ -199,7 +215,7 @@ local function OnLand(playerName)
             "SYSTEM: Landed in time - no action taken. Change your helmet before your next takeoff.", 20)
     end
 
-    env.info(string.format("[HMD Enforcer]: '%s' landed within the grace period, case closed.", playerName))
+    Log(env.info, "'%s' landed within the grace period, case closed.", playerName)
 end
 
 local hmdEnforcer = {}
@@ -234,7 +250,7 @@ function hmdEnforcer:onEvent(event)
     end)
 
     if not ok then
-        env.error("[HMD Enforcer]: " .. tostring(err))
+        Log(env.error, "%s", tostring(err))
     end
 end
 
@@ -244,5 +260,5 @@ end
 -- this file is ever loaded ahead of it.
 if Era == "Coldwar" or Era == "Gulfwar" then
     world.addEventHandler(hmdEnforcer)
-    env.info(string.format("[Foothold HMD Enforcer]: armed on takeoff, %d second grace period.", HMD_GRACE_PERIOD))
+    Log(env.info, "armed on takeoff, %d second grace period.", HMD_GRACE_PERIOD)
 end
