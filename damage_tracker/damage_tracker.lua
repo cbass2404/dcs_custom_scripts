@@ -12,8 +12,6 @@ function damageTracker:new(zoneName, damageThreshold, eventTriggerFlag)
         __index = self
     })
 
-    trigger.action.setUserFlag(eventTriggerFlag, 0)
-
     instance.collateralDamage = {}
     instance.damageThreshold = tonumber(damageThreshold) or 5
     instance.eventTriggerFlag = tostring(eventTriggerFlag)

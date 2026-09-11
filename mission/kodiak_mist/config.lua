@@ -54,6 +54,8 @@ if config.env == "dev" then
     end
 end
 
+config.missionName = "Kodiak Mist"
+
 --- @type string
 config.activeMissionFlag = "ACTIVE_MISSION"
 

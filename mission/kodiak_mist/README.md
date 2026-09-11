@@ -6,65 +6,22 @@ Insurgents emboldened by foreign trainers have been causing havok around the Tor
 
 ## Script Load Order
 
-### Production
-
 ```lua
-config.env = "prod"
-
--- MUST BE FIRST
--- ONCE > TIME MORE (1) > DO SCRIPT FILE
--- dcs_scripts/main.lua
-
--- ONCE > TIME MORE (2) > DO SCRIPT FILE
--- dcs_scripts/mission/kodiak_mist/config.lua
-
--- Order does not matter in second trigger, they populate the GLOBAL generated in main.lua
--- ONCE > TIME MORE (3) > DO SCRIPT FILE
--- damage_tracker
--- dcs_scripts/damage_tracker/damage_tracker_handler.lua
--- dcs_scripts/damage_tracker/damage_tracker.lua
--- dcs_scripts/damage_tracker/initialize_damage_tracker.lua
--- dcs_scripts/mission/final_score.lua
--- dcs_scripts/units/all_of_coalition_in_zone.lua
-
-
--- MUST BE LAST
--- ONCE > TIME MORE (4) > DO SCRIPT FILE
--- dcs_scripts/mission/kodiak_mist/event_handler.lua
--- dcs_scripts/mission/kodiak_mist/menu/generate_radio_menu.lua
-
-
--- ONCE > TIME MORE (5) > DO SCRIPT
-MagnusDCSScripting.initializeDamageTracker()
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\main.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\config.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\damage_tracker.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\damage_tracker_handler.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\initialize_damage_tracker.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\final_score.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\helpers\\all_of_coalition_in_zone.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\event_handler.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\menu\\generate_radio_menu.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\ndb\\sga.lua"
+"C:\\Users\\coryb\\Dev\\dcs_scripts\\helpers\\mission_state.lua"
 ```
 
-### Dev Mode
-
-```lua
-config.env = "dev"
-
--- ONCE > TIME MORE (1) > DO SCRIPT
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\main.lua")
-
--- ONCE > TIME MORE (2) > DO SCRIPT
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\config.lua")
-
--- ONCE > TIME MORE (3) > DO SCRIPT
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\helpers\\EA-18G Growler Electronic Warfare ScriptV1.3.lua")
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\damage_tracker.lua")
-
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\damage_tracker_handler.lua")
-
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\damage_tracker\\initialize_damage_tracker.lua")
-
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\final_score.lua")
-
--- ONCE > TIME MORE (4) > DO SCRIPT
-dofile("C:\\Users\\coryb\\Dev\\dcs_scripts\\mission\\kodiak_mist\\event_handler.lua")
-
--- ONCE > TIME MORE (20) > DO SCRIPT
+<!-- TODO does this need to be Mission Start plus a timer of 1? or a Once trigger type with a timer? Does it need a timer? -->
 MagnusDCSScripting.initializeDamageTracker()
-```
 
 ## Communication
 

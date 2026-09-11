@@ -8,3 +8,4 @@
 ---  - introText: string - The introductory text for the mission, which can be displayed to the player at the start of the mission.
 ---  - outroText: string - The concluding text for the mission, which can be displayed to the player at the end of the mission.
 --- @field env "dev"|"prod" A string indicating the current environment. This can be used to differentiate between development and production environments, allowing for different configurations or behaviors based on the environment.
+--- @field missionName string The name of the mission, used for display purposes.

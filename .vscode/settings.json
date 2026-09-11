@@ -1,5 +1,6 @@
 {
   "Lua.workspace.library": ["../dcs_script_library"],
+  "Lua.workspace.ignoreDir": [".vscode", "compiled"],
   "Lua.diagnostics.disable": ["deprecated"],
   "Lua.runtime.version": "Lua 5.1"
 }

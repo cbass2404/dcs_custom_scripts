@@ -1,0 +1,2 @@
+--- Transmits the Strike Group Alpha NDB once from the ship's current position. Ships don't support the mission editor's radio transmission actions and are constantly moving, so the mission editor calls this repeatedly on the SGA_NDB_FLAG timer.
+--- @alias transmitSgaNdb fun(): nil

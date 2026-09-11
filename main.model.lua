@@ -9,3 +9,7 @@
 --- @field initializeDamageTracker initializeDamageTracker|nil The initializeDamageTracker function, which creates and registers new damageTracker instances for specified zones, damage thresholds, and event trigger flags.
 --- @field eventHandler EventHandler|nil The event handler instance that listens for DCS World events and processes them according to the defined logic in the damageHandler class.
 --- @field allOfCoalitionInZone allOfCoalitionInZone|nil The allOfCoalitionInZone function, which checks if all units of a specified coalition and category are within a given zone.
+--- @field transmitSgaNdb transmitSgaNdb|nil The transmitSgaNdb function, which transmits the Strike Group Alpha NDB from the ship's current position. Called repeatedly from the mission editor.
+--- @field saveFilePath string|nil Path to the mission's JSON save file, created empty ("{}") once at mission start by helpers/mission_state.lua.
+--- @field saveFlag saveFlag|nil The saveFlag function, which writes a flag to the mission's save file. Called from the mission editor after flag actions.
+--- @field deleteSaveFile deleteSaveFile|nil The deleteSaveFile function, which deletes the mission's save file so the next mission start begins fresh.

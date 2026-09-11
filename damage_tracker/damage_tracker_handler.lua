@@ -4,7 +4,7 @@ local damageHandler = {}
 function damageHandler:onEvent(event)
     -- Fail silently for unhandled frames to protect CPU performance
     if not event.target or not event.target.isExist or not event.target:isExist() or not event.initiator or
-        not event.initiator.getCoalition or not event.initiator:getCoalition() == coalition.side.BLUE or
+        not event.initiator.getCoalition or event.initiator:getCoalition() ~= coalition.side.BLUE or
         not event.weapon or not event.weapon.isExist or not event.weapon:isExist() then
         return
     end
